@@ -1,5 +1,5 @@
 <!DOCTYPEhtml>
-<htmllang="en"data-ng-app="myApp"> <head>
+<htmllang="en" data-ng-app="myApp"> <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title><%= content_for?(:title) ? yield(:title) : "Redmine" %></title> <%= csrf_meta_tags %>
@@ -7,11 +7,16 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.min.js"></script>
+
   <%= javascript_heads %>
 </head>
 <body>
-<div class="container"> <h1>Text!</h1>
+<div class="container"> <h1>Angular layout !</h1>
   <div data-ng-view></div>
 </div> <!-- /container -->
-<%= javascript_include_tag "application" %> </body>
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
+<%= javascript_include_tag("app/controllers", :plugin => "redmine_angular_ui") %>
+
+</body>
 </html>
