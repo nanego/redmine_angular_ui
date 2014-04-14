@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('myApp.services',['ngResource'])
 
   .factory('IssueService',function($http,$q){
@@ -5,7 +7,7 @@ angular.module('myApp.services',['ngResource'])
       getLatestIssues: function() {
       var d = $q.defer();
 
-        $http.get('http://localhost:3000/issues.json').success(function(data) {
+        $http.get(window.location.protocol+"//"+window.location.host + '/issues.json').success(function(data) {
             d.resolve(data.issues);
         });
 

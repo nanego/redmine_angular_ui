@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('myApp',['ngRoute',
                         'ngResource',
                         'myApp.controllers',
@@ -13,7 +15,7 @@ angular.module('myApp',['ngRoute',
         }
       }
     })
-    .otherwise({
+    $routeProvider.otherwise({
       redirectTo: '/'
     });
   });
