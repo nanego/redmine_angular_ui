@@ -7,7 +7,7 @@ var app = angular.module('myApp',['ngRoute',
                         'myApp.directives' ]);
 
 app.config(function($routeProvider){
-  $routeProvider.when('/', {
+  $routeProvider.when('/issues', {
     templateUrl: '/plugin_assets/redmine_angular_ui/templates/issues.html',
     controller: 'HomeController',
     resolve: {
@@ -32,6 +32,6 @@ app.config(function($routeProvider){
     }
   });
   $routeProvider.otherwise({
-    redirectTo: '/'
+    redirectTo: '/issues'
   });
 });

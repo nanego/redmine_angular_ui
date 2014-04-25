@@ -1,6 +1,14 @@
-<h2>Bienvenue {{ user.firstname }}</h2>
+<div style="float: right;">
+  <h4>Bienvenue {{ user.firstname }}</h4>
+</div>
 
-<h2>Liste des projets</h2>
+<ul class="nav nav-tabs" ng-cloak>
+  <li ng-repeat="tab in tabs" ng-class="checkActive(tab.url)">
+    <a href="{{tab.url}}">{{tab.title}}</a>
+  </li>
+</ul>
+
+<h2>Tous les projets</h2>
 
 <div>
   <ul>

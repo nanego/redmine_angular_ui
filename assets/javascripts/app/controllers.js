@@ -17,7 +17,7 @@ app.controller('ProjectsController',
 app.controller('AppCtrl', function($scope, $rootScope, $location) {
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
     $scope.alertType = "loading alert-info";
-    $scope.alertMessage = "Chargement...";
+    $scope.alertMessage = "Chargement de la page " + next.originalPath;
     $scope.active = "progress-striped active progress-warning show";
   });
   $rootScope.$on("$routeChangeSuccess", function (event, current, previous) {
@@ -40,7 +40,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $location) {
   $scope.tabs = [
     {
       title:"Demandes",
-      url  :"#/"
+      url  :"#/issues"
     },
     {
       title:"Projets",
