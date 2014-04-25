@@ -5,8 +5,14 @@ var app = angular.module('myApp.controllers',[]);
 app.controller('HomeController',
   function($scope, session, issues, SessionService, IssueService){
     $scope.user = session.user;
-    $scope.issues = issues;
+    $scope.issues = issues.issues;
 });
+
+app.controller('ProjectsController',
+  function($scope, session, projects, SessionService, IssueService){
+    $scope.user = session.user;
+    $scope.projects = projects.projects;
+  });
 
 app.controller('AppCtrl', function($scope, $rootScope, $location) {
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -30,4 +36,23 @@ app.controller('AppCtrl', function($scope, $rootScope, $location) {
 
   $scope.alertType = "alert-info";
   $scope.alertMessage = "Welcome to the AngularJS Proto";
+
+  $scope.tabs = [
+    {
+      title:"Demandes",
+      url  :"#/"
+    },
+    {
+      title:"Projets",
+      url  :"#/projects"
+    }
+  ];
+
+  $scope.checkActive = function (url) {
+    if (url == "#" + $scope.newLocation) {
+      return "active";
+    } else {
+      return "";
+    }
+  };
 });

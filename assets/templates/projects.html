@@ -1,0 +1,20 @@
+<h2>Bienvenue {{ user.firstname }}</h2>
+
+<h2>Liste des projets</h2>
+
+<div>
+  <ul>
+    <li ng-repeat="project in projects">
+      <div class="project-listing">
+        <div class="large-11 small-11 columns">
+          <h5>
+            {{ project.name + " > " + project.description }}
+          </h5>
+          <p>
+            {{ project.updated_on | date:'dd/MM/yy H:mm:ss' }}
+          </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

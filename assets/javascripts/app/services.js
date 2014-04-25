@@ -5,13 +5,36 @@ angular.module('myApp.services',['ngResource'])
   .factory('IssueService',function($http,$q){
     var service = {
       getLatestIssues: function() {
-      var d = $q.defer();
+        if (service.hasBeenLoaded()) {
+          return $q.when(service.latestIssues);
+        }else{
+          return $http.get(window.location.protocol+"//"+window.location.host + '/issues.json').then(function(data) {
+            return service.latestIssues = data.data;
+          });
+        }
+      },
+      latestIssues: null,
+      hasBeenLoaded: function() {
+        return !!service.latestIssues;
+      }
+    };
+    return service;
+  })
 
-        $http.get(window.location.protocol+"//"+window.location.host + '/issues.json').success(function(data) {
-            d.resolve(data.issues);
-        });
-
-      return d.promise;
+  .factory('ProjectService',function($http,$q){
+    var service = {
+      getAllProjects: function() {
+        if (service.hasBeenLoaded()) {
+          return $q.when(service.projects);
+        }else{
+          return $http.get(window.location.protocol+"//"+window.location.host + '/projects.json').then(function(data) {
+            return service.projects = data.data;
+          });
+        }
+      },
+      projects: null,
+      hasBeenLoaded: function() {
+        return !!service.projects;
       }
     };
     return service;

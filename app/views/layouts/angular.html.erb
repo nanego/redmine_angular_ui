@@ -18,7 +18,7 @@
 
     <!-- Bootstrap - Latest compiled and minified CSS & Javascript -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <!-- link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     <!-- Custom CSS -->
@@ -41,6 +41,12 @@
   <div class="progress" ng-class="active" ng-cloak style="width: 50%;margin-left: 25%;">
     <div class="progress-bar" style="width: 100%;"></div>
   </div>
+
+  <ul class="nav nav-tabs" ng-cloak>
+    <li ng-repeat="tab in tabs" ng-class="checkActive(tab.url)">
+      <a href="{{tab.url}}">{{tab.title}}</a>
+    </li>
+  </ul>
 
   <div data-ng-view></div>
 
