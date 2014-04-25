@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="myApp">
+<html lang="en" data-ng-app="myApp" ng-controller="AppCtrl" >
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -7,7 +7,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "Redmine" %></title>
     <%= csrf_meta_tags %>
 
-    <!-- In production use minified version:
+    <!-- In production, use minified version:
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
     -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
@@ -15,13 +15,37 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
 
     <%= javascript_heads %>
+
+    <!-- Bootstrap - Latest compiled and minified CSS & Javascript -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Custom CSS -->
+    <%= stylesheet_link_tag("angular_ui", :plugin => "redmine_angular_ui") %>
+
   </head>
 <body>
 </body>
-<%= link_to "<< retour à l'interface habituelle", home_path %>
+
+  <div class="header" style="margin-bottom: 20px;">
+    <%= link_to "<< retour à l'interface habituelle", home_path %>
+  </div>
+
 <div class="container">
+
+  <div class="alert" ng-class="alertType" ng-cloak>
+    {{alertMessage}}
+  </div>
+
+  <div class="progress" ng-class="active" ng-cloak style="width: 50%;margin-left: 25%;">
+    <div class="progress-bar" style="width: 100%;"></div>
+  </div>
+
   <div data-ng-view></div>
+
 </div> <!-- /container -->
+
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
 <%= javascript_include_tag("app/controllers", :plugin => "redmine_angular_ui") %>

@@ -7,11 +7,11 @@
     <li ng-repeat="issue in issues | orderBy:id:false">
       <div class="issue-listing">
         <div class="large-11 small-11 columns">
-          <h2>
+          <h5>
             {{ "#"+issue.id + " - " + issue.project.name + " > " + issue.subject }}
-          </h2>
+          </h5>
           <p>
-            {{ issue.updated_on | date:'dd/MM/yy H:mm:ss' }}
+            {{ issue.updated_on | date:'dd/MM/YYYY H:mm:ss' }}
           </p>
         </div>
       </div>
