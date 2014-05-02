@@ -16,6 +16,9 @@ app.config(function($routeProvider){
       },
       issues: function(IssueService) {
         return IssueService.getLatestIssues();
+      },
+      projects: function(ProjectService) {
+        return ProjectService.getAllProjects();
       }
     }
   });
@@ -26,6 +29,9 @@ app.config(function($routeProvider){
       session: function(SessionService) {
         return SessionService.getCurrentUser();
       },
+      issues: function(IssueService) {
+        return IssueService.getLatestIssues();
+      },
       projects: function(ProjectService) {
         return ProjectService.getAllProjects();
       }
@@ -35,3 +41,8 @@ app.config(function($routeProvider){
     redirectTo: '/issues'
   });
 });
+
+app.run(function($rootScope) {
+  $rootScope.loading = 0;
+});
+

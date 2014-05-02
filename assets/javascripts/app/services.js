@@ -2,13 +2,15 @@
 
 angular.module('myApp.services',['ngResource'])
 
-  .factory('IssueService',function($http,$q){
+  .factory('IssueService',function($http,$q, $rootScope){
     var service = {
       getLatestIssues: function() {
         if (service.hasBeenLoaded()) {
+          $rootScope.loading += 50;
           return $q.when(service.latestIssues);
         }else{
           return $http.get(window.location.protocol+"//"+window.location.host + '/issues.json').then(function(data) {
+            $rootScope.loading += 50;
             return service.latestIssues = data.data;
           });
         }
@@ -21,13 +23,15 @@ angular.module('myApp.services',['ngResource'])
     return service;
   })
 
-  .factory('ProjectService',function($http,$q){
+  .factory('ProjectService',function($http,$q, $rootScope){
     var service = {
       getAllProjects: function() {
         if (service.hasBeenLoaded()) {
+          $rootScope.loading += 50;
           return $q.when(service.projects);
         }else{
           return $http.get(window.location.protocol+"//"+window.location.host + '/projects.json').then(function(data) {
+            $rootScope.loading += 50;
             return service.projects = data.data;
           });
         }
@@ -40,13 +44,16 @@ angular.module('myApp.services',['ngResource'])
     return service;
   })
 
-  .factory('SessionService', function($http, $q) {
+  .factory('SessionService', function($http, $q, $rootScope) {
     var service = {
       getCurrentUser: function() {
+        $rootScope.loading = 0;
         if (service.isAuthenticated()) {
+          $rootScope.loading += 25;
           return $q.when(service.currentUser);
         }else{
           return $http.get('/users/current.json').then(function(resp) {
+            $rootScope.loading += 25;
             return service.currentUser = resp.data;
           });
         }
