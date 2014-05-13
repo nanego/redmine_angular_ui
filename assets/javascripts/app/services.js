@@ -5,7 +5,7 @@ angular.module('myApp.services',['ngResource'])
   .factory('IssueService',function($http,$q, $rootScope){
     var service = {
       getLatestIssues: function() {
-        if (service.hasBeenLoaded()) {
+        if (service.latestIssuesHaveBeenLoaded()) {
           $rootScope.loading += 50;
           return $q.when(service.latestIssues);
         }else{
@@ -15,8 +15,13 @@ angular.module('myApp.services',['ngResource'])
           });
         }
       },
+      getIssueDetails: function(id) {
+        return $http.get(window.location.protocol+"//"+window.location.host + '/issues/'+id+'.json?include=journals').then(function(data) {
+          return data.data.issue;
+        });
+      },
       latestIssues: null,
-      hasBeenLoaded: function() {
+      latestIssuesHaveBeenLoaded: function() {
         return !!service.latestIssues;
       }
     };

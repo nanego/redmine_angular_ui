@@ -7,12 +7,15 @@ app.controller('IssuesController', function($scope, session, issues){
   $scope.issues = issues.issues;
 });
 
-app.controller('IssueShowController', function($scope, $routeParams, session, issues){
+app.controller('IssueShowController', function($scope, $routeParams, session, issues, IssueService){
   $scope.user = session.user;
   $scope.issue_id = $routeParams.issue_id;
   $scope.issues = issues.issues;
   var issue = $.grep(issues.issues, function(e){ return e.id.toString() === $scope.issue_id; })[0];
-  $scope.issue = issue
+  $scope.issue = issue;
+  IssueService.getIssueDetails($scope.issue_id).then(function(data) {
+    $scope.issue_complete = data;
+  });
 });
 
 app.controller('ProjectsController', function($scope, SessionService, ProjectService){
