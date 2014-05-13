@@ -1,5 +1,5 @@
 <div style="float: right;">
-<h4>Bienvenue {{ user.firstname }}</h4>
+  <h4>Bienvenue {{ user.firstname }}</h4>
 </div>
 
 <ul class="nav nav-tabs" ng-cloak>
@@ -16,7 +16,7 @@
       <div class="issue-listing">
         <div class="large-11 small-11 columns">
           <h5>
-            {{ "#" + issue.id + " - " + issue.project.name + " > " + issue.subject }}
+            <a href="/angular#/issues/{{issue.id}}">{{ "#" + issue.id + " - " + issue.project.name + " > " + issue.subject }}</a>
           </h5>
           <p>
             {{ issue.updated_on | date:'dd/MM/YYYY H:mm:ss' }}

@@ -2,17 +2,27 @@
 
 var app = angular.module('myApp.controllers',[]);
 
-app.controller('HomeController',
-  function($scope, session, issues, SessionService, IssueService){
-    $scope.user = session.user;
-    $scope.issues = issues.issues;
+app.controller('IssuesController', function($scope, session, issues){
+  $scope.user = session.user;
+  $scope.issues = issues.issues;
 });
 
-app.controller('ProjectsController',
-  function($scope, session, projects, SessionService, IssueService){
-    $scope.user = session.user;
-    $scope.projects = projects.projects;
+app.controller('IssueShowController', function($scope, $routeParams, session, issues){
+  $scope.user = session.user;
+  $scope.issue_id = $routeParams.issue_id;
+  $scope.issues = issues.issues;
+  var issue = $.grep(issues.issues, function(e){ return e.id.toString() === $scope.issue_id; })[0];
+  $scope.issue = issue
+});
+
+app.controller('ProjectsController', function($scope, SessionService, ProjectService){
+  SessionService.getCurrentUser().then(function(data) {
+    $scope.user = data.user;
   });
+  ProjectService.getAllProjects().then(function(data) {
+    $scope.projects = data.projects;
+  })
+});
 
 app.controller('AppCtrl', function($scope, $rootScope, $location) {
   $rootScope.$on("$routeChangeStart", function (event, next, current) {

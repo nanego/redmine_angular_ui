@@ -1,0 +1,23 @@
+<div style="float: right;">
+  <h4>Bienvenue {{ user.firstname }}</h4>
+</div>
+
+<ul class="nav nav-tabs" ng-cloak>
+  <li ng-repeat="tab in tabs" ng-class="checkActive(tab.url)">
+    <a href="{{tab.url}}">{{tab.title}}</a>
+  </li>
+</ul>
+
+<h3>{{issue.tracker.name}} #{{issue.id}}</h3>
+
+<h2>{{issue.subject}}</h2>
+<h5>Ajouté par {{issue.author.name}}</h5>
+
+
+
+<div>
+  <div>Projet : {{issue.project.name}}</div>
+  <div>Statut : {{issue.status.name}}</div>
+  <div>Priorité : {{issue.priority.name}}</div>
+  <div>Description : {{issue.description}}</div>
+</div>
