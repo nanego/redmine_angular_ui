@@ -27,7 +27,7 @@ app.controller('ProjectsController', function($scope, SessionService, ProjectSer
   })
 });
 
-app.controller('AppCtrl', function($scope, $rootScope, $location) {
+app.controller('AppController', function($scope, $rootScope, $location) {
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
     $scope.alertType = "loading alert-info";
     $scope.alertMessage = "Chargement de la page " + next.originalPath;
