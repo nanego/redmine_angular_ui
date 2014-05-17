@@ -16,4 +16,15 @@
   <div>Description : {{issue.description}}</div>
 </div>
 
-<div>{{issue_complete.journals}}</div>
+<br/>
+<div>
+  <ul ng-repeat="journal in issue_complete.journals">
+    <li>
+      <i>{{journal.user.name}}</i>:
+      {{journal.notes}}
+      <div ng-repeat="detail in journal.details">
+        {{detail.name}}: {{detail.old_value}} to {{detail.new_value}}
+      </div>
+    </li>
+  </ul>
+</div>
