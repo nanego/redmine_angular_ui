@@ -49,11 +49,12 @@
 </div> <!-- /container -->
 
 <%= javascript_include_tag "application" %>
-<%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
+
 <%= javascript_include_tag("app/controllers", :plugin => "redmine_angular_ui") %>
 <%= javascript_include_tag("app/services", :plugin => "redmine_angular_ui") %>
 <%= javascript_include_tag("app/directives", :plugin => "redmine_angular_ui") %>
 <%= javascript_include_tag("app/filters", :plugin => "redmine_angular_ui") %>
+<%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
 
 </body>
 </html>
