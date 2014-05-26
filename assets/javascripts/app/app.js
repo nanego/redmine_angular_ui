@@ -7,6 +7,8 @@ var app = angular.module('myApp',['ngRoute',
                         'myApp.directives',
                         'myApp.filters']);
 
+angular.module('myApp.services',['ngResource']);
+
 app.config(function($routeProvider){
   $routeProvider.
     when('/issues', {
