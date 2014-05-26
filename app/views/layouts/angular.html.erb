@@ -50,11 +50,15 @@
 
 <%= javascript_include_tag "application" %>
 
-<%= javascript_include_tag("app/controllers", :plugin => "redmine_angular_ui") %>
-<%= javascript_include_tag("app/services", :plugin => "redmine_angular_ui") %>
-<%= javascript_include_tag("app/directives", :plugin => "redmine_angular_ui") %>
-<%= javascript_include_tag("app/filters", :plugin => "redmine_angular_ui") %>
-<%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
+  <!-- javascript_files = Dir[Rails.root.join("public/plugin_assets/redmine_angular_ui/javascripts/app/services/*.js")].map { |s| s.sub(Rails.root.join("public/plugin_assets/redmine_angular_ui/javascripts/").to_s, "") } -->
 
-</body>
+  <%= javascript_include_tag("app/controllers", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("app/services", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("app/services/tracker", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("app/directives", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("app/filters", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
+
+
+  </body>
 </html>
