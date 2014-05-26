@@ -18,6 +18,10 @@ app.controller('IssueShowController', function($scope, $routeParams, session, is
   });
 });
 
+app.controller('IssueEditController', function($scope, $routeParams, session){
+  $scope.user = session.user;
+});
+
 app.controller('ProjectsController', function($scope, SessionService, ProjectService){
   SessionService.getCurrentUser().then(function(data) {
     $scope.user = data.user;
