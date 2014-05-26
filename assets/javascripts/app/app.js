@@ -30,7 +30,8 @@ app.config(function($routeProvider){
       templateUrl : '/plugin_assets/redmine_angular_ui/templates/issues/edit.html',
       controller : 'IssueEditController',
       resolve: {
-        session: function(SessionService) {return SessionService.getCurrentUser();}
+        session: function(SessionService) {return SessionService.getCurrentUser();},
+        issues: function(IssueService) {return IssueService.getLatestIssues();}
       }
       }).
     when('/issues/new', {
