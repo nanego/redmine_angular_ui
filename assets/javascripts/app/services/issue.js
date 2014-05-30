@@ -2,11 +2,29 @@
 
 var app = angular.module('myApp.services');
 
+app.factory('Issue',function($http,$q, $rootScope) {
+  var Issue = function (id) {
+    this.id = id;
+    this.details = null;
+  };
+  Issue.prototype.getDetails = function() {
+    var self = this;
+    return $http.get('/issues/'+id+'.json?include=journals', { headers: headers }).then(function(response) {
+      self.details = response.data.issue
+      return response;
+    });
+  };
+  return Issue;
+});
+
 app.factory('IssueService',function($http,$q, $rootScope){
+
+  var Issue = function() {}; // constructor
+
   var result;
   function refresh() {
-    result = $http.get(window.location.protocol+"//"+window.location.host + '/issues.json').then(function(data) {
-      return data.data;
+    result = $http.get('/issues.json', { headers: headers }).then(function(response) {
+      return response.data;
     });
   }
 
@@ -18,13 +36,13 @@ app.factory('IssueService',function($http,$q, $rootScope){
       return result;
     },
     getIssueFromCache: function(id) {
-      return getLatestIssues.then(function (data) {
+      return getLatestIssues.then(function (response) {
         // todo
       });
     },
     getIssueDetails: function(id) {
-      return $http.get(window.location.protocol+"//"+window.location.host + '/issues/'+id+'.json?include=journals').then(function(data) {
-        return data.data.issue;
+      return $http.get('/issues/'+id+'.json?include=journals', { headers: headers }).then(function(response) {
+        return response.data.issue;
       });
     },
     refresh: refresh

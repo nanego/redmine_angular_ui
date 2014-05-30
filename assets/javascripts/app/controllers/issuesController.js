@@ -1,34 +1,46 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope, session, issues){
-  $scope.user = session.user;
-  $scope.issues = issues.issues;
+app.controller('IssuesController', function($scope, SessionService, IssueService){
+  SessionService.getCurrentUser().then(function(data) {
+    $scope.user = data.user;
+  });
+  IssueService.getLatestIssues().then(function(data) {
+    $scope.issues = data.issues;
+  })
 });
 
-app.controller('IssueShowController', function($scope, $routeParams, session, issues, IssueService){
-  $scope.user = session.user;
+app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, Issue){
+  SessionService.getCurrentUser().then(function(data) {
+    $scope.user = data.user;
+  });
+  IssueService.getLatestIssues().then(function(data) {
+    $scope.issues = data.issues;
+    $scope.issue = $.grep($scope.issues, function(e){ return e.id.toString() === $routeParams.issue_id; })[0];
+  });
 
   // $scope.issue = IssueService.getIssueFromCache($routeParams.issue_id);
-  $scope.issue = $.grep(issues.issues, function(e){ return e.id.toString() === $routeParams.issue_id; })[0];
+
+  /*
+  var issue = new Issue($routeParams.issue_id);
+  issue.getDetails().then(function() {
+    @scope.issue = issue.details;
+  });
+  */
 
   IssueService.getIssueDetails($routeParams.issue_id).then(function (fullIssue) {
     $scope.issue = fullIssue;
   });
 
-  /*
-   $scope.issues = issues.issues;
-   var issue = $.grep(issues.issues, function(e){ return e.id.toString() === $routeParams.issue_id; })[0];
-   $scope.issue = issue;
-   IssueService.getIssueDetails($routeParams.issue_id).then(function(data) {
-   $scope.issue_complete = data;
-   });
-   */
 });
 
-app.controller('IssueEditController', function($scope, $routeParams, session, issues, TrackerService){
-  $scope.user = session.user;
-  $scope.issues = issues.issues;
-  var issue = $.grep(issues.issues, function(e){ return e.id.toString() === $routeParams.id; })[0];
+app.controller('IssueEditController', function($scope, $routeParams, SessionService, IssueService, TrackerService){
+  SessionService.getCurrentUser().then(function(data) {
+    $scope.user = data.user;
+  });
+  IssueService.getLatestIssues().then(function(data) {
+    $scope.issues = data.issues;
+  });
+  var issue = $.grep($scope.issues, function(e){ return e.id.toString() === $routeParams.id; })[0];
   $scope.issue = issue;
 
   TrackerService.getTrackers().then(function(trackers) {

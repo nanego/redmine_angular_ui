@@ -50,6 +50,12 @@
 
 <%= javascript_include_tag "application" %>
 
+
+  <script>
+    var headers = { 'X-Redmine-API-Key': '3542dd0ef765eb61958774f6bf2246cbe34e5044' };
+  </script>
+
+
   <%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("app/directives", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("app/filters", :plugin => "redmine_angular_ui") %>

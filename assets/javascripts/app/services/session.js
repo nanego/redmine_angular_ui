@@ -2,6 +2,7 @@
 
 angular.module('myApp.services')
   .factory('SessionService', function($http, $q, $rootScope) {
+
     var service = {
       getCurrentUser: function() {
         $rootScope.loading = 0;
@@ -9,7 +10,7 @@ angular.module('myApp.services')
           $rootScope.loading += 25;
           return $q.when(service.currentUser);
         }else{
-          return $http.get('/users/current.json').then(function(resp) {
+          return $http.get('/users/current.json', { headers: headers }).then(function(resp) {
             $rootScope.loading += 25;
             return service.currentUser = resp.data;
           });

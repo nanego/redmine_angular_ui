@@ -9,7 +9,7 @@ app.factory('TrackerService',function($http, $q, $rootScope){
         $rootScope.loading += 10;
         return $q.when(service.trackers);
       }else{
-        return $http.get(window.location.protocol+"//"+window.location.host + '/trackers.json').then(function(data) {
+        return $http.get('/trackers.json', { headers: headers }).then(function(data) {
           $rootScope.loading += 10;
           return service.trackers = data.data.trackers;
         });
