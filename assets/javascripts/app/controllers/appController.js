@@ -3,6 +3,8 @@
 var app = angular.module('myApp.controllers');
 
 app.controller('AppController', function($scope, $rootScope, $location) {
+
+  /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
     $scope.alertType = "loading alert-info";
     $scope.alertMessage = "Chargement de la page " + next.originalPath;
@@ -21,9 +23,11 @@ app.controller('AppController', function($scope, $rootScope, $location) {
     $scope.alertMessage = "Problème lors du chargement :(";
     $scope.active = "";
   });
+  */
 
-  $scope.alertType = "alert-info";
-  $scope.alertMessage = "Welcome to the AngularJS Proto";
+  $scope.alertType = "";
+  $scope.alertMessage = "Welcome to the AngularJS Redmine Client";
+  $scope.active = "progress-success hide";
 
   $scope.tabs = [
     {

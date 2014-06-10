@@ -1,12 +1,15 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope, SessionService, IssueService){
+app.controller('IssuesController', function($scope, SessionService, IssueService, ProjectService){
   SessionService.getCurrentUser().then(function(data) {
     $scope.user = data.user;
   });
   IssueService.getLatestIssues().then(function(data) {
     $scope.issues = data.issues;
-  })
+  });
+  ProjectService.getAllProjects().then(function(data) {
+    $scope.projects = data.projects;
+  });
 });
 
 app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, Issue){

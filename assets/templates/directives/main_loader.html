@@ -1,0 +1,44 @@
+<div class="modal" ng-class="loading ? 'show' : 'hide'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Pré-chargement des données</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-lg-6 col-lg-offset-3">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" ng-checked="issues!=undefined">
+              </span>
+              <input type="text" class="form-control" value="Demandes">
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-lg-6 col-lg-offset-3">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" ng-checked="projects!=undefined">
+              </span>
+              <input type="text" class="form-control" value="Projets">
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="col-lg-6 col-lg-offset-3">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" ng-checked="user!=undefined">
+              </span>
+              <input type="text" class="form-control" value="Profil utilisateur">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

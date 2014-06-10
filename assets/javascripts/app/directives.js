@@ -29,3 +29,54 @@ app.directive('spinner', function() {
     }
   };
 });
+
+app.directive('mainLoader', function() {
+  return {
+    restrict: 'A',
+    replace: false,
+    templateUrl: '/plugin_assets/redmine_angular_ui/templates/directives/main_loader.html',
+    link: function($scope, element, attrs) {
+
+      $scope.loading = true;
+      $scope.vars = ['issues', 'projects', 'user'];
+      $scope.loadings = new Array($scope.vars.length);
+
+      function checkCurrentLoad() {
+        var check = false;
+        for (var i = 0; i < $scope.loadings.length; i++) {
+          if ($scope.loadings[i] === true) {
+            check = true;
+          }
+        }
+        $scope.loading = check;
+      }
+
+      $scope.$watch('issues', function() {
+        if ($scope.issues !== undefined) {
+          $scope.loadings[0] = false;
+          checkCurrentLoad();
+        } else {
+          $scope.loadings[0] = true;
+        }
+      });
+
+      $scope.$watch('projects', function() {
+        if ($scope.projects !== undefined) {
+          $scope.loadings[1] = false;
+          checkCurrentLoad();
+        } else {
+          $scope.loadings[1] = true;
+        }
+      });
+
+      $scope.$watch('user', function() {
+        if ($scope.user !== undefined) {
+          $scope.loadings[2] = false;
+          checkCurrentLoad();
+        } else {
+          $scope.loadings[2] = true;
+        }
+      });
+    }
+  };
+});
