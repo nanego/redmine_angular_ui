@@ -30,7 +30,7 @@ app.directive('spinner', function() {
   };
 });
 
-app.directive('mainLoader', function() {
+app.directive('mainLoader', ['$timeout', function($timeout) {
   return {
     restrict: 'A',
     replace: false,
@@ -48,7 +48,9 @@ app.directive('mainLoader', function() {
             check = true;
           }
         }
-        $scope.loading = check;
+        $timeout(function(){
+          $scope.loading = check;
+        },1000);
       }
 
       $scope.$watch('issues', function() {
@@ -79,4 +81,4 @@ app.directive('mainLoader', function() {
       });
     }
   };
-});
+}]);
