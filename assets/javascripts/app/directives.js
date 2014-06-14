@@ -50,7 +50,7 @@ app.directive('mainLoader', ['$timeout', function($timeout) {
         }
         $timeout(function(){
           $scope.loading = check;
-        },1000);
+        },500);
       }
 
       $scope.$watch('issues', function() {
