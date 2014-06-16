@@ -1,27 +1,25 @@
-<div style="float: right;">
-  <h4>Bienvenue {{ user.firstname }}</h4>
-</div>
-
-<main-tabs></main-tabs>
-
-<h2>Liste des demandes</h2>
-
 <div main_loader></div>
-<div spinner="issues" class="centered"></div>
 
-<div>
-  <ul>
-    <li ng-repeat="issue in issues | orderBy:id:false">
-      <div class="issue-listing">
-        <div class="large-11 small-11 columns">
-          <h5>
-            <a href="/angular#/issues/{{issue.id}}">{{ "#" + issue.id + " - " + issue.project.name + " > " + issue.subject }}</a>
-          </h5>
-          <p>
-            {{ issue.updated_on | date:'dd/MM/YYYY H:mm:ss' }}
-          </p>
+<div ng-hide="mainLoading===undefined || mainLoading">
+  <div style="float: right;">
+    <h4>Bienvenue {{ user.firstname }}</h4>
+  </div>
+  <main-tabs></main-tabs>
+  <h2>Liste des demandes</h2>
+  <div>
+    <ul>
+      <li ng-repeat="issue in issues | orderBy:id:false">
+        <div class="issue-listing">
+          <div class="large-11 small-11 columns">
+            <h5>
+              <a href="/angular#/issues/{{issue.id}}">{{ "#" + issue.id + " - " + issue.project.name + " > " + issue.subject }}</a>
+            </h5>
+            <p>
+              {{ issue.updated_on | date:'dd/MM/YYYY H:mm:ss' }}
+            </p>
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
 </div>

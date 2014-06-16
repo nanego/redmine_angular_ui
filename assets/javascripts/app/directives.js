@@ -30,16 +30,12 @@ app.directive('spinner', function() {
   };
 });
 
-app.directive('mainLoader', ['$timeout', function($timeout) {
+app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootScope) {
   return {
     restrict: 'A',
     replace: false,
     templateUrl: '/plugin_assets/redmine_angular_ui/templates/directives/main_loader.html',
-    link: function($scope, element, attrs) {
-
-      $scope.loading = true;
-      $scope.vars = ['issues', 'projects', 'user'];
-      $scope.loadings = new Array($scope.vars.length);
+    link: function($scope) {
 
       function checkCurrentLoad() {
         var check = false;
@@ -49,36 +45,42 @@ app.directive('mainLoader', ['$timeout', function($timeout) {
           }
         }
         $timeout(function(){
-          $scope.loading = check;
+          $rootScope.mainLoading = check;
         },500);
+      };
+
+      if ($rootScope.mainLoading != false ){
+        $rootScope.mainLoading = true;
+        $scope.vars = ['issues', 'projects', 'user'];
+        $scope.loadings = new Array($scope.vars.length);
+
+        $scope.$watch('issues', function() {
+          if ($scope.issues !== undefined) {
+            $scope.loadings[0] = false;
+            checkCurrentLoad();
+          } else {
+            $scope.loadings[0] = true;
+          }
+        });
+
+        $scope.$watch('projects', function() {
+          if ($scope.projects !== undefined) {
+            $scope.loadings[1] = false;
+            checkCurrentLoad();
+          } else {
+            $scope.loadings[1] = true;
+          }
+        });
+
+        $scope.$watch('user', function() {
+          if ($scope.user !== undefined) {
+            $scope.loadings[2] = false;
+            checkCurrentLoad();
+          } else {
+            $scope.loadings[2] = true;
+          }
+        });
       }
-
-      $scope.$watch('issues', function() {
-        if ($scope.issues !== undefined) {
-          $scope.loadings[0] = false;
-          checkCurrentLoad();
-        } else {
-          $scope.loadings[0] = true;
-        }
-      });
-
-      $scope.$watch('projects', function() {
-        if ($scope.projects !== undefined) {
-          $scope.loadings[1] = false;
-          checkCurrentLoad();
-        } else {
-          $scope.loadings[1] = true;
-        }
-      });
-
-      $scope.$watch('user', function() {
-        if ($scope.user !== undefined) {
-          $scope.loadings[2] = false;
-          checkCurrentLoad();
-        } else {
-          $scope.loadings[2] = true;
-        }
-      });
     }
   };
 }]);

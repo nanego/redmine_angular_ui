@@ -2,7 +2,7 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $rootScope, $location) {
+app.controller('AppController', function($scope, $location) {
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -41,10 +41,22 @@ app.controller('AppController', function($scope, $rootScope, $location) {
   ];
 
   $scope.checkActive = function (url) {
-    if (url == "#" + $scope.newLocation) {
+    if (url == "#" + $location.path()) {
       return "active";
     } else {
       return "";
     }
   };
 });
+
+function getPreloadedData(SessionService, $scope, IssueService, ProjectService) {
+  SessionService.getCurrentUser().then(function (data) {
+    $scope.user = data.user;
+  });
+  IssueService.getLatestIssues().then(function (data) {
+    $scope.issues = data.issues;
+  });
+  ProjectService.getAllProjects().then(function (data) {
+    $scope.projects = data.projects;
+  });
+}

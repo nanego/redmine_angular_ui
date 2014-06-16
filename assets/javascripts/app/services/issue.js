@@ -2,7 +2,7 @@
 
 var app = angular.module('myApp.services');
 
-app.factory('Issue',function($http,$q, $rootScope) {
+app.factory('Issue',function($http,$q) {
   var Issue = function (id) {
     this.id = id;
     this.details = null;
@@ -10,14 +10,14 @@ app.factory('Issue',function($http,$q, $rootScope) {
   Issue.prototype.getDetails = function() {
     var self = this;
     return $http.get('/issues/'+id+'.json?include=journals', { headers: headers }).then(function(response) {
-      self.details = response.data.issue
+      self.details = response.data.issue;
       return response;
     });
   };
   return Issue;
 });
 
-app.factory('IssueService',function($http,$q, $rootScope){
+app.factory('IssueService',function($http,$q){
 
   var Issue = function() {}; // constructor
 

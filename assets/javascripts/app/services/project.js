@@ -2,15 +2,13 @@
 
 var app = angular.module('myApp.services');
 
-app.factory('ProjectService',function($http, $q, $rootScope){
+app.factory('ProjectService',function($http, $q){
   var service = {
     getAllProjects: function() {
       if (service.hasBeenLoaded()) {
-        $rootScope.loading += 50;
         return $q.when(service.projects);
       }else{
         return $http.get('/projects.json', { headers: headers }).then(function(data) {
-          $rootScope.loading += 50;
           return service.projects = data.data;
         });
       }

@@ -8,7 +8,3 @@ var app = angular.module('myApp',['ngRoute',
 
 angular.module('myApp.services',['ngResource']);
 angular.module('myApp.controllers',[]);
-
-app.run(function($rootScope) {
-  $rootScope.loading = 0;
-});

@@ -1,26 +1,29 @@
-<div style="float: right;">
-  <h4>Bienvenue {{ user.firstname }}</h4>
-</div>
+<div main_loader></div>
 
-<main-tabs></main-tabs>
+<div ng-hide="mainLoading===undefined || mainLoading">
 
-<h2>Tous les projets</h2>
+  <div style="float: right;">
+    <h4>Bienvenue {{ user.firstname }}</h4>
+  </div>
 
-<div spinner="projects" class="centered"></div>
+  <main-tabs></main-tabs>
 
-<div>
-  <ul>
-    <li ng-repeat="project in projects">
-      <div class="project-listing">
-        <div class="large-11 small-11 columns">
-          <h5>
-            {{ project.name + " > " + project.description }}
-          </h5>
-          <p>
-            {{ project.updated_on | date:'dd/MM/yy H:mm:ss' }}
-          </p>
+  <h2>Tous les projets</h2>
+
+  <div>
+    <ul>
+      <li ng-repeat="project in projects">
+        <div class="project-listing">
+          <div class="large-11 small-11 columns">
+            <h5>
+              {{ project.name + " > " + project.description }}
+            </h5>
+            <p>
+              {{ project.updated_on | date:'dd/MM/yy H:mm:ss' }}
+            </p>
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
 </div>
