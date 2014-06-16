@@ -45,7 +45,7 @@
 <%= javascript_include_tag "application" %>
 
   <script>
-    var headers = { 'X-Redmine-API-Key': '<%= @api_key %>' };
+    var headers = { 'X-Redmine-API-Key': '<%= @api_key %>', 'Content-Type': 'application/json' };
   </script>
 
 

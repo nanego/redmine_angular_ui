@@ -26,3 +26,7 @@ ul{
   padding-top: 4px;
   border-top: 1px dotted rgb(220,220,220);
 }
+
+#issue-edit-form div{
+ margin-bottom: 10px;
+}

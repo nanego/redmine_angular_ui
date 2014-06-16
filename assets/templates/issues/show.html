@@ -1,36 +1,41 @@
-<div style="float: right;">
-  <h4>Bienvenue {{ user.firstname }}</h4>
-</div>
+<div main_loader></div>
 
-<main-tabs></main-tabs>
+<div ng-hide="mainLoading===undefined || mainLoading">
 
-<div class="nav navbar-nav navbar-right">
-  <a href="#/issues/{{issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Edit</a>
-</div>
+  <div style="float: right;">
+    <h4>Bienvenue {{ user.firstname }}</h4>
+  </div>
 
-<h3>{{issue.tracker.name}} #{{issue.id}}</h3>
+  <main-tabs></main-tabs>
 
-<h2>{{issue.subject}}</h2>
-<h5>Ajouté par {{issue.author.name}}</h5>
+  <div class="nav navbar-nav navbar-right">
+    <a href="#/issues/{{issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Edit</a>
+  </div>
 
-<div>
-  <div>Projet : {{issue.project.name}}</div>
-  <div>Statut : {{issue.status.name}}</div>
-  <div>Priorité : {{issue.priority.name}}</div>
-  <div>Description : {{issue.description}}</div>
-</div>
+  <h3>{{issue.tracker.name}} #{{issue.id}}</h3>
 
-<br/>
+  <h2>{{issue.subject}}</h2>
+  <h5>Ajouté par {{issue.author.name}}</h5>
 
-<div>
-  <div spinner="issue.journals" class="centered"></div>
-  <ul ng-repeat="journal in issue.journals">
-    <li>
-      <i>{{journal.user.name}}</i>:
-      {{journal.notes}}
-      <div ng-repeat="detail in journal.details">
-        {{detail.name}}: {{detail.old_value}} to {{detail.new_value}}
-      </div>
-    </li>
-  </ul>
+  <div>
+    <div>Projet : {{issue.project.name}}</div>
+    <div>Statut : {{issue.status.name}}</div>
+    <div>Priorité : {{issue.priority.name}}</div>
+    <div>Description : {{issue.description}}</div>
+  </div>
+
+  <br/>
+
+  <div>
+    <div spinner="issue.journals" class="centered"></div>
+    <ul ng-repeat="journal in issue.journals">
+      <li>
+        <i>{{journal.user.name}}</i>:
+        {{journal.notes}}
+        <div ng-repeat="detail in journal.details">
+          {{detail.name}}: {{detail.old_value}} to {{detail.new_value}}
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

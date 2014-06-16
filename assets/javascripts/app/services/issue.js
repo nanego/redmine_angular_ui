@@ -17,7 +17,7 @@ app.factory('Issue',function($http,$q) {
   return Issue;
 });
 
-app.factory('IssueService',function($http,$q){
+app.factory('IssueService',function($http, $q, $location){
 
   var Issue = function() {}; // constructor
 
@@ -44,6 +44,15 @@ app.factory('IssueService',function($http,$q){
       return $http.get('/issues/'+id+'.json?include=journals', { headers: headers }).then(function(response) {
         return response.data.issue;
       });
+    },
+    save: function (issue) {
+      if (issue.id == null) {
+        // new issue
+      } else {
+        // existing issue
+        $http.put('/issues/'+issue.id+'.json', issue, { headers: headers } )
+      }
+      $location.path('/issues/'+issue.id);
     },
     refresh: refresh
   };
