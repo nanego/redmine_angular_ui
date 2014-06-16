@@ -5,18 +5,23 @@
     <h4>Bienvenue {{ user.firstname }}</h4>
   </div>
   <main-tabs></main-tabs>
-  <h2>Liste des demandes</h2>
+  <h3>Dernières demandes</h3>
   <div>
     <ul>
-      <li ng-repeat="issue in issues | orderBy:id:false">
+      <li ng-repeat="issue in issues | orderBy:id:false" class="issue_line">
         <div class="issue-listing">
-          <div class="large-11 small-11 columns">
-            <h5>
-              <a href="/angular#/issues/{{issue.id}}">{{ "#" + issue.id + " - " + issue.project.name + " > " + issue.subject }}</a>
-            </h5>
-            <p>
-              {{ issue.updated_on | date:'dd/MM/YYYY H:mm:ss' }}
-            </p>
+          <div class="col-xs-2 ellipsis gray">
+            {{issue.tracker.name}}
+          </div>
+          <div class="col-xs-2 ellipsis gray">
+            {{issue.project.name}}
+          </div>
+          <div class="col-xs-6 ellipsis">
+            <a href="/angular#/issues/{{issue.id}}">{{issue.subject}}</a>
+            <span class="gray">{{issue.description}}</span>
+          </div>
+          <div class="col-xs-2 ellipsis gray">
+            {{issue.author.name}}
           </div>
         </div>
       </li>

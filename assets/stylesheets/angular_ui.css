@@ -1,7 +1,28 @@
 #top-menu #link_to_angular { float: right; margin-right: 0.5em; color:#fff; line-height:21px; }
 
 .alert.loading{
-    margin-left: 25%;
-    width: 50%;
-    text-align: center;
+  margin-left: 25%;
+  width: 50%;
+  text-align: center;
+}
+
+ul{
+  list-style: none;
+  padding-left: 0;
+}
+
+.ellipsis{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.gray{
+  color: #808080;
+}
+
+.issue_line{
+  height: 30px;
+  padding-top: 4px;
+  border-top: 1px dotted rgb(220,220,220);
 }

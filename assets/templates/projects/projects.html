@@ -1,15 +1,11 @@
 <div main_loader></div>
 
 <div ng-hide="mainLoading===undefined || mainLoading">
-
   <div style="float: right;">
     <h4>Bienvenue {{ user.firstname }}</h4>
   </div>
-
   <main-tabs></main-tabs>
-
-  <h2>Tous les projets</h2>
-
+  <h3>Tous les projets</h3>
   <div>
     <ul>
       <li ng-repeat="project in projects">
