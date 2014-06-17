@@ -4,14 +4,25 @@ app.controller('IssuesController', function($scope, SessionService, IssueService
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 });
 
+function getIssueById($scope, issue_id, IssueService) {
+  if ($scope.issues != undefined) {
+    $scope.issue = $.grep($scope.issues, function (e) {
+      return e.id.toString() === issue_id;
+    })[0];
+    IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
+      $scope.issue = fullIssue;
+    });
+  } else {
+    IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
+      $scope.issue = fullIssue;
+    });
+  }
+  ;
+}
+
 app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, ProjectService){
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
-  IssueService.getLatestIssues().then(function(data) {
-    $scope.issue = $.grep($scope.issues, function(e){ return e.id.toString() === $routeParams.issue_id; })[0];
-  });
-  IssueService.getIssueDetails($routeParams.issue_id).then(function (fullIssue) {
-    $scope.issue = fullIssue;
-  });
+  getIssueById($scope, $routeParams.issue_id, IssueService);
 
   // $scope.issue = IssueService.getIssueFromCache($routeParams.issue_id);
   /*
@@ -24,15 +35,7 @@ app.controller('IssueShowController', function($scope, $routeParams, SessionServ
 
 app.controller('IssueEditController', function($scope, $routeParams, SessionService, IssueService, TrackerService, ProjectService){
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
-  if ($scope.issues != undefined) {
-    $scope.issue = $.grep($scope.issues, function (e) {
-      return e.id.toString() === $routeParams.id;
-    })[0];
-  }else{
-    IssueService.getIssueDetails($routeParams.id).then(function (fullIssue) {
-      $scope.issue = fullIssue;
-    });
-  };
+  getIssueById($scope, $routeParams.id, IssueService);
 
   TrackerService.getTrackers().then(function(trackers) {
     $scope.trackers = trackers;
