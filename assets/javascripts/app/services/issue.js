@@ -50,7 +50,7 @@ app.factory('IssueService',function($http, $q, $location){
         // new issue
       } else {
         // existing issue
-        $http.put('/issues/'+issue.id+'.json', issue, { headers: headers } )
+        $http.put('/issues/'+issue.id+'.json', {"issue": issue}, { headers: headers } )
       }
       $location.path('/issues/'+issue.id);
     },
