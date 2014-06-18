@@ -5,10 +5,12 @@
 
   <div spinner="issue" class="centered"></div>
 
-  <div ng-show="issue">
-    <div class="page-header col-xs-12">
-
-      <h3 class="ellipsis"><a href="#/issues/{{issue.id}}"> <span class="glyphicon glyphicon-chevron-left"></span></a> Modifier la demande #{{issue.id}} - {{issue.subject}}</h3>
+  <div ng-show="issue" class="col-xs-12 highlight">
+    <div class="page-header" style="margin: 10px 0 20px;">
+      <h4 class="ellipsis">
+        <a href="#/issues/{{issue.id}}"> <span class="glyphicon glyphicon-chevron-left"></span></a>
+        #{{issue.id}} - {{issue.subject}}
+      </h4>
     </div>
     <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_form.html'"></ng-include>
   </div>

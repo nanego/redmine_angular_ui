@@ -1,26 +1,23 @@
 <div main_loader></div>
 
 <div ng-hide="mainLoading===undefined || mainLoading">
-  <div style="float: right;">
-    <h4>Bienvenue {{ user.firstname }}</h4>
-  </div>
   <main-tabs></main-tabs>
   <h3>Dernières demandes</h3>
   <div>
     <ul>
       <li ng-repeat="issue in issues | orderBy:id:false" class="issue_line">
         <div class="issue-listing">
-          <div class="col-xs-2 ellipsis gray">
+          <div class="col-sm-2 ellipsis gray">
             {{issue.tracker.name}}
           </div>
-          <div class="col-xs-2 ellipsis gray">
+          <div class="col-sm-2 ellipsis gray">
             {{issue.project.name}}
           </div>
-          <div class="col-xs-6 ellipsis">
+          <div class="col-sm-6 ellipsis">
             <a href="/angular#/issues/{{issue.id}}">{{issue.subject}}</a>
             <span class="gray">{{issue.description}}</span>
           </div>
-          <div class="col-xs-2 ellipsis gray">
+          <div class="col-sm-2 ellipsis gray">
             {{issue.author.name}}
           </div>
         </div>

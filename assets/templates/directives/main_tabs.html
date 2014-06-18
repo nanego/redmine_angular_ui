@@ -1,8 +1,13 @@
-<div class="pull-right" style="margin-top: 15px;">
-  <span>Connecté en tant que {{ user.login }}</span>
+<div class="row">
+  <div>
+    <div class="pull-right" style="margin-top: 15px;">
+      <span>Connecté en tant que {{ user.login }}</span>
+    </div>
+    <ul class="nav nav-tabs" ng-cloak>
+      <li ng-repeat="tab in tabs" ng-class="checkActive(tab.url)">
+        <a href="{{tab.url}}">{{tab.title}}</a>
+      </li>
+    </ul>
+  </div>
 </div>
-<ul class="nav nav-tabs" ng-cloak>
-  <li ng-repeat="tab in tabs" ng-class="checkActive(tab.url)">
-    <a href="{{tab.url}}">{{tab.title}}</a>
-  </li>
-</ul>
+

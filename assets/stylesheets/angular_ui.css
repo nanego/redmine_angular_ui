@@ -22,7 +22,7 @@ ul{
 }
 
 .issue_line{
-  height: 30px;
+  min-height: 30px;
   padding-top: 4px;
   border-top: 1px dotted rgb(220,220,220);
 }
@@ -42,4 +42,14 @@ ul{
 
 .pre-white-space{
     white-space: pre-line;
+}
+
+.form-horizontal select{
+    margin-top: 7px;
+}
+
+@media (max-width: 749px) {
+    .nav {
+        clear: both;
+    }
 }

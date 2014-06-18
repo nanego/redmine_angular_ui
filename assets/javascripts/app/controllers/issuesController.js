@@ -5,15 +5,17 @@ app.controller('IssuesController', function($scope, SessionService, IssueService
 });
 
 function getIssueById($scope, issue_id, IssueService) {
-    IssueService.getLatestIssues().then(function (data) {
-      $scope.issues = data.issues;
+  IssueService.getLatestIssues().then(function (data) {
+    $scope.issues = data.issues;
+    if ($scope.issue === undefined) {
       $scope.issue = $.grep($scope.issues, function (e) {
         return e.id.toString() === issue_id;
       })[0];
-    });
+    }
     IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
       $scope.issue = fullIssue;
     });
+  });
 }
 
 app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, ProjectService){
