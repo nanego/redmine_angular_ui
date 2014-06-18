@@ -2,40 +2,41 @@
 
 <div ng-hide="mainLoading===undefined || mainLoading">
 
-  <div style="float: right;">
-    <h4>Bienvenue {{ user.firstname }}</h4>
-  </div>
-
   <main-tabs></main-tabs>
 
-  <div class="nav navbar-nav navbar-right">
-    <a href="#/issues/{{issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Edit</a>
+  <div class="highlight">
+
+    <div class="pull-right">
+      <a href="#/issues/{{issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Mettre à jour</a>
+    </div>
+
+    <div style="font-size: 20px;" >{{issue.tracker.name}} #{{issue.id}}</div>
+
+    <h2 style="margin-top: 10px;">{{issue.subject}}</h2>
+    <h5>Ajouté par {{issue.author.name}}</h5>
+
+    <div class="row">
+      <div class="col-md-1">Projet</div> <div class="col-md-11">{{issue.project.name}}</div>
+      <div class="col-md-1">Statut</div> <div class="col-md-11">{{issue.status.name}}</div>
+      <div class="col-md-1">Priorité</div> <div class="col-md-11">{{issue.priority.name}}</div>
+      <div class="col-md-1">Description</div> <div class="col-md-11" style="white-space: pre;margin-top: 10px;">{{issue.description}}</div>
+    </div>
+
   </div>
 
-  <h3>{{issue.tracker.name}} #{{issue.id}}</h3>
-
-  <h2>{{issue.subject}}</h2>
-  <h5>Ajouté par {{issue.author.name}}</h5>
-
-  <div>
-    <div>Projet : {{issue.project.name}}</div>
-    <div>Statut : {{issue.status.name}}</div>
-    <div>Priorité : {{issue.priority.name}}</div>
-    <div>Description : {{issue.description}}</div>
-  </div>
-
-  <br/>
-
-  <div>
+  <div class="row">
     <div spinner="issue.journals" class="centered"></div>
     <ul ng-repeat="journal in issue.journals">
       <li>
-        <i>{{journal.user.name}}</i>:
-        {{journal.notes}}
-        <div ng-repeat="detail in journal.details">
-          {{detail.name}}: {{detail.old_value}} to {{detail.new_value}}
+        <i class="col-md-2 ellipsis">{{journal.user.name}} :</i>
+        <div class="col-md-10">
+          {{journal.notes}}
+          <div ng-repeat="detail in journal.details">
+            <span>{{detail.name}}: {{detail.old_value}} to {{detail.new_value}}</span>
+          </div>
         </div>
       </li>
     </ul>
   </div>
+
 </div>

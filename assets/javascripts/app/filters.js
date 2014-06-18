@@ -1,8 +1,8 @@
 'use strict';
 
-var filters = angular.module('myApp.filters', []);
+var app = angular.module('myApp.filters', []);
 
-filters.filter('userName', function() {
+app.filter('userName', function() {
   return function(input) {
 
     if (input !== undefined) {
@@ -23,5 +23,11 @@ filters.filter('userName', function() {
     }
 
     return "";
+  };
+});
+
+app.filter('unsafe', function($sce) {
+  return function(val) {
+    return $sce.trustAsHtml(val);
   };
 });

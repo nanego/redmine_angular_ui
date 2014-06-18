@@ -4,7 +4,8 @@ var app = angular.module('myApp',['ngRoute',
                         'myApp.controllers',
                         'myApp.services',
                         'myApp.directives',
-                        'myApp.filters']);
+                        'myApp.filters',
+                        'ngSanitize']);
 
 angular.module('myApp.services',['ngResource']);
 angular.module('myApp.controllers',[]);
