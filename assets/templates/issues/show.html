@@ -32,7 +32,7 @@
       <li>
         <i class="col-md-2 ellipsis">{{journal.user.name}} :</i>
         <div class="col-md-10">
-          {{journal.notes}}
+          <span class="pre-white-space">{{journal.notes}}</span>
           <div ng-repeat="detail in journal.details">
             <span>{{detail.name}}: {{detail.old_value}} to {{detail.new_value}}</span>
           </div>
