@@ -4,6 +4,21 @@
 
   <main-tabs></main-tabs>
 
+  <div class="row" style="margin-top: 15px;">
+    <div class="col-xs-6" ng-show="previous_issue">
+      <a href="#/issues/{{previous_issue.id}}" class="pull-left" style="margin-right: 4px;margin-top: 1px;">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <span class="ellipsis next_prev_issues pull-left">#{{previous_issue.id}} - {{previous_issue.subject}}</span>
+    </div>
+    <div class="col-xs-6 pull-right" ng-show="next_issue" style="clear: right;">
+      <a href="#/issues/{{next_issue.id}}" class="pull-right" style="margin-left: 4px;margin-top: 1px;">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+      <span class="ellipsis next_prev_issues pull-right">#{{next_issue.id}} - {{next_issue.subject}}</span>
+    </div>
+  </div>
+
   <div class="highlight">
 
     <div class="pull-right">

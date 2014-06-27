@@ -16,6 +16,9 @@ ul{
   white-space: nowrap;
   overflow: hidden;
 }
+.ellipsis.next_prev_issues{
+  max-width: 500px;
+}
 
 .gray{
   color: #808080;

@@ -9,3 +9,11 @@ var app = angular.module('myApp',['ngRoute',
 
 angular.module('myApp.services',['ngResource']);
 angular.module('myApp.controllers',[]);
+
+function findWithAttr(array, attr, value) {
+  for(var i = 0; i < array.length; i += 1) {
+    if(array[i][attr] === value) {
+      return i;
+    }
+  }
+}

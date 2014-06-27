@@ -22,6 +22,18 @@ app.controller('IssueShowController', function($scope, $routeParams, SessionServ
   getIssueById($scope, $routeParams.issue_id, IssueService);
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
+  $scope.$watch('issue', function() {
+    if ($scope.issues != undefined) {
+      index_of_issue = findWithAttr($scope.issues, 'id', $scope.issue.id);
+      if (index_of_issue > 0){
+        $scope.previous_issue = $scope.issues[index_of_issue-1]
+      }
+      if (index_of_issue < $scope.issues.length-1){
+        $scope.next_issue = $scope.issues[index_of_issue+1]
+      }
+    }
+  });
+
   // $scope.issue = IssueService.getIssueFromCache($routeParams.issue_id);
   /*
   var issue = new Issue($routeParams.issue_id);
