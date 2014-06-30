@@ -63,7 +63,7 @@ app.controller('IssueShowController', function($scope, $routeParams, SessionServ
   */
 });
 
-app.controller('IssueEditController', function($scope, $routeParams, SessionService, IssueService, TrackerService, ProjectService){
+app.controller('IssueEditController', function($scope, $routeParams, SessionService, IssueService, TrackerService, ProjectService, $location){
   getIssueById($scope, $routeParams.id, IssueService);
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
@@ -72,7 +72,12 @@ app.controller('IssueEditController', function($scope, $routeParams, SessionServ
   });
 
   $scope.saveIssue = function () {
-    IssueService.save($scope.issue);
+    var responsePromise = IssueService.save($scope.issue);
+    responsePromise.success(function(response) {
+      var index_of_issue = findWithAttr($scope.issues, 'id', $scope.issue.id);
+      $scope.issues[index_of_issue] = $scope.issue;
+      $location.path('/issues/'+$scope.issue.id);
+    });
   }
 });
 

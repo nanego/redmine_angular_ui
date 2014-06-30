@@ -17,7 +17,7 @@ app.factory('Issue',function($http,$q) {
   return Issue;
 });
 
-app.factory('IssueService',function($http, $q, $location){
+app.factory('IssueService',function($http, $q){
 
   var Issue = function() {}; // constructor
 
@@ -46,17 +46,14 @@ app.factory('IssueService',function($http, $q, $location){
       });
     },
     save: function (issue) {
+      var responsePromise;
       if (issue.id == null) {
         // new issue
       } else {
         // existing issue
-        $http.put('/issues/'+issue.id+'.json', {"issue": issue}, { headers: headers } ).then(function(response) {
-          return response.data.issue;
-        });
-        var index_of_issue = findWithAttr($scope.issues, 'id', issue.id);
-        $scope.issues[index_of_issue] = issue;
+        responsePromise = $http.put('/issues/'+issue.id+'.json', {"issue": issue}, { headers: headers } );
       }
-      $location.path('/issues/'+issue.id);
+      return responsePromise;
     },
     refresh: refresh
   };
