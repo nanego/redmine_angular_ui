@@ -5,7 +5,8 @@ var app = angular.module('myApp',['ngRoute',
                         'myApp.services',
                         'myApp.directives',
                         'myApp.filters',
-                        'ngSanitize']);
+                        'ngSanitize',
+                        'cfp.hotkeys']);
 
 angular.module('myApp.services',['ngResource']);
 angular.module('myApp.controllers',[]);

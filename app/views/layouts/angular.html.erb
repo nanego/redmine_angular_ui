@@ -24,6 +24,7 @@
 
     <!-- Custom CSS -->
     <%= stylesheet_link_tag("angular_ui", :plugin => "redmine_angular_ui") %>
+    <%= stylesheet_link_tag("hotkeys", :plugin => "redmine_angular_ui") %>
 
   </head>
 <body>
@@ -60,6 +61,8 @@
   <% (services_files|controllers_files).each do |f| %>
     <%= javascript_include_tag(f, :plugin => "redmine_angular_ui") %>
   <% end %>
+
+  <%= javascript_include_tag("hotkeys", :plugin => "redmine_angular_ui") %>
 
   </body>
 </html>

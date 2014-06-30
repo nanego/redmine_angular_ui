@@ -18,7 +18,7 @@ function getIssueById($scope, issue_id, IssueService) {
   });
 }
 
-app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, ProjectService){
+app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, ProjectService, hotkeys, $location){
   getIssueById($scope, $routeParams.issue_id, IssueService);
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
@@ -30,6 +30,26 @@ app.controller('IssueShowController', function($scope, $routeParams, SessionServ
       }
       if (index_of_issue < $scope.issues.length-1){
         $scope.next_issue = $scope.issues[index_of_issue+1]
+      }
+    }
+  });
+
+  hotkeys.add({
+    combo: 'right',
+    description: 'This one goes to next issue',
+    callback: function() {
+      if($scope.next_issue!=undefined) {
+        $location.path('/issues/'+$scope.next_issue.id)
+      }
+    }
+  });
+
+  hotkeys.add({
+    combo: 'left',
+    description: 'This one goes to previous issue',
+    callback: function() {
+      if($scope.previous_issue!=undefined) {
+        $location.path('/issues/' + $scope.previous_issue.id)
       }
     }
   });

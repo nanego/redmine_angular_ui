@@ -50,7 +50,11 @@ app.factory('IssueService',function($http, $q, $location){
         // new issue
       } else {
         // existing issue
-        $http.put('/issues/'+issue.id+'.json', {"issue": issue}, { headers: headers } )
+        $http.put('/issues/'+issue.id+'.json', {"issue": issue}, { headers: headers } ).then(function(response) {
+          return response.data.issue;
+        });
+        var index_of_issue = findWithAttr($scope.issues, 'id', issue.id);
+        $scope.issues[index_of_issue] = issue;
       }
       $location.path('/issues/'+issue.id);
     },
