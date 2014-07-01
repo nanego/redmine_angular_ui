@@ -2,6 +2,26 @@ var app = angular.module('myApp.controllers');
 
 app.controller('IssuesController', function($scope, SessionService, IssueService, ProjectService){
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
+
+  new Firehose.Consumer({
+    message: function(msg){
+      IssueService.refreshLatestIssues().then(function (data) {
+        $scope.issues = data.issues;
+      });
+    },
+    connected: function(){
+      console.log("Great Scotts!! We're connected!");
+    },
+    disconnected: function(){
+      console.log("Well shucks, we're not connected anymore");
+    },
+    error: function(){
+      console.log("Well then, something went horribly wrong.");
+    },
+    // Note that we do NOT specify a protocol here because we don't
+    // know that yet.
+    uri: '//localhost:7474/issues/new'
+  }).connect();
 });
 
 function getIssueById($scope, issue_id, IssueService) {

@@ -35,6 +35,10 @@ app.factory('IssueService',function($http, $q){
       }
       return result;
     },
+    refreshLatestIssues: function () {
+      refresh();
+      return result;
+    },
     getIssueFromCache: function(id) {
       return getLatestIssues.then(function (response) {
         // todo

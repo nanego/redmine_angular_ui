@@ -2,6 +2,7 @@ require 'redmine'
 
 ActionDispatch::Callbacks.to_prepare do
   require_dependency 'redmine_angular_ui/hooks'
+  require_dependency 'redmine_angular_ui/issue_patch'
 end
 
 # Little hack for using the 'deface' gem in redmine:
