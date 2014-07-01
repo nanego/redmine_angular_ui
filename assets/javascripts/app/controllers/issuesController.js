@@ -34,25 +34,25 @@ app.controller('IssueShowController', function($scope, $routeParams, SessionServ
     }
   });
 
-  hotkeys.add({
-    combo: 'right',
-    description: 'This one goes to next issue',
-    callback: function() {
-      if($scope.next_issue!=undefined) {
-        $location.path('/issues/'+$scope.next_issue.id)
+  hotkeys.bindTo($scope)
+    .add({
+      combo: 'right',
+      description: 'Demande suivante',
+      callback: function() {
+        if($scope.next_issue!=undefined) {
+          $location.path('/issues/'+$scope.next_issue.id)
+        }
       }
-    }
-  });
-
-  hotkeys.add({
-    combo: 'left',
-    description: 'This one goes to previous issue',
-    callback: function() {
-      if($scope.previous_issue!=undefined) {
-        $location.path('/issues/' + $scope.previous_issue.id)
+    })
+    .add({
+      combo: 'left',
+      description: 'Demande précédente',
+      callback: function() {
+        if($scope.previous_issue!=undefined) {
+          $location.path('/issues/' + $scope.previous_issue.id)
+        }
       }
-    }
-  });
+    });
 
   // $scope.issue = IssueService.getIssueFromCache($routeParams.issue_id);
   /*
