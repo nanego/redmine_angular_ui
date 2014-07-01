@@ -52,7 +52,7 @@
      * Configurable setting for the cheat sheet description
      * @type {String}
      */
-    this.cheatSheetDescription = 'Show / hide this help menu';
+    this.cheatSheetDescription = "Afficher / Masquer cet écran d'aide";
 
     this.$get = ['$rootElement', '$rootScope', '$compile', '$window', '$document', function ($rootElement, $rootScope, $compile, $window, $document) {
 
