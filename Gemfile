@@ -1,2 +1,2 @@
 gem 'deface'
-gem "firehose"
+gem 'faye'

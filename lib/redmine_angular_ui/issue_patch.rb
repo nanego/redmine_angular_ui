@@ -1,10 +1,10 @@
 require_dependency 'issue'
-require 'firehose'
 
 class Issue
   after_create do
-    json = {'hello'=> self.id}.to_json
-    firehose = Firehose::Client::Producer::Http.new('//127.0.0.1:7474')
-    firehose.publish(json).to("/issues/new")
+    json = {'text'=> self.id}.to_json
+    message = {:channel => '/messages', :data => json}
+    uri = URI.parse("http://faye-redis.herokuapp.com/faye")
+    Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end
