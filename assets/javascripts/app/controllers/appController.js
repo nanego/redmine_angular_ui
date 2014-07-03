@@ -2,7 +2,17 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location) {
+app.controller('AppController', function($scope, $location, SessionService, IssueService, ProjectService) {
+
+  getPreloadedData(SessionService, $scope, IssueService, ProjectService);
+
+  var client = new Faye.Client('http://faye-redis.herokuapp.com/faye');
+  client.disable('websocket');
+  client.subscribe('/issues', function(message) {
+    IssueService.refreshLatestIssues().then(function (data) {
+      $scope.issues = data.issues;
+    });
+  });
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {

@@ -1,15 +1,6 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope, SessionService, IssueService, ProjectService){
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService);
-
-  var client = new Faye.Client('http://faye-redis.herokuapp.com/faye');
-  client.disable('websocket');
-  client.subscribe('/messages', function(message) {
-    IssueService.refreshLatestIssues().then(function (data) {
-      $scope.issues = data.issues;
-    });
-  });
+app.controller('IssuesController', function($scope){
 
 });
 
@@ -27,9 +18,8 @@ function getIssueById($scope, issue_id, IssueService) {
   });
 }
 
-app.controller('IssueShowController', function($scope, $routeParams, SessionService, IssueService, ProjectService, hotkeys, $location){
+app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location){
   getIssueById($scope, $routeParams.issue_id, IssueService);
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
   $scope.$watch('issue', function() {
     if ($scope.issues != undefined) {
@@ -72,9 +62,8 @@ app.controller('IssueShowController', function($scope, $routeParams, SessionServ
   */
 });
 
-app.controller('IssueEditController', function($scope, $routeParams, SessionService, IssueService, TrackerService, ProjectService, $location){
+app.controller('IssueEditController', function($scope, $routeParams, IssueService, TrackerService, $location){
   getIssueById($scope, $routeParams.id, IssueService);
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
   TrackerService.getTrackers().then(function(trackers) {
     $scope.trackers = trackers;
@@ -90,7 +79,7 @@ app.controller('IssueEditController', function($scope, $routeParams, SessionServ
   }
 });
 
-function IssueFormController($scope, ProjectService, IssueService, UserService) {
+function IssueFormController($scope, ProjectService) {
   ProjectService.getTrackers().then(function(trackers) {
     $scope.trackers = trackers;
   });
