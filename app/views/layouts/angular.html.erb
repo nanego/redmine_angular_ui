@@ -40,6 +40,8 @@
     {{alertMessage}}
   </div>
 
+  <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
+
   <div data-ng-view></div>
 
 </div> <!-- /container -->
@@ -63,8 +65,6 @@
   <% (services_files|controllers_files).each do |f| %>
     <%= javascript_include_tag(f, :plugin => "redmine_angular_ui") %>
   <% end %>
-
-  <%= javascript_include_tag("firehose", :plugin => "redmine_angular_ui") %>
 
   </body>
 </html>

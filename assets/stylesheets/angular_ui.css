@@ -56,3 +56,33 @@ ul{
         clear: both;
     }
 }
+
+/* ------------------------------- Notifications ------------------------------------------------------------------------*/
+#notifications {
+    position: absolute;
+    top: 50px;
+    margin: 0 auto; left: 0; right: 0;
+}
+#notifications ul li {
+    margin: 0 auto;
+    z-index: 990;
+    max-width: 350px;
+    background: #f9edbe;
+    border-color: #f0c36d;
+    background-color: #f9edbe;
+    padding: 0 10px;
+    border: 1px solid #f0c36d;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    color: #333333;
+    font-size: 85%;
+    font-weight: bold;
+    text-align: center;
+    font-family: arial,sans-serif;
+}
+#notifications ul li a {
+    float: right;
+    padding-left: 5px;
+}

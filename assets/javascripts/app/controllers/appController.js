@@ -2,7 +2,7 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location, SessionService, IssueService, ProjectService) {
+app.controller('AppController', function($scope, $location, SessionService, IssueService, ProjectService, NotificationService) {
 
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
@@ -11,6 +11,7 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
   client.subscribe('/issues', function(message) {
     IssueService.refreshLatestIssues().then(function (data) {
       $scope.issues = data.issues;
+      NotificationService.add("Les demandes ont été mises à jour.", null, 5);
     });
   });
 
