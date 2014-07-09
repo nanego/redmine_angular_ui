@@ -23,7 +23,7 @@ app.factory('IssueService',function($http, $q){
 
   var result;
   function refresh() {
-    result = $http.get('/issues.json', { headers: headers }).then(function(response) {
+    result = $http.get('/issues.json?sort=updated_on:desc', { headers: headers }).then(function(response) {
       return response.data;
     });
   }
