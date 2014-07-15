@@ -6,7 +6,7 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
-  var client = new Faye.Client('http://faye-redis.herokuapp.com/faye');
+  var client = new Faye.Client('http://faye-without-redis.herokuapp.com/faye');
   client.disable('websocket');
   client.subscribe('/issues', function(message) {
     IssueService.refreshLatestIssues().then(function (data) {
