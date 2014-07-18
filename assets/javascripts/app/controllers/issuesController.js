@@ -4,7 +4,7 @@ app.controller('IssuesController', function($scope){
 
 });
 
-function getIssueById($scope, issue_id, IssueService) {
+function getIssueById($scope, issue_id, IssueService, $timeout) {
   IssueService.getLatestIssues().then(function (data) {
     $scope.issues = data.issues;
     if ($scope.issue === undefined) {
@@ -12,14 +12,17 @@ function getIssueById($scope, issue_id, IssueService) {
         return e.id.toString() === issue_id;
       })[0];
     }
-    IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
-      $scope.issue = fullIssue;
-    });
+    $scope.delayedRequest = $timeout(function(){
+      IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
+        $scope.issue = fullIssue;
+      });
+    },500);
   });
 }
 
-app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location){
-  getIssueById($scope, $routeParams.issue_id, IssueService);
+app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location, $timeout){
+  $scope.delayedRequest = null;
+  getIssueById($scope, $routeParams.issue_id, IssueService, $timeout);
 
   $scope.$watch('issue', function() {
     if ($scope.issues != undefined) {
@@ -31,6 +34,10 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
         $scope.next_issue = $scope.issues[index_of_issue+1]
       }
     }
+  });
+
+  $scope.$on("$destroy", function handler() {
+    $timeout.cancel($scope.delayedRequest);
   });
 
   hotkeys.bindTo($scope)
@@ -62,8 +69,8 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
   */
 });
 
-app.controller('IssueEditController', function($scope, $routeParams, IssueService, TrackerService, $location){
-  getIssueById($scope, $routeParams.id, IssueService);
+app.controller('IssueEditController', function($scope, $routeParams, IssueService, TrackerService, $location, $timeout){
+  getIssueById($scope, $routeParams.id, IssueService, $timeout);
 
   TrackerService.getTrackers().then(function(trackers) {
     $scope.trackers = trackers;
