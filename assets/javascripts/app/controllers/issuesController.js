@@ -21,7 +21,6 @@ function getIssueById($scope, issue_id, IssueService, $timeout) {
 }
 
 app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location, $timeout){
-  $scope.delayedRequest = null;
   getIssueById($scope, $routeParams.issue_id, IssueService, $timeout);
 
   $scope.$watch('issue', function() {
