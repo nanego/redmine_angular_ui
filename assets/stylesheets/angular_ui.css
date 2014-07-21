@@ -86,3 +86,7 @@ ul{
     float: right;
     padding-left: 5px;
 }
+
+li.notified_line{
+    background-color: #f9edbe;
+}

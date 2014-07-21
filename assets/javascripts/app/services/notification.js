@@ -5,7 +5,8 @@ var app = angular.module('myApp.services');
 app.factory('NotificationService',function($timeout) {
   var service = {
     list: {},
-    add: function (text, undo, delay) {
+    notified_lines: [],
+    add: function (text, undo, delay, line) {
       var timestamp = (new Date()).getTime();
       service.list[timestamp] = {
         text: text,
@@ -19,8 +20,10 @@ app.factory('NotificationService',function($timeout) {
           }
         }
       };
+      service.notified_lines.push(line);
       $timeout(function () {
         delete service.list[timestamp];
+        service.notified_lines.splice( service.notified_lines.indexOf(line), 1 );
       }, (delay || 5) * 1000);
     }
   };

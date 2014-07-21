@@ -3,9 +3,9 @@
 <div ng-hide="mainLoading===undefined || mainLoading">
   <main-tabs></main-tabs>
   <h3>Dernières demandes</h3>
-  <div>
+  <div ng-controller="NotificationsController">
     <ul>
-      <li ng-repeat="issue in issues | orderBy:id:false" class="issue_line">
+      <li ng-repeat="issue in issues | orderBy:id:false" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
         <div class="issue-listing">
           <div class="col-sm-2 ellipsis gray">
             {{issue.tracker.name}}

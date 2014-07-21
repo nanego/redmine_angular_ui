@@ -6,12 +6,35 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
-  var client = new Faye.Client('http://faye-without-redis.herokuapp.com/faye');
+  var client = new Faye.Client('http://faye-redis.herokuapp.com/faye');
   client.disable('websocket');
   client.subscribe('/issues', function(message) {
-    IssueService.refreshLatestIssues().then(function (data) {
-      $scope.issues = data.issues;
-      NotificationService.add("Les demandes ont été mises à jour.", null, 5);
+
+    message = JSON.parse(message);
+    IssueService.getLatestIssues().then(function (data) {
+      // NotificationService.add(JSON.stringify(message), null, 500);
+      switch (message.action) {
+        case 'create':
+          $scope.issues.unshift(message.issue);
+          NotificationService.add("Une nouvelle demande a été ajoutée.", null, 5, "issue-"+message.issue.id);
+          break;
+        case 'destroy':
+          var index = findWithAttr($scope.issues, 'id', message.issue.id);
+          $scope.issues.splice(index, 1);
+          NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 5);
+          break;
+        case 'update':
+          var index = findWithAttr($scope.issues, 'id', message.issue.id);
+          $scope.issues[index] = message.issue;
+          NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 5, "issue-"+message.issue.id);
+          break;
+        default:
+          IssueService.refreshLatestIssues().then(function (data) {
+            $scope.issues = data.issues;
+            NotificationService.add("Les demandes ont été mises à jour.", null, 5);
+          });
+          break;
+      }
     });
   });
 
