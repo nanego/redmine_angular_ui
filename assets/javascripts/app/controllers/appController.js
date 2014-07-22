@@ -6,7 +6,9 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
-  var client = new Faye.Client('http://faye-redis.herokuapp.com/faye');
+  // var client = new Faye.Client('http://faye-redis.herokuapp.com/faye');
+  // var client = new Faye.Client('http://localhost:3001/faye');
+  var client = new Faye.Client('http://faye.application.ac.centre-serveur.i2/faye');
   client.disable('websocket');
   client.subscribe('/issues', function(message) {
 
@@ -15,18 +17,23 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
       // NotificationService.add(JSON.stringify(message), null, 500);
       switch (message.action) {
         case 'create':
+          NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-"+message.issue.id);
           $scope.issues.unshift(message.issue);
-          NotificationService.add("Une nouvelle demande a été ajoutée.", null, 5, "issue-"+message.issue.id);
           break;
         case 'destroy':
+          NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 10);
           var index = findWithAttr($scope.issues, 'id', message.issue.id);
           $scope.issues.splice(index, 1);
-          NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 5);
           break;
         case 'update':
+          NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 10, "issue-"+message.issue.id);
           var index = findWithAttr($scope.issues, 'id', message.issue.id);
           $scope.issues[index] = message.issue;
-          NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 5, "issue-"+message.issue.id);
+          if ($scope.issue != undefined){
+            if($scope.issue.id === message.issue.id){
+              $scope.issue = message.issue;
+            }
+          }
           break;
         default:
           IssueService.refreshLatestIssues().then(function (data) {

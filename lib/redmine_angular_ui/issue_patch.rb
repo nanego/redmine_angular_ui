@@ -21,7 +21,9 @@ class Issue
   def notif_after_commit(action)
     json = {'action'=>action, 'issue'=>{'id'=> self.id, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
     message = {:channel => '/issues', :data => json}
-    uri = URI.parse("http://faye-redis.herokuapp.com/faye")
-    Net::HTTP.post_form(uri, :message => message.to_json) unless Rails.env.production? # TODO remove this condition if faye server is reachable from prod or preprod server
+    # uri = URI.parse("http://faye-redis.herokuapp.com/faye")
+    # uri = URI.parse("http://localhost:3001/faye")
+    uri = URI.parse("http://faye.application.ac.centre-serveur.i2/faye")
+    Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end

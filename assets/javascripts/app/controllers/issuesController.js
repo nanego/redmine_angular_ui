@@ -15,6 +15,9 @@ function getIssueById($scope, issue_id, IssueService, $timeout) {
     $scope.delayedRequest = $timeout(function(){
       IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
         $scope.issue = fullIssue;
+        // Then, update main array of issues
+        var index = findWithAttr($scope.issues, 'id', $scope.issue.id);
+        $scope.issues[index] = $scope.issue;
       });
     },500);
   });
