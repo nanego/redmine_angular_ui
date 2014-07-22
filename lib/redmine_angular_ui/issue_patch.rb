@@ -23,7 +23,7 @@ class Issue
     message = {:channel => '/issues', :data => json}
     # uri = URI.parse("http://faye-redis.herokuapp.com/faye")
     # uri = URI.parse("http://localhost:3001/faye")
-    uri = URI.parse("http://faye.application.ac.centre-serveur.i2/faye")
+    uri = URI.parse("http://localhost:3011/faye")
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end
