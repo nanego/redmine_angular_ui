@@ -18,17 +18,17 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
       switch (message.action) {
         case 'create':
           NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-"+message.issue.id);
-          $scope.issues.unshift(message.issue);
+          $scope.app.issues.unshift(message.issue);
           break;
         case 'destroy':
           NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 10);
-          var index = findWithAttr($scope.issues, 'id', message.issue.id);
-          $scope.issues.splice(index, 1);
+          var index = findWithAttr($scope.app.issues, 'id', message.issue.id);
+          $scope.app.issues.splice(index, 1);
           break;
         case 'update':
           NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 10, "issue-"+message.issue.id);
-          var index = findWithAttr($scope.issues, 'id', message.issue.id);
-          $scope.issues[index] = message.issue;
+          var index = findWithAttr($scope.app.issues, 'id', message.issue.id);
+          $scope.app.issues[index] = message.issue;
           if ($scope.issue != undefined){
             if($scope.issue.id === message.issue.id){
               $scope.issue = message.issue;
@@ -36,8 +36,8 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
           }
           break;
         default:
-          IssueService.refreshLatestIssues().then(function (data) {
-            $scope.issues = data.issues;
+          IssueService.refreshLatestIssues($scope.app.issues.length).then(function (data) {
+            $scope.app.issues = data.issues;
             NotificationService.add("Les demandes ont été mises à jour.", null, 5);
           });
           break;
@@ -91,13 +91,14 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 });
 
 function getPreloadedData(SessionService, $scope, IssueService, ProjectService) {
+  $scope.app = $scope.app || {};
   SessionService.getCurrentUser().then(function (data) {
-    $scope.user = data.user;
+    $scope.app.user = data.user;
   });
   IssueService.getLatestIssues().then(function (data) {
-    $scope.issues = data.issues;
+    $scope.app.issues = data.issues;
   });
   ProjectService.getAllProjects().then(function (data) {
-    $scope.projects = data.projects;
+    $scope.app.projects = data.projects;
   });
 }

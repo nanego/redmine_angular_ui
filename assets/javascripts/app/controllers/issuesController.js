@@ -6,9 +6,9 @@ app.controller('IssuesController', function($scope){
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {
   IssueService.getLatestIssues().then(function (data) {
-    $scope.issues = data.issues;
+    // $scope.app.issues = data.issues;
     if ($scope.issue === undefined) {
-      $scope.issue = $.grep($scope.issues, function (e) {
+      $scope.issue = $.grep($scope.app.issues, function (e) {
         return e.id.toString() === issue_id;
       })[0];
     }
@@ -16,8 +16,8 @@ function getIssueById($scope, issue_id, IssueService, $timeout) {
       IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
         $scope.issue = fullIssue;
         // Then, update main array of issues
-        var index = findWithAttr($scope.issues, 'id', $scope.issue.id);
-        $scope.issues[index] = $scope.issue;
+        var index = findWithAttr($scope.app.issues, 'id', $scope.issue.id);
+        $scope.app.issues[index] = $scope.issue;
       });
     },500);
   });
@@ -27,13 +27,22 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
   getIssueById($scope, $routeParams.issue_id, IssueService, $timeout);
 
   $scope.$watch('issue', function() {
-    if ($scope.issues != undefined) {
-      index_of_issue = findWithAttr($scope.issues, 'id', $scope.issue.id);
+    if ($scope.app.issues != undefined) {
+      index_of_issue = findWithAttr($scope.app.issues, 'id', $scope.issue.id);
       if (index_of_issue > 0){
-        $scope.previous_issue = $scope.issues[index_of_issue-1]
+        $scope.previous_issue = $scope.app.issues[index_of_issue-1]
       }
-      if (index_of_issue < $scope.issues.length-1){
-        $scope.next_issue = $scope.issues[index_of_issue+1]
+      if (index_of_issue < $scope.app.issues.length-1){
+        $scope.next_issue = $scope.app.issues[index_of_issue+1]
+      }else{
+        if(index_of_issue === $scope.app.issues.length-1){
+          IssueService.getNextLatestIssues($scope.app.issues.length).then(function (data) {
+            add_issues_to_main_array($scope, data.issues);
+            if (index_of_issue < $scope.app.issues.length-1){
+              $scope.next_issue = $scope.app.issues[index_of_issue+1]
+            }
+          });
+        }
       }
     }
   });
@@ -81,8 +90,8 @@ app.controller('IssueEditController', function($scope, $routeParams, IssueServic
   $scope.saveIssue = function () {
     var responsePromise = IssueService.save($scope.issue);
     responsePromise.success(function(response) {
-      var index_of_issue = findWithAttr($scope.issues, 'id', $scope.issue.id);
-      $scope.issues[index_of_issue] = $scope.issue;
+      var index_of_issue = findWithAttr($scope.app.issues, 'id', $scope.issue.id);
+      $scope.app.issues[index_of_issue] = $scope.issue;
       $location.path('/issues/'+$scope.issue.id);
     });
   }
@@ -93,3 +102,14 @@ function IssueFormController($scope, ProjectService) {
     $scope.trackers = trackers;
   });
 };
+
+function add_issues_to_main_array($scope, new_issues) {
+  for (var i = 0; i < new_issues.length; ++i) {
+    var issue_in_scope_index = findWithAttr($scope.app.issues, 'id', new_issues[i].id);
+    if (issue_in_scope_index >= 0) {
+      $scope.app.issues[issue_in_scope_index] = new_issues[i];
+    } else {
+      $scope.app.issues.push(new_issues[i]);
+    }
+  }
+}

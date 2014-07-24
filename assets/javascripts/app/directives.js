@@ -51,11 +51,11 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
 
       if ($rootScope.mainLoading != false ){
         $rootScope.mainLoading = true;
-        $scope.vars = ['issues', 'projects', 'user'];
+        $scope.vars = ['app.issues', 'app.projects', 'app.user'];
         $scope.loadings = new Array($scope.vars.length);
 
-        $scope.$watch('issues', function() {
-          if ($scope.issues !== undefined) {
+        $scope.$watch('app.issues', function() {
+          if ($scope.app.issues !== undefined) {
             $scope.loadings[0] = false;
             checkCurrentLoad();
           } else {
@@ -63,8 +63,8 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
           }
         });
 
-        $scope.$watch('projects', function() {
-          if ($scope.projects !== undefined) {
+        $scope.$watch('app.projects', function() {
+          if ($scope.app.projects !== undefined) {
             $scope.loadings[1] = false;
             checkCurrentLoad();
           } else {
@@ -72,8 +72,8 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
           }
         });
 
-        $scope.$watch('user', function() {
-          if ($scope.user !== undefined) {
+        $scope.$watch('app.user', function() {
+          if ($scope.app.user !== undefined) {
             $scope.loadings[2] = false;
             checkCurrentLoad();
           } else {

@@ -1,7 +1,7 @@
 <div class="row">
   <div>
     <div class="pull-right" style="margin-top: 15px;">
-      <span>Connecté en tant que {{ user.login }}</span>
+      <span>Connecté en tant que {{ app.user.login }}</span>
     </div>
     <ul class="nav nav-tabs" ng-cloak>
       <li ng-repeat="tab in tabs" ng-class="checkActive(tab.url)">

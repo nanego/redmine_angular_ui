@@ -53,8 +53,12 @@
   </script>
 
   <%= javascript_include_tag("hotkeys", :plugin => "redmine_angular_ui") %>
-  <!-- javascript_include_tag 'http://faye-redis.herokuapp.com/faye.js' -->
-  <%= javascript_include_tag 'http://faye.application.ac.centre-serveur.i2/faye.js' %>
+
+  <% if Rails.env == 'development' %>
+    <%= javascript_include_tag 'http://faye-redis.herokuapp.com/faye.js' %>
+  <% else %>
+    <%= javascript_include_tag 'http://faye.application.ac.centre-serveur.i2/faye.js' %>
+  <% end %>
 
   <%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("app/directives", :plugin => "redmine_angular_ui") %>

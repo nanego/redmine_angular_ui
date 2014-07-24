@@ -21,9 +21,12 @@ class Issue
   def notif_after_commit(action)
     json = {'action'=>action, 'issue'=>{'id'=> self.id, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
     message = {:channel => '/issues', :data => json}
-    # uri = URI.parse("http://faye-redis.herokuapp.com/faye")
-    # uri = URI.parse("http://localhost:3001/faye")
-    uri = URI.parse("http://localhost:3011/faye")
+    if Rails.env == 'development'
+      uri = URI.parse("http://faye-redis.herokuapp.com/faye")
+      # uri = URI.parse("http://localhost:3001/faye")
+    else
+      uri = URI.parse("http://localhost:3011/faye")
+    end
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end

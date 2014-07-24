@@ -22,8 +22,10 @@ app.factory('IssueService',function($http, $q){
   var Issue = function() {}; // constructor
 
   var result;
-  function refresh() {
-    result = $http.get('/issues.json?sort=updated_on:desc', { headers: headers }).then(function(response) {
+  function refresh(offset, limit) {
+    offset = offset || 0;
+    limit = limit || 25;
+    result = $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset, { headers: headers }).then(function(response) {
       return response.data;
     });
   }
@@ -31,12 +33,18 @@ app.factory('IssueService',function($http, $q){
   return {
     getLatestIssues: function () {
       if (!result) {
-        refresh();
+        refresh(null, null);
       }
       return result;
     },
-    refreshLatestIssues: function () {
-      refresh();
+    refreshLatestIssues: function (current_nb_of_issues) {
+      refresh(0, current_nb_of_issues);
+      return result;
+    },
+    getNextLatestIssues: function (offset) {
+      result.then(function (data) {
+        refresh(offset, null);
+      });
       return result;
     },
     getIssueFromCache: function(id) {
