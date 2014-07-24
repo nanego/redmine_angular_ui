@@ -36,11 +36,13 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
         $scope.next_issue = $scope.app.issues[index_of_issue+1]
       }else{
         if(index_of_issue === $scope.app.issues.length-1){
+          $scope.loading_next_issue = true;
           IssueService.getNextLatestIssues($scope.app.issues.length).then(function (data) {
             add_issues_to_main_array($scope, data.issues);
             if (index_of_issue < $scope.app.issues.length-1){
               $scope.next_issue = $scope.app.issues[index_of_issue+1]
             }
+            $scope.loading_next_issue = false;
           });
         }
       }

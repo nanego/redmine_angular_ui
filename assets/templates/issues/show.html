@@ -11,6 +11,8 @@
       </a>
       <span class="ellipsis next_prev_issues pull-left">#{{previous_issue.id}} - {{previous_issue.subject}}</span>
     </div>
+
+    <div spinner class="pull-right" ng-show="loading_next_issue" style="height: 16px;width:16px;display: flex;margin-right: 16px;"></div>
     <div class="col-xs-6 pull-right" ng-show="next_issue" style="clear: right;">
       <a href="#/issues/{{next_issue.id}}" class="pull-right" style="margin-left: 4px;margin-top: 1px;">
         <span class="glyphicon glyphicon-chevron-right"></span>

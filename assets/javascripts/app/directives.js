@@ -16,7 +16,7 @@ app.directive('spinner', function() {
     },
     restrict: 'A',
     replace: false,
-    template: '<img src="/plugin_assets/redmine_angular_ui/images/spinner.gif" ng-show="loading"/>',
+    template: '<img src="/plugin_assets/redmine_angular_ui/images/spinner.gif" ng-show="loading" />',
     link: function($scope, element, attrs) {
       $scope.loading = true;
       $scope.$watch("scopeVar", function() {
