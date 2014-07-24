@@ -25,27 +25,22 @@ app.factory('IssueService',function($http, $q){
   function refresh(offset, limit) {
     offset = offset || 0;
     limit = limit || 25;
-    result = $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset, { headers: headers }).then(function(response) {
-      return response.data;
-    });
+    return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset, { headers: headers });
   }
 
   return {
     getLatestIssues: function () {
       if (!result) {
-        refresh(null, null);
+        result = refresh(null, null);
       }
       return result;
     },
     refreshLatestIssues: function (current_nb_of_issues) {
-      refresh(0, current_nb_of_issues);
+      result = refresh(0, current_nb_of_issues);
       return result;
     },
     getNextLatestIssues: function (offset) {
-      result.then(function (data) {
-        refresh(offset, null);
-      });
-      return result;
+      return refresh(offset, null);
     },
     getIssueFromCache: function(id) {
       return getLatestIssues.then(function (response) {

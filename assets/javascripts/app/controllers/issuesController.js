@@ -1,11 +1,15 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope){
-
+app.controller('IssuesController', function($scope, IssueService){
+  $scope.load_next_issues = function() {
+    IssueService.getNextLatestIssues($scope.app.issues.length).then(function (response) {
+      add_issues_to_main_array($scope, response.data.issues);
+    });
+  }
 });
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {
-  IssueService.getLatestIssues().then(function (data) {
+  IssueService.getLatestIssues().then(function (response) {
     // $scope.app.issues = data.issues;
     if ($scope.issue === undefined) {
       $scope.issue = $.grep($scope.app.issues, function (e) {
@@ -37,8 +41,8 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
       }else{
         if(index_of_issue === $scope.app.issues.length-1){
           $scope.loading_next_issue = true;
-          IssueService.getNextLatestIssues($scope.app.issues.length).then(function (data) {
-            add_issues_to_main_array($scope, data.issues);
+          IssueService.getNextLatestIssues($scope.app.issues.length).then(function (response) {
+            add_issues_to_main_array($scope, response.data.issues);
             if (index_of_issue < $scope.app.issues.length-1){
               $scope.next_issue = $scope.app.issues[index_of_issue+1]
             }

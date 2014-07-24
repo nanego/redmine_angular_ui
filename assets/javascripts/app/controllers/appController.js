@@ -13,7 +13,7 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
   client.subscribe('/issues', function(message) {
 
     message = JSON.parse(message);
-    IssueService.getLatestIssues().then(function (data) {
+    IssueService.getLatestIssues().then(function () {
       // NotificationService.add(JSON.stringify(message), null, 500);
       switch (message.action) {
         case 'create':
@@ -36,8 +36,8 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
           }
           break;
         default:
-          IssueService.refreshLatestIssues($scope.app.issues.length).then(function (data) {
-            $scope.app.issues = data.issues;
+          IssueService.refreshLatestIssues($scope.app.issues.length).then(function (response) {
+            $scope.app.issues = response.data.issues;
             NotificationService.add("Les demandes ont été mises à jour.", null, 5);
           });
           break;
@@ -95,8 +95,8 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService) 
   SessionService.getCurrentUser().then(function (data) {
     $scope.app.user = data.user;
   });
-  IssueService.getLatestIssues().then(function (data) {
-    $scope.app.issues = data.issues;
+  IssueService.getLatestIssues().then(function (response) {
+    $scope.app.issues = response.data.issues;
   });
   ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
