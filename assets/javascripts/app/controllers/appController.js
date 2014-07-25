@@ -29,9 +29,16 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
           NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 10, "issue-"+message.issue.id);
           var index = findWithAttr($scope.app.issues, 'id', message.issue.id);
           $scope.app.issues[index] = message.issue;
-          if ($scope.issue != undefined){
-            if($scope.issue.id === message.issue.id){
-              $scope.issue = message.issue;
+          if ($scope.app.issue !== undefined){
+            if($scope.app.issue.id === message.issue.id){
+              $scope.app.issue = message.issue;
+              // Reload updated journal
+              IssueService.getIssueDetails($scope.app.issue.id).then(function (fullIssue) {
+                $scope.app.issue = fullIssue;
+                // Then, update main array of issues
+                var index = findWithAttr($scope.app.issues, 'id', $scope.app.issue.id);
+                $scope.app.issues[index] = $scope.app.issue;
+              });
             }
           }
           break;
@@ -92,6 +99,7 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 
 function getPreloadedData(SessionService, $scope, IssueService, ProjectService) {
   $scope.app = $scope.app || {};
+  $scope.app.issue = undefined;
   SessionService.getCurrentUser().then(function (data) {
     $scope.app.user = data.user;
   });

@@ -24,28 +24,28 @@
   <div class="highlight">
 
     <div class="pull-right">
-      <a href="#/issues/{{issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Mettre à jour</a>
+      <a href="#/issues/{{app.issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Mettre à jour</a>
     </div>
 
-    <div style="font-size: 20px;" >{{issue.tracker.name}} #{{issue.id}}</div>
+    <div style="font-size: 20px;" >{{app.issue.tracker.name}} #{{app.issue.id}}</div>
 
-    <h2 style="margin-top: 10px;">{{issue.subject}}</h2>
-    <h5>Ajouté par {{issue.author.name}}</h5>
+    <h2 style="margin-top: 10px;">{{app.issue.subject}}</h2>
+    <h5>Ajouté par {{app.issue.author.name}}</h5>
 
     <div class="row">
-      <div class="col-md-1">Projet</div> <div class="col-md-11">{{issue.project.name}}</div>
-      <div class="col-md-1">Statut</div> <div class="col-md-11">{{issue.status.name}}</div>
-      <div class="col-md-1">Priorité</div> <div class="col-md-11">{{issue.priority.name}}</div>
+      <div class="col-md-1">Projet</div> <div class="col-md-11">{{app.issue.project.name}}</div>
+      <div class="col-md-1">Statut</div> <div class="col-md-11">{{app.issue.status.name}}</div>
+      <div class="col-md-1">Priorité</div> <div class="col-md-11">{{app.issue.priority.name}}</div>
     </div>
     <div class="row" style="margin-top: 10px;">
-      <div class="col-md-1">Description</div> <div class="col-md-11 pre-white-space">{{issue.description}}</div>
+      <div class="col-md-1">Description</div> <div class="col-md-11 pre-white-space">{{app.issue.description}}</div>
     </div>
 
   </div>
 
   <div class="row">
-    <div spinner="issue.journals" class="centered"></div>
-    <ul ng-repeat="journal in issue.journals">
+    <div spinner="app.issue.journals" class="centered"></div>
+    <ul ng-repeat="journal in app.issue.journals">
       <li>
         <i class="col-md-2 ellipsis">{{journal.user.name}} :</i>
         <div class="col-md-10">

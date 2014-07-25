@@ -3,13 +3,13 @@
 <div ng-hide="mainLoading===undefined || mainLoading">
   <main-tabs></main-tabs>
 
-  <div spinner="issue" class="centered"></div>
+  <div spinner="app.issue" class="centered"></div>
 
-  <div ng-show="issue" class="col-xs-12 highlight">
+  <div ng-show="app.issue" class="col-xs-12 highlight">
     <div class="page-header" style="margin: 10px 0 20px;">
       <h4 class="ellipsis">
-        <a href="#/issues/{{issue.id}}"> <span class="glyphicon glyphicon-chevron-left"></span></a>
-        #{{issue.id}} - {{issue.subject}}
+        <a href="#/issues/{{app.issue.id}}"> <span class="glyphicon glyphicon-chevron-left"></span></a>
+        #{{app.issue.id}} - {{app.issue.subject}}
       </h4>
     </div>
     <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_form.html'"></ng-include>
