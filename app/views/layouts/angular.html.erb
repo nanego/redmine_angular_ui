@@ -53,6 +53,7 @@
   </script>
 
   <%= javascript_include_tag("hotkeys", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("ui-utils-0.1.1/ui-utils.js", :plugin => "redmine_angular_ui") %>
 
   <% if Rails.env == 'development' %>
     <%= javascript_include_tag 'http://faye-redis.herokuapp.com/faye.js' %>

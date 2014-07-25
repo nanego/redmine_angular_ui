@@ -5,7 +5,7 @@
   <h3>Dernières demandes</h3>
   <div ng-controller="NotificationsController">
     <ul>
-      <li ng-repeat="issue in app.issues | orderBy:id:false" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
+      <li ng-repeat="issue in app.issues" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
         <div class="issue-listing">
           <div class="col-sm-2 ellipsis gray">
             {{issue.tracker.name}}
