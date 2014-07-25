@@ -20,7 +20,7 @@ app.directive('spinner', function() {
     link: function($scope, element, attrs) {
       $scope.loading = true;
       $scope.$watch("scopeVar", function() {
-        if ($scope.scopeVar !== undefined) {
+        if ($scope.scopeVar !== undefined && $scope.scopeVar !== false) {
           $scope.loading = false;
         } else {
           $scope.loading = true;
@@ -29,6 +29,46 @@ app.directive('spinner', function() {
     }
   };
 });
+
+app.directive('scroller', function () {
+  return {
+    restrict: 'A',
+    scope: {
+      loadingMethod: "&"
+    },
+    link: function (scope, elem, attrs) {
+
+      var rawElement = elem[0];
+      $(document).bind('scroll', function () {
+
+        // Cross-browser infinite scrolling
+        var docHeight, winHeight, scrTop;
+        if (navigator.userAgent.indexOf("MSIE") !== -1) {
+          docHeight = getDocHeight();
+          winHeight = document.body.clientHeight;
+          scrTop = document.body.scrollTop;
+        } else {
+          docHeight = $(document).height();
+          winHeight = window.innerHeight;
+          scrTop = $("body").scrollTop();
+        }
+        if (scrTop >= (docHeight - winHeight)) {
+          scope.$apply(scope.loadingMethod);
+        }
+
+      });
+    }
+  };
+});
+
+function getDocHeight() {
+  var D = document;
+  return Math.max(
+    Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+    Math.max(D.body.offsetHeight, D.documentElement.scrollHeight),
+    Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+  );
+}
 
 app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootScope) {
   return {

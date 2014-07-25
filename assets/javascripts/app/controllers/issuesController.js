@@ -2,8 +2,10 @@ var app = angular.module('myApp.controllers');
 
 app.controller('IssuesController', function($scope, IssueService){
   $scope.load_next_issues = function() {
+    $scope.next_issue_loaded = false;
     IssueService.getNextLatestIssues($scope.app.issues.length).then(function (response) {
       add_issues_to_main_array($scope, response.data.issues);
+      $scope.next_issue_loaded = true;
     });
   }
 });
