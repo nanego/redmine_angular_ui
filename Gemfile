@@ -1,2 +1,1 @@
-gem 'deface'
 gem 'faye'

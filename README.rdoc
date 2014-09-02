@@ -1,3 +1,0 @@
-= redmine_angular_ui
-
-Description goes here
