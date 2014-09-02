@@ -24,7 +24,7 @@ app.factory('IssueService',function($http, $q){
   var result;
   function refresh(offset, limit) {
     offset = offset || 0;
-    limit = limit || 25;
+    limit = limit || 50;
     return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset, { headers: headers });
   }
 
