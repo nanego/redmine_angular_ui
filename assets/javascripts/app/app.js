@@ -6,7 +6,9 @@ var app = angular.module('myApp',['ngRoute',
                         'myApp.directives',
                         'myApp.filters',
                         'ngSanitize',
-                        'cfp.hotkeys']);
+                        'cfp.hotkeys',
+                        'myApp.customdropdown'
+]);
 
 angular.module('myApp.services',['ngResource']);
 angular.module('myApp.controllers',[]);

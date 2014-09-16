@@ -27,12 +27,21 @@ app.factory('IssueService',function($http, $q){
     limit = limit || 50;
     return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset, { headers: headers });
   }
+  function search(offset, limit, project_id) {
+    offset = offset || 0;
+    limit = limit || 50;
+    return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset+'&project_id='+project_id, { headers: headers });
+  }
 
   return {
     getLatestIssues: function () {
       if (!result) {
         result = refresh(null, null);
       }
+      return result;
+    },
+    getLatestIssuesByProject: function (project_id) {
+      result = search(null, null, project_id);
       return result;
     },
     refreshLatestIssues: function (current_nb_of_issues) {

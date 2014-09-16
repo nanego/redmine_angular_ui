@@ -7,7 +7,7 @@ class AngularControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template :index
-    assert_template layout: "layouts/angular"
+    assert_template layouts: "layouts/angular"
   end
 
   test "should redirect from dashboard view to index without a user" do

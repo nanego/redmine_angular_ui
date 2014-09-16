@@ -24,7 +24,7 @@ angular.module('myApp').config(function($routeProvider){
       templateUrl : '/plugin_assets/redmine_angular_ui/templates/projects/issues.html',
       controller : 'ProjectIssuesController'
     }).
-    when('/projects/:id/issues', {
+    when('/projects/:project_id/issues', {
       templateUrl : '/plugin_assets/redmine_angular_ui/templates/projects/issues.html',
       controller : 'ProjectIssuesController'
     }).

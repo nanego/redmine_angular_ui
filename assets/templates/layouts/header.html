@@ -1,0 +1,29 @@
+<header ng-controller="navigationController" class="hWrapper actions-menu unselectable">
+
+  <div class="rWrapper titleLevel">
+    <div custom-dropdown class="f0 has-dropdown medFontSize">
+      <a data-toggle="dropdown" class="menu-trigger action hTitle">
+        <span class="current-project">{{ project.name }}</span>
+        <span class="arrow-down"></span>
+      </a>
+      <div class="listWrapper listWrapperSkin custom-dropdown-menu">
+        <a class="menuitem" href="#/issues"><span class="menuitem-content"><span>Tous les projets</span></span></a>
+        <!-- <div class="menuitem"><div class="menuitem-content"><span>Les parents</span></div></div>  -->
+        <div class="submenu-link separator-horizontal"></div>
+        <!-- <div class="menuitem"><div class="menuitem-content"><span class="blink">|</span></div></div> -->
+        <a class="menuitem" href=""><span class="menuitem-content"><span>Le plus fréquenté 1</span></span></a>
+        <a class="menuitem" href=""><span class="menuitem-content"><span>Le plus fréquenté 2</span></span></a>
+        <a class="menuitem" href=""><span class="menuitem-content"><span>Le plus fréquenté 3</span></span></a>
+        <div class="submenu-link separator-horizontal"></div>
+        <div class="menuitem action-item"><input type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>
+        <div class="submenu-link separator-horizontal"></div>
+        <div class="vFader">
+          <div class="vSlider" id="projects-list">
+            <a class="menuitem" ng-repeat="project in app.projects" href="#/projects/{{project.id}}/issues"><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>

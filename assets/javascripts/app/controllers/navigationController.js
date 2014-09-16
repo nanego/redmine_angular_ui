@@ -1,0 +1,22 @@
+var app = angular.module('myApp.controllers');
+
+app.controller('navigationController', function NavigationCtrl($scope) {
+
+  $scope.project = {
+    name: ($scope.app.project !== undefined ? $scope.app.project.name : "Tous les projets" )
+  };
+
+  $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggled = function(open) {
+    console.log('Dropdown is now: ', open);
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+});

@@ -26,13 +26,12 @@
     <%= stylesheet_link_tag("angular_ui", :plugin => "redmine_angular_ui") %>
     <%= stylesheet_link_tag("hotkeys", :plugin => "redmine_angular_ui") %>
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300' rel='stylesheet' type='text/css'>
+    <%= stylesheet_link_tag("redproject", :plugin => "redmine_angular_ui") %>
+
   </head>
 <body>
-</body>
-
-  <div class="header" style="margin-bottom: 20px;">
-    <%= link_to "<< retour à l'interface habituelle", home_path %>
-  </div>
 
 <div class="container">
 
@@ -71,6 +70,8 @@
   <% (services_files|controllers_files).each do |f| %>
     <%= javascript_include_tag(f, :plugin => "redmine_angular_ui") %>
   <% end %>
+
+  <%= javascript_include_tag("app/uicomponents/custom_dropdown.js", :plugin => "redmine_angular_ui") %>
 
   </body>
 </html>

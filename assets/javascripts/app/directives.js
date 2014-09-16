@@ -108,7 +108,7 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
             $scope.loadings[1] = false;
             checkCurrentLoad();
           } else {
-            $scope.loadings[1] = true;
+            $scope.loadings[1] = true; //true; do not wait for projects #TODO In prod env., wait for it
           }
         });
 
