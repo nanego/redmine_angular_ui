@@ -546,7 +546,7 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .is-checked > .mark, .is-picked > .mark {
-	background: url('../img/checkmark.png') no-repeat -5px -3px;
+	background: url('../images/checkmark.png') no-repeat -5px -3px;
 }
 
 .is-picked { border-color: transparent !important; }
@@ -624,7 +624,7 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .circle::before {
-	content: url(../img/circle.png);
+	content: url(../images/circle.png);
 	position: relative;
 	bottom: -1px;
 	
@@ -737,7 +737,7 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .arrow-close {
-	background-image: url('../img/arrow-close.png');
+	background-image: url('../images/arrow-close.png');
 	cursor: pointer;
 	height: 21px;
 	opacity: .4;
@@ -761,6 +761,7 @@ a.issue-tab:hover .issue-subject:after {
 .list-trigger  { cursor: default; }
 .menu-trigger { cursor: pointer;
     text-decoration: none;}
+a.menu-trigger:hover { text-decoration: none;}
 .menu-trigger.arrow-wrapper  { cursor: pointer; }
 
 .listWrapper 		{ display: none; /*position: relative;*/ }
@@ -856,7 +857,7 @@ a.menuitem {
 
 .has-selectable-items > .menuitem , .has-multiselectable-items .menuitem { padding-left: 2.8em } /* ajoute la gouttière pour mettre la checkbox */
 
-.selected-item, .selected-item.is-hover  { background: transparent url('../img/checkmark.png') no-repeat 0.5em center; cursor: default; }
+.selected-item, .selected-item.is-hover  { background: transparent url('../images/checkmark.png') no-repeat 0.5em center; cursor: default; }
 
 .menuitem-icon {
 	position: absolute;
@@ -920,7 +921,7 @@ a.menuitem {
 .inlist { position: relative; }
 
 .action-select-value {
-	background-image: url('../img/checkmark.png');
+	background-image: url('../images/checkmark.png');
 	background-repeat: no-repeat;
 	background-position: 0.5em center;
 }

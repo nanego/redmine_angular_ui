@@ -11,15 +11,13 @@
         <!-- <div class="menuitem"><div class="menuitem-content"><span>Les parents</span></div></div>  -->
         <div class="submenu-link separator-horizontal"></div>
         <!-- <div class="menuitem"><div class="menuitem-content"><span class="blink">|</span></div></div> -->
-        <a class="menuitem" href=""><span class="menuitem-content"><span>Le plus fréquenté 1</span></span></a>
-        <a class="menuitem" href=""><span class="menuitem-content"><span>Le plus fréquenté 2</span></span></a>
-        <a class="menuitem" href=""><span class="menuitem-content"><span>Le plus fréquenté 3</span></span></a>
+        <a ng-repeat="project in frequent_projects" class="menuitem" href=""><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
         <div class="submenu-link separator-horizontal"></div>
-        <div class="menuitem action-item"><input type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>
+        <div class="menuitem action-item keep-open"><input ng-model="search.name" type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>
         <div class="submenu-link separator-horizontal"></div>
         <div class="vFader">
           <div class="vSlider" id="projects-list">
-            <a class="menuitem" ng-repeat="project in app.projects" href="#/projects/{{project.id}}/issues"><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
+            <a class="menuitem" ng-repeat="project in app.projects | filter:{name: search.name}" href="#/projects/{{project.id}}/issues"><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
           </div>
         </div>
       </div>
@@ -31,13 +29,7 @@
         <span class="arrow-down"></span>
       </a>
       <div class="listWrapper listWrapperSkin custom-dropdown-menu has-selectable-items">
-        <div class="menuitem"><div class="menuitem-content"><span>Aperçu</span></div></div>
-        <div class="menuitem"><div class="menuitem-content"><span>Activité</span></div></div>
-        <div class="menuitem selected-item"><div class="menuitem-content"><span>Demandes</span></div></div>
-        <div class="menuitem"><div class="menuitem-content"><span>Wiki</span></div></div>
-        <div class="menuitem"><div class="menuitem-content"><span>Fichiers</span></div></div>
-        <div class="menuitem"><div class="menuitem-content"><span>Roadmap</span></div></div>
-        <div class="menuitem"><div class="menuitem-content"><span>Planning</span></div></div>
+        <div ng-repeat="stage in stages" ng-class="{'selected-item': stage == app.stage}" class="menuitem"><div class="menuitem-content"><span>{{ stage }}</span></div></div>
         <div class="submenu-link separator-horizontal"></div>
         <div class="menuitem"><div class="menuitem-content"><span>Administration</span></div></div>
       </div>

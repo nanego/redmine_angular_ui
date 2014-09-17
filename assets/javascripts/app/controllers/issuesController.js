@@ -2,6 +2,7 @@ var app = angular.module('myApp.controllers');
 
 app.controller('IssuesController', function($scope, IssueService){
   $scope.app.project = undefined;
+  $scope.app.stage = "Demandes"; // TODO Refactor this
   $scope.load_next_issues = function() {
     $scope.next_issue_loaded = false;
     IssueService.getNextLatestIssues($scope.app.issues.length).then(function (response) {

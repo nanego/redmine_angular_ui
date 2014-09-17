@@ -6,6 +6,10 @@ app.controller('navigationController', function NavigationCtrl($scope) {
     name: ($scope.app.project !== undefined ? $scope.app.project.name : "Tous les projets" )
   };
 
+  $scope.stages = ["Aperçu", "Activité", "Demandes", "Wiki", "Fichiers", "Roadmap", "Planning"]
+
+  $scope.frequent_projects = [{name:"Le plus fréquenté 1"}, {name:"Le plus fréquenté 2"}, {name:"Le plus fréquenté 3"}];
+
   $scope.status = {
     isopen: false
   };
