@@ -759,7 +759,8 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .list-trigger  { cursor: default; }
-.menu-trigger { cursor: default; }
+.menu-trigger { cursor: pointer;
+    text-decoration: none;}
 .menu-trigger.arrow-wrapper  { cursor: pointer; }
 
 .listWrapper 		{ display: none; /*position: relative;*/ }
