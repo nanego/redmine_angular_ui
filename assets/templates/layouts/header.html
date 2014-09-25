@@ -1,19 +1,18 @@
 <header ng-controller="navigationController" class="hWrapper actions-menu unselectable">
 
   <div class="rWrapper titleLevel">
-    <div custom-dropdown class="f0 has-dropdown medFontSize">
-      <a data-toggle="dropdown" class="menu-trigger action hTitle">
-        <span class="current-project">{{ project.name }}</span>
+    <div custom-dropdown dropdown-toggle class="f0 has-dropdown medFontSize" dropdown-menu="dropdown-projects-menu">
+
+      <a class="menu-trigger action hTitle dropdown-field">
+        <span class="current-project dropdown-value" ng-bind="selected.one || project.name">{{ project.name }}</span>
         <span class="arrow-down"></span>
       </a>
-      <div class="listWrapper listWrapperSkin custom-dropdown-menu">
+      <div class="listWrapper listWrapperSkin custom-dropdown-menu" id="dropdown-projects-menu">
         <a class="menuitem" href="#/issues"><span class="menuitem-content"><span>Tous les projets</span></span></a>
-        <!-- <div class="menuitem"><div class="menuitem-content"><span>Les parents</span></div></div>  -->
         <div class="submenu-link separator-horizontal"></div>
-        <!-- <div class="menuitem"><div class="menuitem-content"><span class="blink">|</span></div></div> -->
         <a ng-repeat="project in frequent_projects" class="menuitem" href=""><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
         <div class="submenu-link separator-horizontal"></div>
-        <div class="menuitem action-item keep-open"><input ng-model="search.name" type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>
+        <div class="action-item keep-open"><input ng-model="search.name" type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>
         <div class="submenu-link separator-horizontal"></div>
         <div class="vFader">
           <div class="vSlider" id="projects-list">
@@ -24,7 +23,7 @@
     </div>
 
     <div custom-dropdown class="f0 has-dropdown medFontSize">
-      <a data-toggle="dropdown" class="menu-trigger action">
+      <a class="menu-trigger action">
         <span class="current-stage">Demandes</span>
         <span class="arrow-down"></span>
       </a>

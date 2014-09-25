@@ -3,7 +3,15 @@
 var app = angular.module('myApp.customdropdown',[]);
 
 app.constant('customDropdownConfig', {
-  openClass: 'open'
+  openClass: 'open',
+  activeClass: 'is-hover'
+});
+
+app.factory('DropdownService', function() {
+  return {
+    element: null,
+    menuElement: null
+  };
 });
 
 app.service('customDropdownService', ['$document', function($document) {
@@ -83,9 +91,6 @@ app.controller('customDropdownController', ['$scope', '$attrs', '$parse', 'custo
       });
     }
 
-    console.log($('.invisible-input').outerHTML);
-    $('.invisible-input').focus();  // TODO refactor it the Angular way
-
   };
 
   $('.keep-open').click(function(event){
@@ -148,14 +153,215 @@ app.controller('customDropdownController', ['$scope', '$attrs', '$parse', 'custo
 
 }]);
 
-app.directive('customDropdown', function() {
+app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig', 'DropdownService', 'customDropdownService', function($document, $animate, customDropdownConfig, DropdownService, customDropdownService) {
   return {
-    controller: 'customDropdownController',
-    link: function (scope, element, attrs, dropdownCtrl) {
-      dropdownCtrl.init(element);
+    scope: {
+      disabled: '&dropdownDisabled',
+      opened: '@'
+    },
+    controller: ['$timeout', '$scope', '$animate', 'customDropdownConfig', 'customDropdownService', function($timeout, $scope, $animate, customDropdownConfig, customDropdownService){
+
+      var openClass = customDropdownConfig.openClass;
+      var setIsOpen = angular.noop;
+
+      this.init = function (element){
+
+        self.$element = element;
+
+        console.log('init');
+
+        /*
+        if ( $attrs.isOpen ) {
+
+          console.log('attr is open');
+
+          getIsOpen = $parse($attrs.isOpen);
+          setIsOpen = getIsOpen.assign;
+
+          $scope.$watch(getIsOpen, function(value) {
+            console.log("watch getIsOpen in init");
+            scope.isOpen = !!value;
+          });
+        }
+        */
+
+      };
+
+    }],
+    link: function ($scope, iElement, iAttrs, ctrl) {
+
+      var dropdownField = iElement[0].querySelector('.dropdown-field');
+      var openClass = customDropdownConfig.openClass;
+      var activeClass = customDropdownConfig.activeClass;
+      var options;
+      var setIsOpen = angular.noop;
+
+      $scope.opened = false;
+
+      ctrl.init(iElement);
+
+      iElement.bind('click', function(e) {
+        console.log('click on dropdown menu');
+
+        var openTarget = angular.element(document.getElementById(iAttrs.dropdownMenu));
+
+        console.log("DropdownService.menuElement : " + DropdownService.menuElement);
+        console.log("openTarget : " + openTarget);
+
+        /*
+        if (DropdownService.menuElement && DropdownService.menuElement.attr('id') !== openTarget.attr('id')) {
+          close();
+        }
+        */
+        DropdownService.menuElement = openTarget;
+        DropdownService.element = iElement;
+
+        // e.preventDefault();
+        e.stopPropagation();
+
+        if (toggle()) {
+          // console.log($('.invisible-input').outerHTML);
+          $('input').focus();  // TODO refactor it the Angular way
+        }else{
+          $('.invisible-input').val(" ");
+        };
+
+      });
+
+      /*function toggle(param) {
+        scope.isOpen = arguments.length ? !!param : !scope.isOpen;
+        return scope.isOpen;
+      }; */
+
+      function toggle() {
+        if ($scope.opened) {
+          close();
+        } else {
+          open();
+        }
+        return $scope.opened;
+      }
+
+      function open() {
+        if (!$scope.opened) {
+          $scope.$apply(function() {
+            // DropdownService.menuElement.addClass(openClass);
+            DropdownService.element.addClass(openClass);
+            $scope.opened = true;
+          });
+        }
+      }
+
+      function close() {
+        $scope.$apply(function() {
+          // DropdownService.menuElement.removeClass(openClass);
+          DropdownService.element.removeClass(openClass);
+          $scope.opened = false;
+          clearCurrentOption();
+        });
+      }
+
+      function clearCurrentOption() {
+        if ($scope.currentOption) {
+          angular.element($scope.currentOption).removeClass(activeClass);
+          delete $scope.currentOption;
+        }
+      }
+
+      angular.element(document.getElementById(iAttrs.dropdownMenu)).bind('mouseenter', function() {
+        clearCurrentOption();
+      });
+
+      $document.bind('keydown', function(e) {
+        if (//!$scope.disabled() &&
+          ($scope.opened || document.activeElement === dropdownField) &&
+          [9, 27, 40, 38, 13].indexOf(e.keyCode) !== -1) {
+
+          DropdownService.element = iElement;
+
+          console.log("iAttrs:" + iAttrs.dropdownMenu);
+          console.log(document.getElementById(iAttrs.dropdownMenu));
+          console.log(document.getElementById(iAttrs.dropdownMenu).getElementsByClassName('menuitem'));
+
+
+          DropdownService.menuElement = document.getElementById(iAttrs.dropdownMenu);
+
+          if (e.keyCode === 9) { // Tab
+            close();
+            return;
+          } else {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+
+          if (e.keyCode === 27) { // Escape
+            close();
+          } else if (e.keyCode === 40) { // Down
+            nextOption();
+          } else if (e.keyCode === 38) { // Up
+            previousOption();
+          } else if (e.keyCode === 13) { // Enter
+            /*
+            if ($scope.currentOption && $scope.opened && document.activeElement === dropdownField) {
+              $scope.currentOption.click();
+            } else if (!$scope.opened && document.activeElement === dropdownField) {
+              open();
+            }
+            */
+          }
+        }
+      });
+
+      $document.bind('click', function(e) {
+        if ($scope.opened && e.target !== DropdownService.menuElement) {
+          close();
+        }
+      });
+
+      function getOptions() {
+        console.log(DropdownService.menuElement);
+        return Array.prototype.map.call(DropdownService.menuElement.getElementsByClassName('menuitem'), function(option) {
+          return option;
+        });
+      }
+
+      function nextOption() {
+        open();
+        if (!options) {
+          options = getOptions();
+          $scope.currentOption = options[0];
+        } else {
+          var index = options.indexOf($scope.currentOption) + 1;
+          clearCurrentOption();
+          $scope.currentOption = options.length > index ? options[index] : options[0];
+        }
+        angular.element($scope.currentOption).addClass(activeClass);
+
+        DropdownService.menuElement.scrollTop = $scope.currentOption.offsetTop;
+      }
+
+      function previousOption() {
+        open();
+        if (!options) {
+          options = getOptions();
+          $scope.currentOption = options[0];
+        } else {
+          var index = options.indexOf($scope.currentOption) - 1;
+          clearCurrentOption();
+          $scope.currentOption = index >= 0 ? options[index] : options[options.length - 1];
+        }
+        angular.element($scope.currentOption).addClass(activeClass);
+
+        DropdownService.menuElement.scrollTop = $scope.currentOption.offsetTop;
+      }
+
+      $('.keep-open').click(function(event){
+        event.stopPropagation();
+      }); // TODO refactor the Angular way
+
     }
   };
-});
+}]);
 
 app.directive('dropdownToggle', function() {
   return {

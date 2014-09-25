@@ -358,18 +358,18 @@ table {
 .normal-table  { line-height: 2.4em; }
 .comfortable-table  { line-height: 3.3em; }
 
-.table-issues tr { 
+.table-issues li {
   border-top: 1px dotted rgb(220,220,220);
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
-.table-issues tr:last-child  { border-bottom: 1px dotted transparent; }
+.table-issues li:last-child  { border-bottom: 1px dotted transparent; }
 
-.table-issues tbody tr:hover { background-color: rgb(250,250,250); }
+.table-issues li:hover { background-color: rgb(250,250,250); }
 
-.table-issues tbody tr:last-child:hover  { border-bottom: 1px dotted rgb(220,220,220); }
+.table-issues li:last-child:hover  { border-bottom: 1px dotted rgb(220,220,220); }
 
-.select-col{ width:2.1em; vertical-align: center;}
+.select-col{ width:2.1em; vertical-align: middle;}
 .fav-col{ width:2.1em; text-align: center;}
 .project-col { width:8em; }
 .priority-col { width: 4em;}
@@ -487,7 +487,7 @@ a.issue-tab {
 	/* width: 100%; */
 	padding: /* 0.2em */ 0;
 	border: none;
-	background-color: none;
+	background-color: transparent;
 	border-spacing:0;
 	text-decoration: none;
 	font-weight: 400;
@@ -528,17 +528,17 @@ a.issue-tab:hover .issue-subject:after {
 	border: 1px solid #c6c6c6;
 	border: 1px solid rgb(230, 230, 230);
 	font-size: 1px;
-	height: 9em;
-	margin: 0 4em 0 10em;
+	height: 11px;
+	margin: 7em 7em 0 2em;
 	outline: 0;
 	vertical-align: text-bottom;
-	width: 9em;
+	width: 11px;
 }
 
 .mark {
-	height: 15px;
+	height: 11px;
 	outline: 0;
-	width: 15px;
+	width: 11px;
 	left: 0;
 	position: relative;
 	top: -4px;
@@ -848,12 +848,12 @@ a.menuitem {
     color: rgb(55,55,55);
     text-decoration: none;
 }
-.menuitem { padding:0 5em 0 1.5em; margin: 0; line-height: 2.5em; cursor: pointer; position: relative; min-width: 10em}
+.menuitem, .action-item { padding:0 5em 0 1.5em; margin: 0; line-height: 2.5em; cursor: pointer; position: relative; min-width: 10em}
 .menuitem:hover, .menuitem.is-hover{ background: rgb(250,250,250); /* #EEE */}
 
 .menuitem.comment-label.is-hover, .menuitem.temporary-label.is-hover, .menuitem.no-results.is-hover { background: inherit; /* #EEE */}
 
-.formarea { padding:0 1.5em 0; margin: 0; cursor: normal; position: relative; min-width: 10em}
+.formarea { padding:0 1.5em 0; margin: 0; cursor: pointer; position: relative; min-width: 10em}
 
 .has-selectable-items > .menuitem , .has-multiselectable-items .menuitem { padding-left: 2.8em } /* ajoute la gouttière pour mettre la checkbox */
 
