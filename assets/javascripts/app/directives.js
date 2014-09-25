@@ -50,7 +50,7 @@ app.directive('scroller', function () {
         } else {
           docHeight = $(document).height();
           winHeight = window.innerHeight;
-          scrTop = $("body").scrollTop();
+          scrTop = $(window).scrollTop();
         }
         if (scrTop >= (docHeight - winHeight)) {
           scope.$apply(scope.loadingMethod);
