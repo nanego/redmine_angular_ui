@@ -21,5 +21,11 @@ function findWithAttr(array, attr, value) {
   }
 }
 
-
-
+/* ombrage sous le bandeau d'action lors d'un scroll down */   // TODO make it the angular way
+$(window).scroll(function() {
+  var scroll = $(window).scrollTop();
+  if (scroll > 0) {
+    $(".actions-menu").addClass("sticky");
+  }
+  else { $(".actions-menu").removeClass("sticky"); }
+});

@@ -28,8 +28,8 @@
               </div>
               <a class="issue-tab" href="/angular#/issues/{{issue.id}}">
                 <span class="issue-subject">{{issue.subject}}</span>
-                <span class="count">12</span>
-                <span class="gray last-talk">{{issue.description}}</span>
+                <span class="count">{{ issue.notes_count }}</span>
+                <span class="gray last-talk">{{ issue.last_note }}</span>
               </a>
             </div>
             <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">

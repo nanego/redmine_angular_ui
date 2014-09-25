@@ -61,6 +61,14 @@ app.factory('IssueService',function($http, $q){
         return response.data.issue;
       });
     },
+    get_last_note_by_ids: function(ids) {
+      return $http({
+        method: 'POST',
+        url: '/custom_api/issues/get_last_note.json',
+        data: {"issue_ids": ids},
+        headers: headers
+      });
+    },
     save: function (issue) {
       var responsePromise;
       if (issue.id == null) {
