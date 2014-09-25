@@ -989,9 +989,9 @@ top: 0.5em;
 /*
   STATE
 --------------------------------------------- */
-.isHigh { color: #CC3A21; text-shadow: -1px 2px 1px #BBB;/* #F6C5BE; */ }
-.isMedium { color: #FFCC66; text-shadow: -1px 1px 1px #BBB;/* #FFBE82; */ /* #ED9743; */ /* #F6C5BE; */ }
-.isLow { color: rgb(230, 230, 230); }
+.is6 { color: #CC3A21; text-shadow: -1px 2px 1px #BBB;/* #F6C5BE; */ }
+.is4 { color: #FFCC66; text-shadow: -1px 1px 1px #BBB;/* #FFBE82; */ /* #ED9743; */ /* #F6C5BE; */ }
+.is3 { color: rgb(230, 230, 230); }
 .isInBloVisible { display: inline-block; }
 .isFocused { border-color: #4285f4!important; }
 
