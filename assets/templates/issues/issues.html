@@ -7,39 +7,12 @@
     <h3 class="table-title" style="margin-top: 60px;">Dernières demandes</h3>
     <div ng-controller="NotificationsController">
       <ul scroller="" loading-method="load_next_issues()" class="table-issues">
-        <li style="clear: both;" ng-repeat="issue in app.issues" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
-          <div class="issue-listing">
-            <div class="col-sm-1 ellipsis gray" style="width: 6%;padding-right: 4px;max-width: 60px;">
-              <div class="check" style="float: left;">
-                <div class="mark">
-                </div>
-              </div>
-              <div style="float: left;" class="fav icon" data-icon="s"></div>
-            </div>
-            <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
-              {{issue.tracker.name}}
-            </div>
-            <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
-              {{issue.project.name}}
-            </div>
-            <div class="col-sm-7 ellipsis" style="width: 62%;padding-right: 15px;">
-              <div style="float: left;padding-right: 10px;" class="unselectable">
-                <span class="prior is{{ issue.priority.id }}">i</span>
-              </div>
-              <a class="issue-tab" href="/angular#/issues/{{issue.id}}">
-                <span class="issue-subject">{{issue.subject}}</span>
-                <span class="count">{{ issue.notes_count }}</span>
-                <span class="gray last-talk">{{ issue.last_note }}</span>
-              </a>
-            </div>
-            <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
-              {{issue.author.name}}
-            </div>
-          </div>
+        <li style="clear: both;" ng-repeat="issue in current.issues" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
+          <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
         </li>
       </ul>
 
-      <div spinner="next_issue_loaded" class="centered"></div>
+      <div spinner="next_issue_loaded" class="centered" ng-show="next_issues_exist"></div>
       <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</ -->
 
     </div>

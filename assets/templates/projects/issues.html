@@ -3,30 +3,18 @@
 <ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
 
 <div ng-hide="mainLoading===undefined || mainLoading">
-  <h3 style="margin-top: 60px;">Dernières demandes</h3>
-  <div ng-controller="NotificationsController">
-    <ul scroller="" loading-method="load_next_issues()">
-      <li ng-repeat="issue in issues" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
-        <div class="issue-listing">
-          <div class="col-sm-2 ellipsis gray">
-            {{issue.tracker.name}}
-          </div>
-          <div class="col-sm-2 ellipsis gray">
-            {{issue.project.name}}
-          </div>
-          <div class="col-sm-6 ellipsis">
-            <a href="/angular#/issues/{{issue.id}}">{{issue.subject}}</a>
-            <span class="gray">{{issue.description}}</span>
-          </div>
-          <div class="col-sm-2 ellipsis gray">
-            {{issue.author.name}}
-          </div>
-        </div>
-      </li>
-    </ul>
+  <div class="smallFontSize">
+    <h3 style="margin-top: 60px;">Dernières demandes</h3>
+    <div ng-controller="NotificationsController">
+      <ul scroller="" loading-method="load_next_issues()" class="table-issues">
+        <li style="clear: both;" ng-repeat="issue in current.issues" class="issue_line" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
+          <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
+        </li>
+      </ul>
 
-    <div spinner="next_issue_loaded" class="centered"></div>
-    <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</ -->
+      <div spinner="next_issue_loaded" class="centered" ng-show="next_issues_exist"></div>
+      <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</ -->
 
+    </div>
   </div>
 </div>

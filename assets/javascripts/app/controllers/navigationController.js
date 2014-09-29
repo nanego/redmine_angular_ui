@@ -2,9 +2,11 @@ var app = angular.module('myApp.controllers');
 
 app.controller('navigationController', function NavigationCtrl($scope) {
 
-  $scope.project = {
-    name: ($scope.app.project !== undefined ? $scope.app.project.name : "Tous les projets" )
-  };
+  $scope.$watch('current.project', function() {
+    $scope.project = {
+      name: ($scope.current.project !== undefined ? $scope.current.project.name : "Tous les projets" )
+    };
+  } );
 
   $scope.stages = ["Aperçu", "Activité", "Demandes", "Wiki", "Fichiers", "Roadmap", "Planning"]
 

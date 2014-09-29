@@ -1,0 +1,28 @@
+<div class="issue-listing">
+  <div class="col-sm-1 ellipsis gray" style="width: 6%;padding-right: 4px;max-width: 60px;">
+    <div class="check" style="float: left;">
+      <div class="mark">
+      </div>
+    </div>
+    <div style="float: left;" class="fav icon" data-icon="s"></div>
+  </div>
+  <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
+    {{issue.tracker.name}}
+  </div>
+  <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
+    {{issue.project.name}}
+  </div>
+  <div class="col-sm-7 ellipsis" style="width: 62%;padding-right: 15px;">
+    <div style="float: left;padding-right: 10px;" class="unselectable">
+      <span class="prior is{{ issue.priority.id }}">i</span>
+    </div>
+    <a class="issue-tab" href="/angular#/issues/{{issue.id}}">
+      <span class="issue-subject">{{issue.subject}}</span>
+      <span class="count">{{ issue.notes_count }}</span>
+      <span class="gray last-talk">{{ issue.last_note }}</span>
+    </a>
+  </div>
+  <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
+    {{issue.author.name}}
+  </div>
+</div>

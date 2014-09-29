@@ -1,10 +1,10 @@
 <div main_loader></div>
 
+<ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
+
 <div ng-hide="mainLoading===undefined || mainLoading">
 
-  <main-tabs></main-tabs>
-
-  <div class="row" style="margin-top: 15px;">
+  <div class="row" style="margin-top: 60px;">
     <div class="col-xs-6" ng-show="previous_issue">
       <a href="#/issues/{{previous_issue.id}}" class="pull-left" style="margin-right: 4px;margin-top: 1px;">
         <span class="glyphicon glyphicon-chevron-left"></span>

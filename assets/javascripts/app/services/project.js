@@ -8,6 +8,7 @@ app.factory('ProjectService',function($http, $q){
       if (service.hasBeenLoaded()) {
         return $q.when(service.projects);
       }else{
+        console.log("fetch projects on server...");
         return $http.get('/projects.json', { headers: headers }).then(function(data) {
           return service.projects = data.data;
         });

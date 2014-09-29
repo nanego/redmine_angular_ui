@@ -2,6 +2,10 @@
 
 var app = angular.module('myApp.services');
 
+app.constant('IssueServiceConfig', {
+  default_limit: 50
+});
+
 app.factory('Issue',function($http,$q) {
   var Issue = function (id) {
     this.id = id;
@@ -17,20 +21,20 @@ app.factory('Issue',function($http,$q) {
   return Issue;
 });
 
-app.factory('IssueService',function($http, $q){
+app.factory('IssueService', function($http){
 
   var Issue = function() {}; // constructor
+  var default_limit = 50; // TODO Should be fetched from IssueServiceConfig.default_limit;
 
   var result;
-  function refresh(offset, limit) {
+  function refresh(offset, limit, project_id) {
     offset = offset || 0;
-    limit = limit || 50;
-    return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset, { headers: headers });
-  }
-  function search(offset, limit, project_id) {
-    offset = offset || 0;
-    limit = limit || 50;
-    return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset+'&project_id='+project_id, { headers: headers });
+    limit = limit || default_limit;
+    if (project_id === undefined) {
+      return $http.get('/issues.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset, { headers: headers });
+    }else{
+      return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset+'&project_id='+project_id, { headers: headers });
+    }
   }
 
   return {
@@ -41,15 +45,15 @@ app.factory('IssueService',function($http, $q){
       return result;
     },
     getLatestIssuesByProject: function (project_id) {
-      result = search(null, null, project_id);
+      result = refresh(null, null, project_id);
       return result;
     },
     refreshLatestIssues: function (current_nb_of_issues) {
       result = refresh(0, current_nb_of_issues);
       return result;
     },
-    getNextLatestIssues: function (offset) {
-      return refresh(offset, null);
+    getNextLatestIssues: function (offset, project_id) {
+      return refresh(offset, null, project_id);
     },
     getIssueFromCache: function(id) {
       return getLatestIssues.then(function (response) {

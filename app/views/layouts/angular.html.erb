@@ -55,9 +55,9 @@
   <%= javascript_include_tag("ui-utils-0.1.1/ui-utils.js", :plugin => "redmine_angular_ui") %>
 
   <% if Rails.env == 'development' %>
-    <%= javascript_include_tag 'http://faye-redis.herokuapp.com/faye.js' %>
+    <%= javascript_include_tag 'http://faye-redis.herokuapp.com/faye/faye.js' %>
   <% else %>
-    <%= javascript_include_tag 'http://faye.application.ac.centre-serveur.i2/faye.js' %>
+    <%= javascript_include_tag 'http://faye.application.ac.centre-serveur.i2/faye/faye.js' %>
   <% end %>
 
   <%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>

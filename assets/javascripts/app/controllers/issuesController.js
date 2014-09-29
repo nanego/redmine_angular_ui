@@ -1,63 +1,78 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope, IssueService){
-  $scope.app.project = undefined;
+app.controller('IssuesController', function($scope, IssueService, IssueServiceConfig){
+
+  $scope.current.project = undefined;
   $scope.app.stage = "Demandes"; // TODO Refactor this
 
-  $scope.$watch('app.issues', function() {
+  var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
-      IssueService.get_last_note_by_ids($scope.app.issues.map(function(x) {return x.id; })).success(function (response){
-        update_app_issues_with_last_note($scope, response.issues);
+      unbindWatcher(); // When you call the $watch() method, AngularJS returns an unbind function that will kill the $watch() listener when its called.
+      $scope.current.issues = $scope.app.issues;
+
+      if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+        $scope.next_issues_exist = false;
+      }else{
+        $scope.next_issues_exist = true;
+      }
+      IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
+        update_array_of_issues_with_last_note($scope.current.issues, response.issues);
       });
     }
   });
 
   $scope.load_next_issues = function() {
     $scope.next_issue_loaded = false;
-    IssueService.getNextLatestIssues($scope.app.issues.length).then(function (response) {
+    $scope.next_issues_exist = true;
+    IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
+      if(response.data.issues.length < IssueServiceConfig.default_limit){
+        $scope.next_issues_exist = false;
+      }
+      if(response.data.issues.length === IssueServiceConfig.default_limit) {
+        $scope.next_issue_loaded = true;
+      }
       add_issues_to_main_array($scope, response.data.issues, IssueService);
-      $scope.next_issue_loaded = true;
     });
   }
 });
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {
-  IssueService.getLatestIssues().then(function (response) {
-    // $scope.app.issues = data.issues;
-    if ($scope.app.issue === undefined || $scope.app.issue.id!==issue_id) {
-      $scope.app.issue = $.grep($scope.app.issues, function (e) {
-        return e.id.toString() === issue_id;
-      })[0];
-    }
-    $scope.delayedRequest = $timeout(function(){
-      IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
-        $scope.app.issue = fullIssue;
-        // Then, update main array of issues
-        var index = findWithAttr($scope.app.issues, 'id', $scope.app.issue.id);
-        $scope.app.issues[index] = $scope.app.issue;
-      });
-    },500);
-  });
+  if ($scope.app.issue === undefined || $scope.app.issue.id!==issue_id) {
+    $scope.app.issue = $.grep($scope.current.issues, function (e) {
+      return e.id.toString() === issue_id;
+    })[0];
+  }
+
+  $scope.delayedRequest = $timeout(function(){
+    IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
+      $scope.app.issue = fullIssue;
+      // Then, update main array of issues
+      if ($scope.current !== undefined) {
+        var index = findWithAttr($scope.current.issues, 'id', $scope.app.issue.id);
+        $scope.current.issues[index] = $scope.app.issue;
+      };
+    });
+  },500);
 }
 
 app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location, $timeout){
   getIssueById($scope, $routeParams.issue_id, IssueService, $timeout);
 
   $scope.$watch('app.issue', function() {
-    if ($scope.app.issues != undefined) {
-      index_of_issue = findWithAttr($scope.app.issues, 'id', $scope.app.issue.id);
+    if ($scope.current.issues != undefined) {
+      index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.app.issue.id);
       if (index_of_issue > 0){
-        $scope.previous_issue = $scope.app.issues[index_of_issue-1]
+        $scope.previous_issue = $scope.current.issues[index_of_issue-1]
       }
-      if (index_of_issue < $scope.app.issues.length-1){
-        $scope.next_issue = $scope.app.issues[index_of_issue+1]
+      if (index_of_issue < $scope.current.issues.length-1){
+        $scope.next_issue = $scope.current.issues[index_of_issue+1]
       }else{
-        if(index_of_issue === $scope.app.issues.length-1){
+        if(index_of_issue === $scope.current.issues.length-1){
           $scope.loading_next_issue = true;
-          IssueService.getNextLatestIssues($scope.app.issues.length).then(function (response) {
+          IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
             add_issues_to_main_array($scope, response.data.issues, IssueService);
-            if (index_of_issue < $scope.app.issues.length-1){
-              $scope.next_issue = $scope.app.issues[index_of_issue+1]
+            if (index_of_issue < $scope.current.issues.length-1){
+              $scope.next_issue = $scope.current.issues[index_of_issue+1]
             }
             $scope.loading_next_issue = false;
           });
@@ -109,8 +124,8 @@ app.controller('IssueEditController', function($scope, $routeParams, IssueServic
   $scope.saveIssue = function () {
     var responsePromise = IssueService.save($scope.app.issue);
     responsePromise.success(function(response) {
-      var index_of_issue = findWithAttr($scope.app.issues, 'id', $scope.app.issue.id);
-      $scope.app.issues[index_of_issue] = $scope.app.issue;
+      var index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.app.issue.id);
+      $scope.current.issues[index_of_issue] = $scope.app.issue;
       $location.path('/issues/'+$scope.app.issue.id);
     });
   }
@@ -124,22 +139,14 @@ function IssueFormController($scope, ProjectService) {
 
 function add_issues_to_main_array($scope, new_issues, IssueService) {
   for (var i = 0; i < new_issues.length; ++i) {
-    var issue_in_scope_index = findWithAttr($scope.app.issues, 'id', new_issues[i].id);
+    var issue_in_scope_index = findWithAttr($scope.current.issues, 'id', new_issues[i].id);
     if (issue_in_scope_index >= 0) {
-      $scope.app.issues[issue_in_scope_index] = new_issues[i];
+      $scope.current.issues[issue_in_scope_index] = new_issues[i];
     } else {
-      $scope.app.issues.push(new_issues[i]);
+      $scope.current.issues.push(new_issues[i]);
     }
   }
   IssueService.get_last_note_by_ids(new_issues.map(function(x) {return x.id; })).success(function (response){
-    update_app_issues_with_last_note($scope, response.issues);
+    update_array_of_issues_with_last_note($scope.current.issues, response.issues);
   });
-}
-
-function update_app_issues_with_last_note($scope, issues){
-  for (var index = 0; index < issues.length; ++index) {
-    var issue_index = findWithAttr($scope.app.issues, 'id', issues[index]['id']);
-    $scope.app.issues[issue_index].notes_count = issues[index]['count'];
-    $scope.app.issues[issue_index].last_note = issues[index]['last_note'];
-  }
 }

@@ -37,10 +37,8 @@ app.directive('scroller', function () {
       loadingMethod: "&"
     },
     link: function (scope, elem, attrs) {
-
       var rawElement = elem[0];
       $(document).bind('scroll', function () {
-
         // Cross-browser infinite scrolling
         var docHeight, winHeight, scrTop;
         if (navigator.userAgent.indexOf("MSIE") !== -1) {
@@ -55,7 +53,6 @@ app.directive('scroller', function () {
         if (scrTop >= (docHeight - winHeight)) {
           scope.$apply(scope.loadingMethod);
         }
-
       });
     }
   };

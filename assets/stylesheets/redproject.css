@@ -141,7 +141,7 @@ h2 {
 }  
   
 h3 {
-    font-size: 0.8em;
+    /* font-size: 0.8em; */
 	font-weight: 400;
 	margin-bottom: 0.5em;
 }

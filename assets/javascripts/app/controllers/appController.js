@@ -103,6 +103,7 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 
 function getPreloadedData(SessionService, $scope, IssueService, ProjectService) {
   $scope.app = $scope.app || {};
+  $scope.current = $scope.current || {};
   $scope.app.issue = undefined;
   SessionService.getCurrentUser().then(function (data) {
     $scope.app.user = data.user;
@@ -113,4 +114,12 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService) 
   ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
   });
+}
+
+function update_array_of_issues_with_last_note(arrayOfIssues, newIssuesData){
+  for (var index = 0; index < newIssuesData.length; ++index) {
+    var issue_index = findWithAttr(arrayOfIssues, 'id', newIssuesData[index]['id']);
+    arrayOfIssues[issue_index].notes_count = newIssuesData[index]['count'];
+    arrayOfIssues[issue_index].last_note = newIssuesData[index]['last_note'];
+  }
 }
