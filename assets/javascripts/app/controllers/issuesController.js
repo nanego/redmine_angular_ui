@@ -24,7 +24,7 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
   $scope.load_next_issues = function() {
     $scope.next_issue_loaded = false;
     $scope.next_issues_exist = true;
-    IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
+    IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project.id).then(function (response) {
       if(response.data.issues.length < IssueServiceConfig.default_limit){
         $scope.next_issues_exist = false;
       }
@@ -69,7 +69,7 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
       }else{
         if(index_of_issue === $scope.current.issues.length-1){
           $scope.loading_next_issue = true;
-          IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
+          IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project.id).then(function (response) {
             add_issues_to_main_array($scope, response.data.issues, IssueService);
             if (index_of_issue < $scope.current.issues.length-1){
               $scope.next_issue = $scope.current.issues[index_of_issue+1]
