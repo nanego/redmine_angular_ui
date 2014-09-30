@@ -1,17 +1,19 @@
 <div main_loader></div>
 
-<div ng-hide="mainLoading===undefined || mainLoading">
-  <main-tabs></main-tabs>
+<ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
 
-  <div spinner="app.issue" class="centered"></div>
+<div ng-hide="mainLoading===undefined || mainLoading" style="margin-top: 60px;">
 
-  <div ng-show="app.issue" class="col-xs-12 highlight">
+  <div spinner="current.issue" class="centered"></div>
+
+  <div ng-show="current.issue" class="col-xs-12 highlight">
     <div class="page-header" style="margin: 10px 0 20px;">
       <h4 class="ellipsis">
-        <a href="#/issues/{{app.issue.id}}"> <span class="glyphicon glyphicon-chevron-left"></span></a>
-        #{{app.issue.id}} - {{app.issue.subject}}
+        <!-- <a href="#/issues/{{current.issue.id}}"> <span class="glyphicon glyphicon-chevron-left"></span></a> -->
+        #{{current.issue.id}} - {{current.issue.subject}}
       </h4>
     </div>
     <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_form.html'"></ng-include>
   </div>
+
 </div>

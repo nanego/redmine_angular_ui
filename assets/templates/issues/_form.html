@@ -2,27 +2,27 @@
 
   <div ng-repeat="error in errors" class="alert alert-danger">{{error}}</div>
 
-  <input type="hidden" ng-model="app.issue.id" />
+  <input type="hidden" ng-model="current.issue.id" />
 
   <label for="subject" class="col-md-2 control-label">Titre</label>
   <div class="col-md-10">
-    <input type="text" class="form-control" id="subject" placeholder="Subject" ng-model="app.issue.subject">
+    <input type="text" class="form-control" id="subject" placeholder="Subject" ng-model="current.issue.subject">
   </div>
 
   <label for="description" class="col-md-2 control-label">Description</label>
   <div class="col-md-10">
-    <textarea class="form-control" rows="4" id="description" ng-model="app.issue.description" placeholder="Description"></textarea>
+    <textarea class="form-control" rows="4" id="description" ng-model="current.issue.description" placeholder="Description"></textarea>
   </div>
 
   <label class="col-md-2 control-label">Projet</label>
   <div class="col-md-10">
-    <select id="project" ng-model="app.issue.project.id" ng-options="p.id as p.name for p in projects">
+    <select id="project" ng-model="current.issue.project.id" ng-options="p.id as p.name for p in projects">
     </select>
   </div>
 
   <label class="col-md-2 control-label">Tracker</label>
   <div class="col-md-10">
-    <select ng-model="app.issue.tracker.id" ng-options="t.id as t.name for t in trackers">
+    <select ng-model="current.issue.tracker.id" ng-options="t.id as t.name for t in trackers">
     </select>
   </div>
 
@@ -93,7 +93,8 @@
   -->
 
   <div class="col-md-offset-2 col-md-10">
-    <button type="submit" class="btn btn-primary" ng-disabled="submitting"><span ng-show="app.issue.id">Mettre à jour</span><span ng-hide="app.issue.id">Créer</span></button>
+    <button type="submit" class="btn btn-primary" ng-disabled="submitting"><span ng-show="current.issue.id">Mettre à jour</span><span ng-hide="app.issue.id">Créer</span></button>
+    <a href="#/issues/{{current.issue.id}}"> Annuler </a>
   </div>
 </form>
 

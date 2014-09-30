@@ -2,50 +2,52 @@
 
 <ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
 
-<div ng-hide="mainLoading===undefined || mainLoading">
+<div ng-hide="mainLoading===undefined || mainLoading" style="margin-top: 60px;">
 
-  <div class="row" style="margin-top: 60px;">
-    <div class="col-xs-6" ng-show="previous_issue">
-      <a href="#/issues/{{previous_issue.id}}" class="pull-left" style="margin-right: 4px;margin-top: 1px;">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-      </a>
-      <span class="ellipsis next_prev_issues pull-left">#{{previous_issue.id}} - {{previous_issue.subject}}</span>
-    </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="col-xs-6" ng-show="previous_issue">
+        <a href="#/issues/{{previous_issue.id}}" class="pull-left" style="margin-right: 4px;margin-top: 1px;">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <span class="ellipsis next_prev_issues pull-left">#{{previous_issue.id}} - {{previous_issue.subject}}</span>
+      </div>
 
-    <div spinner class="pull-right" ng-show="loading_next_issue" style="height: 16px;width:16px;display: flex;margin-right: 16px;"></div>
-    <div class="col-xs-6 pull-right" ng-show="next_issue" style="clear: right;">
-      <a href="#/issues/{{next_issue.id}}" class="pull-right" style="margin-left: 4px;margin-top: 1px;">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-      </a>
-      <span class="ellipsis next_prev_issues pull-right">#{{next_issue.id}} - {{next_issue.subject}}</span>
+      <div spinner class="pull-right" ng-show="loading_next_issue" style="height: 16px;width:16px;display: flex;margin-right: 16px;"></div>
+      <div class="col-xs-6 pull-right" ng-show="next_issue" style="clear: right;">
+        <a href="#/issues/{{next_issue.id}}" class="pull-right" style="margin-left: 4px;margin-top: 1px;">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+        <span class="ellipsis next_prev_issues pull-right">#{{next_issue.id}} - {{next_issue.subject}}</span>
+      </div>
     </div>
   </div>
 
   <div class="highlight">
 
     <div class="pull-right">
-      <a href="#/issues/{{app.issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Mettre à jour</a>
+      <a href="#/issues/{{current.issue.id}}/edit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Modifier</a>
     </div>
 
-    <div style="font-size: 20px;" >{{app.issue.tracker.name}} #{{app.issue.id}}</div>
+    <div style="font-size: 20px;" >{{current.issue.tracker.name}} #{{current.issue.id}}</div>
 
-    <h2 style="margin-top: 10px;">{{app.issue.subject}}</h2>
-    <h5>Ajouté par {{app.issue.author.name}}</h5>
+    <h2 style="margin-top: 10px;">{{current.issue.subject}}</h2>
+    <h5>Ajouté par {{current.issue.author.name}}</h5>
 
     <div class="row">
-      <div class="col-md-1">Projet</div> <div class="col-md-11">{{app.issue.project.name}}</div>
-      <div class="col-md-1">Statut</div> <div class="col-md-11">{{app.issue.status.name}}</div>
-      <div class="col-md-1">Priorité</div> <div class="col-md-11">{{app.issue.priority.name}}</div>
+      <div class="col-md-1">Projet</div> <div class="col-md-11">{{current.issue.project.name}}</div>
+      <div class="col-md-1">Statut</div> <div class="col-md-11">{{current.issue.status.name}}</div>
+      <div class="col-md-1">Priorité</div> <div class="col-md-11">{{current.issue.priority.name}}</div>
     </div>
     <div class="row" style="margin-top: 10px;">
-      <div class="col-md-1">Description</div> <div class="col-md-11 pre-white-space">{{app.issue.description}}</div>
+      <div class="col-md-1">Description</div> <div class="col-md-11 pre-white-space">{{current.issue.description}}</div>
     </div>
 
   </div>
 
   <div class="row">
-    <div spinner="app.issue.journals" class="centered"></div>
-    <ul ng-repeat="journal in app.issue.journals">
+    <div spinner="current.issue.journals" class="centered"></div>
+    <ul ng-repeat="journal in current.issue.journals">
       <li>
         <i class="col-md-2 ellipsis">{{journal.user.name}} :</i>
         <div class="col-md-10">

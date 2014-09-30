@@ -14,9 +14,10 @@
   </div>
   <div class="col-sm-7 ellipsis" style="width: 62%;padding-right: 15px;">
     <div style="float: left;padding-right: 10px;" class="unselectable">
-      <span class="prior is{{ issue.priority.id }}">i</span>
+      {{ priority = 'is' + issue.priority.id }}
+      <span class="prior" ng-class="priority">i</span>
     </div>
-    <a class="issue-tab" href="/angular#/issues/{{issue.id}}">
+    <a class="issue-tab" ng-href="/angular#/issues/{{issue.id}}">
       <span class="issue-subject">{{issue.subject}}</span>
       <span class="count">{{ issue.notes_count }}</span>
       <span class="gray last-talk">{{ issue.last_note }}</span>

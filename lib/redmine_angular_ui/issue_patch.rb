@@ -19,7 +19,7 @@ class Issue
   end
 
   def notif_after_commit(action)
-    json = {'action'=>action, 'issue'=>{'id'=> self.id, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
+    json = {'action'=>action, 'issue'=>{'id'=> self.id, 'priority' => {'id' => priority.id}, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
     message = {:channel => '/issues', :data => json}
     if Rails.env == 'development'
       uri = URI.parse("http://faye-redis.herokuapp.com/faye")

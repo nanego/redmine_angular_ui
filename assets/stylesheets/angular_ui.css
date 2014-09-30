@@ -60,7 +60,7 @@ ul{
 /* ------------------------------- Notifications ------------------------------------------------------------------------*/
 #notifications {
     position: absolute;
-    top: 50px;
+    top: 60px;
     margin: 0 auto; left: 0; right: 0;
 }
 #notifications ul li {
@@ -100,4 +100,17 @@ li.notified_line{
     min-height: 1px;
     padding-left: 3px;
     padding-right: 3px;
+}
+
+a .glyphicon-chevron-left, a .glyphicon-chevron-right {
+    color: #CC3A21;
+    text-decoration: none;
+}
+a .glyphicon-chevron-left:hover, a .glyphicon-chevron-right:hover {
+    color: red;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
 }

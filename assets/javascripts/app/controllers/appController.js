@@ -22,33 +22,33 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
       switch (message.action) {
         case 'create':
           NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-"+message.issue.id);
-          $scope.app.issues.unshift(message.issue);
+          $scope.current.issues.unshift(message.issue);
           break;
         case 'destroy':
           NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 10);
-          var index = findWithAttr($scope.app.issues, 'id', message.issue.id);
-          $scope.app.issues.splice(index, 1);
+          var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+          $scope.current.issues.splice(index, 1);
           break;
         case 'update':
           NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 10, "issue-"+message.issue.id);
-          var index = findWithAttr($scope.app.issues, 'id', message.issue.id);
-          $scope.app.issues[index] = message.issue;
-          if ($scope.app.issue !== undefined){
-            if($scope.app.issue.id === message.issue.id){
-              $scope.app.issue = message.issue;
+          var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+          $scope.current.issues[index] = message.issue;
+          if ($scope.current.issue !== undefined){
+            if($scope.current.issue.id === message.issue.id){
+              $scope.current.issue = message.issue;
               // Reload updated journal
-              IssueService.getIssueDetails($scope.app.issue.id).then(function (fullIssue) {
-                $scope.app.issue = fullIssue;
+              IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
+                $scope.current.issue = fullIssue;
                 // Then, update main array of issues
-                var index = findWithAttr($scope.app.issues, 'id', $scope.app.issue.id);
-                $scope.app.issues[index] = $scope.app.issue;
+                var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+                $scope.current.issues[index] = $scope.current.issue;
               });
             }
           }
           break;
         default:
-          IssueService.refreshLatestIssues($scope.app.issues.length).then(function (response) {
-            $scope.app.issues = response.data.issues;
+          IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
+            $scope.current.issues = response.data.issues;
             NotificationService.add("Les demandes ont été mises à jour.", null, 5);
           });
           break;
@@ -104,12 +104,13 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 function getPreloadedData(SessionService, $scope, IssueService, ProjectService) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
-  $scope.app.issue = undefined;
+  $scope.current.issue = undefined;
   SessionService.getCurrentUser().then(function (data) {
     $scope.app.user = data.user;
   });
   IssueService.getLatestIssues().then(function (response) {
     $scope.app.issues = response.data.issues;
+    $scope.current.issues = response.data.issues;
   });
   ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;

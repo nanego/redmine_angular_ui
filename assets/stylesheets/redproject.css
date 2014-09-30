@@ -860,7 +860,7 @@ a.menuitem.disable {
 
 .has-selectable-items > .menuitem , .has-multiselectable-items .menuitem { padding-left: 2.8em } /* ajoute la gouttière pour mettre la checkbox */
 
-.selected-item, .selected-item.is-hover  { background: transparent url('../images/checkmark.png') no-repeat 0.5em center; cursor: default; }
+.selected-item, .selected-item:hover  { background: transparent url('../images/checkmark.png') no-repeat 0.5em center; cursor: default; }
 
 .menuitem-icon {
 	position: absolute;

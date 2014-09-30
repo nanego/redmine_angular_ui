@@ -39,19 +39,19 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
 });
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {
-  if ($scope.app.issue === undefined || $scope.app.issue.id!==issue_id) {
-    $scope.app.issue = $.grep($scope.current.issues, function (e) {
+  if ($scope.current !== undefined && $scope.current.issues !== undefined && ($scope.current.issue === undefined || $scope.current.issue.id!==issue_id)) {
+    $scope.current.issue = $.grep($scope.current.issues, function (e) {
       return e.id.toString() === issue_id;
     })[0];
   }
 
   $scope.delayedRequest = $timeout(function(){
     IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
-      $scope.app.issue = fullIssue;
+      $scope.current.issue = fullIssue;
       // Then, update main array of issues
-      if ($scope.current !== undefined) {
-        var index = findWithAttr($scope.current.issues, 'id', $scope.app.issue.id);
-        $scope.current.issues[index] = $scope.app.issue;
+      if ($scope.current !== undefined && $scope.current.issues !== undefined) {
+        var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+        $scope.current.issues[index] = $scope.current.issue;
       };
     });
   },500);
@@ -60,9 +60,9 @@ function getIssueById($scope, issue_id, IssueService, $timeout) {
 app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location, $timeout){
   getIssueById($scope, $routeParams.issue_id, IssueService, $timeout);
 
-  $scope.$watch('app.issue', function() {
+  $scope.$watch('current.issue', function() {
     if ($scope.current.issues != undefined) {
-      index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.app.issue.id);
+      index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
       if (index_of_issue > 0){
         $scope.previous_issue = $scope.current.issues[index_of_issue-1]
       }
@@ -107,7 +107,7 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
       }
     });
 
-  // $scope.app.issue = IssueService.getIssueFromCache($routeParams.issue_id);
+  // $scope.current.issue = IssueService.getIssueFromCache($routeParams.issue_id);
   /*
   var issue = new Issue($routeParams.issue_id);
   issue.getDetails().then(function() {
@@ -124,11 +124,11 @@ app.controller('IssueEditController', function($scope, $routeParams, IssueServic
   });
 
   $scope.saveIssue = function () {
-    var responsePromise = IssueService.save($scope.app.issue);
+    var responsePromise = IssueService.save($scope.current.issue);
     responsePromise.success(function(response) {
-      var index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.app.issue.id);
-      $scope.current.issues[index_of_issue] = $scope.app.issue;
-      $location.path('/issues/'+$scope.app.issue.id);
+      var index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+      $scope.current.issues[index_of_issue] = $scope.current.issue;
+      $location.path('/issues/'+$scope.current.issue.id);
     });
   }
 });

@@ -39,24 +39,29 @@ app.factory('IssueService', function($http){
 
   return {
     getLatestIssues: function () {
+      console.log("getLatestIssues");
       if (!result) {
         result = refresh(null, null);
       }
       return result;
     },
     getLatestIssuesByProject: function (project_id) {
+      console.log("getLatestIssuesByProject");
       result = refresh(null, null, project_id);
       return result;
     },
     refreshLatestIssues: function (current_nb_of_issues) {
+      console.log("refreshLatestIssues");
       result = refresh(0, current_nb_of_issues);
       return result;
     },
     getNextLatestIssues: function (offset, project) {
+      console.log("getNextLatestIssues");
       var project_id = (project !== undefined ? project.id : undefined)
       return refresh(offset, null, project_id);
     },
     getIssueFromCache: function(id) {
+      console.log("getIssueFromCache");
       return getLatestIssues.then(function (response) {
         // todo
       });

@@ -208,7 +208,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
         console.log("DropdownService.menuElement : " + DropdownService.menuElement);
         console.log("openTarget : " + openTarget);
 
-        if (DropdownService.menuElement && DropdownService.menuElement.attr('id') !== openTarget.attr('id')) {
+        if (DropdownService.menuElement !== null && DropdownService.menuElement.attr('id') !== openTarget.attr('id')) {
           close();
         }
 
