@@ -16,7 +16,10 @@ function getProjectById($scope, project_id) {
 }
 
 app.controller('ProjectIssuesController', function($scope, $routeParams, IssueService, IssueServiceConfig){
+
   $scope.current.issues = undefined;
+  $scope.current.stage = "Demandes"; // TODO Refactor this
+
   getProjectById($scope, $routeParams.project_id);
   var watcher = $scope.$watch('current.project', function() {
     if ($scope.current.project !== undefined){

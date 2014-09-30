@@ -16,19 +16,19 @@
         <div class="submenu-link separator-horizontal"></div>
         <div class="vFader">
           <div class="vSlider" id="projects-list">
-            <a class="menuitem" ng-repeat="project in app.projects | filter:{name: search.name}" href="#/projects/{{project.id}}/issues"><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
+            <a class="menuitem" ng-class="{disable: project.allowed_to_view_issues === 0}" ng-repeat="project in app.projects | filter:{name: search.name}" ng-href="{{ project.allowed_to_view_issues === 1 ? '#/projects/'+project.id+'/issues' : '#/issues' }}"><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
           </div>
         </div>
       </div>
     </div>
 
-    <div custom-dropdown class="f0 has-dropdown medFontSize">
-      <a class="menu-trigger action">
-        <span class="current-stage">Demandes</span>
+    <div custom-dropdown dropdown-toggle class="f0 has-dropdown medFontSize" dropdown-menu="dropdown-stages-menu">
+      <a class="menu-trigger action  dropdown-field">
+        <span class="current-stage dropdown-value">Demandes</span>
         <span class="arrow-down"></span>
       </a>
-      <div class="listWrapper listWrapperSkin custom-dropdown-menu has-selectable-items">
-        <div ng-repeat="stage in stages" ng-class="{'selected-item': stage == app.stage}" class="menuitem"><div class="menuitem-content"><span>{{ stage }}</span></div></div>
+      <div class="listWrapper listWrapperSkin custom-dropdown-menu has-selectable-items" id="dropdown-stages-menu">
+        <div ng-repeat="stage in stages" ng-class="{'selected-item': stage == current.stage}" class="menuitem"><div class="menuitem-content"><span>{{ stage }}</span></div></div>
         <div class="submenu-link separator-horizontal"></div>
         <div class="menuitem"><div class="menuitem-content"><span>Administration</span></div></div>
       </div>

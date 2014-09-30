@@ -848,6 +848,9 @@ a.menuitem {
     color: rgb(55,55,55);
     text-decoration: none;
 }
+a.menuitem.disable {
+    color: #CCCCCC;
+}
 .menuitem, .action-item { padding:0 5em 0 1.5em; margin: 0; line-height: 2.5em; cursor: pointer; position: relative; min-width: 10em}
 .menuitem:hover, .menuitem.is-hover{ background: rgb(250,250,250); /* #EEE */}
 

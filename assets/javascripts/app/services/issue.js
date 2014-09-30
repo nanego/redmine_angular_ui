@@ -52,7 +52,8 @@ app.factory('IssueService', function($http){
       result = refresh(0, current_nb_of_issues);
       return result;
     },
-    getNextLatestIssues: function (offset, project_id) {
+    getNextLatestIssues: function (offset, project) {
+      var project_id = (project !== undefined ? project.id : undefined)
       return refresh(offset, null, project_id);
     },
     getIssueFromCache: function(id) {
