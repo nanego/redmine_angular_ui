@@ -22,11 +22,11 @@ class Issue
     json = {'action'=>action, 'issue'=>{'id'=> self.id, 'priority' => {'id' => priority.id}, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
     message = {:channel => '/issues', :data => json}
     if Rails.env == 'development'
-      uri = URI.parse("http://faye-redis.herokuapp.com/faye")
-      # uri = URI.parse("http://localhost:3001/faye")
+      faye_server_url = 'http://faye-redis.herokuapp.com/faye'
     else
-      uri = URI.parse("http://localhost:3011/faye")
+      faye_server_url = "#{request.protocol}#{request.host_with_port}/faye/faye"
     end
+    uri = URI.parse("#{faye_server_url}/faye/faye")
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end

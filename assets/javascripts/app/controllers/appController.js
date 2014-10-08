@@ -10,9 +10,8 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
   // var faye_server_url = 'http://faye-redis.herokuapp.com/faye'; // or 'http://localhost:3001/faye'
   // Prod / Preprod
   // var faye_server_url = 'http://faye.application.ac.centre-serveur.i2/faye';
-  var faye_server_url = 'https://portail.centre-serveur.developpement-durable.gouv.fr/faye/faye';
 
-  var client = new Faye.Client(faye_server_url);
+  var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
   client.disable('websocket');
   client.subscribe('/issues', function(message) {

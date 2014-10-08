@@ -35,9 +35,7 @@
 
 <div class="container-fluid">
 
-  <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak>
-    {{alertMessage}}
-  </div>
+  <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak ng-bind="alertMessage"></div>
 
   <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
 
@@ -49,16 +47,18 @@
 
   <script>
     var headers = { 'X-Redmine-API-Key': '<%= @api_key %>', 'Content-Type': 'application/json' };
+    <% if Rails.env == 'development'
+      faye_server_url = 'http://faye-redis.herokuapp.com/faye'
+    else
+      faye_server_url = "#{request.protocol}#{request.host_with_port}/faye/faye"
+    end %>
+    var faye_url = '<%= faye_server_url %>';
   </script>
 
   <%= javascript_include_tag("hotkeys", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("ui-utils-0.1.1/ui-utils.js", :plugin => "redmine_angular_ui") %>
 
-  <% if Rails.env == 'development' %>
-    <%= javascript_include_tag 'http://faye-redis.herokuapp.com/faye/faye.js' %>
-  <% else %>
-    <%= javascript_include_tag 'http://faye.application.ac.centre-serveur.i2/faye/faye.js' %>
-  <% end %>
+  <%= javascript_include_tag "#{faye_server_url}/faye.js" %>
 
   <%= javascript_include_tag("app/app", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("app/directives", :plugin => "redmine_angular_ui") %>
