@@ -26,7 +26,7 @@ class Issue
     else
       faye_server_url = "#{request.protocol}#{request.host_with_port}/faye/faye"
     end
-    uri = URI.parse("#{faye_server_url}/faye/faye")
+    uri = URI.parse(faye_server_url)
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end
