@@ -47,10 +47,10 @@
 
   <script>
     var headers = { 'X-Redmine-API-Key': '<%= @api_key %>', 'Content-Type': 'application/json' };
-    <% if 1==1 # Rails.env == 'development'
+    <% if Rails.env == 'development'
       faye_server_url = '//faye-redis.herokuapp.com/faye'
     else
-      faye_server_url = "//#{Rails.application.routes.default_url_options[:host]}/faye/faye"
+      faye_server_url = "//#{request.host_with_port}/faye/faye"
     end %>
     var faye_url = '<%= faye_server_url %>';
   </script>

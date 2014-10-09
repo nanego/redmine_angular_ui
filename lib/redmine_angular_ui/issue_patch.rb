@@ -22,18 +22,11 @@ class Issue
   def notif_after_commit(action)
     json = {'action'=>action, 'issue'=>{'id'=> self.id, 'priority' => {'id' => priority.id}, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
     message = {:channel => '/issues', :data => json}
-    if 1==1 # Rails.env == 'development'
-      faye_server_url = 'faye-redis.herokuapp.com/faye/faye'
+    if Rails.env == 'development'
+      uri = URI.parse("https://faye-redis.herokuapp.com/faye")
     else
-      faye_server_url = "#{Rails.application.routes.default_url_options[:host]}/faye/faye"
+      uri = URI.parse("http://localhost:3011/faye")
     end
-
-    begin
-      uri = URI.parse("https://"+faye_server_url)
-      Net::HTTP.post_form(uri, :message => message.to_json)
-    rescue *HTTP_ERRORS => error
-      raise "error with AngularJS client"
-    end
-
+    Net::HTTP.post_form(uri, :message => message.to_json)
   end
 end
