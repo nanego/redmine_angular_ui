@@ -24,7 +24,7 @@ class Issue
     if Rails.env == 'development'
       faye_server_url = 'http://faye-redis.herokuapp.com/faye'
     else
-      faye_server_url = "#{request.protocol}#{request.host_with_port}/faye/faye"
+      faye_server_url = "#{Rails.application.routes.default_url_options[:host]}/faye/faye"
     end
     uri = URI.parse(faye_server_url)
     Net::HTTP.post_form(uri, :message => message.to_json)
