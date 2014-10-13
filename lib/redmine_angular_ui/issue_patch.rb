@@ -20,7 +20,31 @@ class Issue
   end
 
   def notif_after_commit(action)
-    json = {'action'=>action, 'issue'=>{'id'=> self.id, 'priority' => {'id' => priority.id}, 'subject'=>subject ,'tracker'=>{'id'=>tracker.id, 'name'=>tracker.name}, 'project'=>{'id'=>project.id, 'name'=>project.name}, 'author'=>{'id'=>author.id, 'name'=>author.name}}}.to_json
+
+    # TODO Remove that and make it asynchone with a call from the client only if the issue is visible
+    sql = Journal.select('count(journalized_id), max(created_on) max_date').where("journalized_type = ? AND journalized_id = ? AND notes IS NOT NULL AND notes <> '' ", Issue.to_s, id).group("journalized_id").to_sql
+    r = ActiveRecord::Base.connection.execute(sql).first
+    last_note = Journal.where(created_on: r['max_date'], journalized_id: id ).first if r.present?
+
+    json = {'action'=>action,
+            'issue'=>
+                {'id'=> id,
+                 'priority' =>
+                     {'id' => priority.id},
+                 'subject'=>subject,
+                 'tracker'=>{
+                     'id'=>tracker.id,
+                     'name'=>tracker.name},
+                 'project'=>{
+                     'id'=>project.id,
+                     'name'=>project.name},
+                 'author'=>{
+                     'id'=>author.id,
+                     'name'=>author.name},
+                 'notes_count'=> r.present? ? r['count'] : "",
+                 'last_note'=> r.present? ? last_note['notes'] : ""
+                }
+            }.to_json
     message = {:channel => '/issues', :data => json}
     if Rails.env == 'development'
       uri = URI.parse("https://faye-redis.herokuapp.com/faye")
