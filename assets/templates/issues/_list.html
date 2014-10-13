@@ -16,11 +16,11 @@
     <div style="float: left;padding-right: 10px;" class="unselectable">
       <span class="prior {{ 'is' + issue.priority.id }}">i</span>
     </div>
-    <a class="issue-tab" ng-href="/angular#/issues/{{issue.id}}">
+    <div class="issue-tab"> <!--ng-href="/angular#/issues/{{issue.id}}"-->
       <span class="issue-subject">{{issue.subject}}</span>
       <span class="count">{{ issue.notes_count }}</span>
       <span class="gray last-talk">{{ issue.last_note }}</span>
-    </a>
+    </div>
   </div>
   <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
     {{issue.author.name}}
