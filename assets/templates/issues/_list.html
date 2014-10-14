@@ -18,7 +18,7 @@
     </div>
     <div class="issue-tab"> <!--ng-href="/angular#/issues/{{issue.id}}"-->
       <span class="issue-subject">{{issue.subject}}</span>
-      <span class="count">{{ issue.notes_count }}</span>
+      <span class="count" ng-class="issue.notes_count > 0 ? ' ' : 'zero' ">{{ issue.notes_count > 0 ? issue.notes_count : "New" }}</span>
       <span class="gray last-talk">{{ issue.last_note }}</span>
     </div>
   </div>
