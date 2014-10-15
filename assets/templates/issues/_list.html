@@ -1,28 +1,20 @@
-<div class="issue-listing">
-  <div class="col-sm-1 ellipsis gray" style="width: 6%;padding-right: 4px;max-width: 60px;">
-    <div class="check" style="float: left;">
-      <div class="mark">
-      </div>
-    </div>
-    <div style="float: left;" class="fav icon" data-icon="s"></div>
-  </div>
-  <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
-    {{issue.tracker.name}}
-  </div>
-  <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
-    {{issue.project.name}}
-  </div>
-  <div class="col-sm-7 ellipsis" style="width: 62%;padding-right: 15px;">
-    <div style="float: left;padding-right: 10px;" class="unselectable">
-      <span class="prior {{ 'is' + issue.priority.id }}">i</span>
-    </div>
-    <div class="issue-tab"> <!--ng-href="/angular#/issues/{{issue.id}}"-->
-      <span class="issue-subject">{{issue.subject}}</span>
-      <span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
-      <span class="gray last-talk">{{ issue.last_note }}</span>
-    </div>
-  </div>
-  <div class="col-sm-1 ellipsis gray" style="width: 10%;padding-right: 4px;">
-    {{issue.author.name}}
-  </div>
+<div class="single-element">
+	<div class="assigned-div">{{issue.author.name}}</div> 
+	<div>
+		<div class="select-div">
+			<div class="check">
+				<div class="mark"></div>
+			</div>
+		</div>
+		<div class="fav-div"><span class="fav icon" data-icon="S"></span></div>
+		<div class="project-div"> {{issue.project.name}}</div>
+		<div class="priority-div unselectable"><span class="prior {{ 'is' + issue.priority.id }}">i</span></div>
+		<div class="subject-div">
+			<a href="issue.html" class="issue-tab">
+				<span class="issue-subject">{{issue.subject}}</span>
+				<span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
+				<span class="last-talk">{{ issue.last_note }}</span>
+			</a>
+		</div>
+	</div>
 </div>
