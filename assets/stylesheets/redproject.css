@@ -1163,10 +1163,15 @@ top: 0.5em;
 
 /* Div à la place des tableaux ------------- */
 
-.normal-table, .compact-table, .comfortable-table { display: inline;}
-.compact-table, .compact-table .single-element 		{ line-height: 1.9em; height: 1.9em; }
-.normal-table, .normal-table .single-element  		{ line-height: 2.4em; height: 2.4em;}
-.comfortable-table, .comfortable-table .single-element  { line-height: 3.3em; height: 3.3em; }
+/* .normal-table, .compact-table, .comfortable-table { display: inline;} */
+
+.compact-table 		{ line-height: 1.9em; }
+.normal-table  		{ line-height: 2.4em; }
+.comfortable-tabl	{ line-height: 3.3em; }
+
+.compact-table .single-element 		{ height: 1.9em }
+.normal-table .single-element  		{ height: 2.4em }
+.comfortable-table .single-element  	{ height: 3.3em }
 
 .comfortable-table .check { 
 	-webkit-transform:translate(0, 11.8em);
