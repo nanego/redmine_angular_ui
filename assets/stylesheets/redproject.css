@@ -1163,8 +1163,6 @@ top: 0.5em;
 
 /* Div à la place des tableaux ------------- */
 
-/* .normal-table, .compact-table, .comfortable-table { display: inline;} */
-
 .compact-table 		{ line-height: 1.9em; }
 .normal-table  		{ line-height: 2.4em; }
 .comfortable-tabl	{ line-height: 3.3em; }
