@@ -1220,9 +1220,16 @@ top: 0.5em;
 	padding-right: 10px;
 }
 
+.tracker-div {
+	float: left;
+	width: 7em;
+	overflow: hidden;
+	padding-right: 10px;
+}
+
 .project-div {
 	float: left;
-	width: 10em;
+	width: 12em;
 	overflow: hidden;
 	padding-right: 10px;
 }
