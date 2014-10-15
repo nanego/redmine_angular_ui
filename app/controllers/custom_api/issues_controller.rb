@@ -22,7 +22,7 @@ class CustomApi::IssuesController < ApplicationController
         i = {id: issue_id, count: 0, last_note: ""}
         @issues_map << i
       end
-    end
+    end if params['issue_ids'].present?
 
   end
 

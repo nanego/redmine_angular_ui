@@ -9,7 +9,7 @@
       </a>
       <div class="listWrapper listWrapperSkin custom-dropdown-menu" id="dropdown-projects-menu">
         <a class="menuitem" href="#/issues"><span class="menuitem-content"><span>Tous les projets</span></span></a>
-        <div class="submenu-link separator-horizontal"></div>
+        <div class="submenu-link" ng-class="{'separator-horizontal': frequent_projects.length > 0}"></div>
         <a ng-repeat="project in frequent_projects" class="menuitem" href=""><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
         <div class="submenu-link separator-horizontal"></div>
         <div class="action-item keep-open"><input ng-model="search.name" type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>

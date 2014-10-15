@@ -890,6 +890,8 @@ a.menuitem.disable {
 	font-size:1em;
 	font-family: 'Open Sans';
 	font-weight: 300;
+    line-height: normal;
+    vertical-align: middle;
 }
 
 
