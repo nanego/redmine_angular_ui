@@ -1136,8 +1136,8 @@ top: 0.5em;
 /* Scrollbar ----------------------------- */
 
 ::-webkit-scrollbar{
-width:9px;
-height:10px;
+	width:9px;
+	height:10px;
 }
 
 ::-webkit-scrollbar-track-piece {

@@ -173,6 +173,8 @@ ul { list-style: none;}
 
 .action.hTitle {
 	padding: 0.5em 0.7em;
+    display: block;
+    text-decoration: none;
 }
 
 .current-project {
@@ -354,7 +356,7 @@ table {
 
 .table-issues tr { 
   border-top: 1px dotted rgb(220,220,220);
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .table-issues tr:last-child  { border-bottom: 1px dotted transparent; }
@@ -363,7 +365,7 @@ table {
 
 .table-issues tbody tr:last-child:hover  { border-bottom: 1px dotted rgb(220,220,220); }
 
-.select-col{ width:2.1em; vertical-align: center;}
+.select-col{ width:2.1em; vertical-align: middle;}
 .fav-col{ width:2.1em; text-align: center;}
 .project-col { width:8em; }
 .priority-col { width: 4em;}
@@ -402,7 +404,7 @@ table {
     color: #333;
     display: none;
 }
-.issue-subject { font-size: 1.083em; position: relative; font-weight: 600 }
+.issue-subject { font-size: 1.083em; position: relative; font-weight: 600; }
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
 .last-talk { font-weight: 300; } /*  #777 */
@@ -475,13 +477,13 @@ td .prior {
 }
 
 
-a.issue-tab {
+.issue-tab {
 	/*color: #000; *//* #3C3C3C; */
 	display: block;
 	/* width: 100%; */
 	padding: /* 0.2em */ 0;
 	border: none;
-	background-color: none;
+	background-color: transparent;
 	border-spacing:0;
 	text-decoration: none;
 	font-weight: 400;
@@ -490,18 +492,11 @@ a.issue-tab {
 	line-height:2.1em;*/
 }
 
-.issue-tab {
-	/*text-overflow:ellipsis;
-	white-space:nowrap;*/
-	/* overflow:hidden;
-	line-height: 1.9em;*/
-}
-
 .issue-subject { color: black; }
 
-a.issue-tab:hover { text-decoration:none; background-color: transparent; border: none; }
+.issue-tab:hover { text-decoration:none; background-color: transparent; border: none; }
 
-a.issue-tab:hover .issue-subject:after {
+.issue-tab:hover .issue-subject:after {
   border-bottom: 1px dashed rgb(150,150,150);
   bottom: 0;
   content: '';
@@ -550,7 +545,7 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .is-checked > .mark, .is-picked > .mark {
-	background: url('../img/checkmark.png') no-repeat -5px -3px;
+	background: url('../images/checkmark.png') no-repeat -5px -3px;
 }
 
 .is-picked { border-color: transparent !important; }
@@ -638,7 +633,7 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .circle::before {
-	content: url(../img/circle.png);
+	content: url(../images/circle.png);
 	position: relative;
 	bottom: -1px;
 	
@@ -751,7 +746,7 @@ a.issue-tab:hover .issue-subject:after {
 }
 
 .arrow-close {
-	background-image: url('../img/arrow-close.png');
+	background-image: url('../images/arrow-close.png');
 	cursor: pointer;
 	height: 21px;
 	opacity: .4;
@@ -790,7 +785,7 @@ a.issue-tab:hover .issue-subject:after {
 	box-shadow: 0 2px 4px rgba(0,0,0,.2);
 }
 
-.dropdown-menu {
+.custom-dropdown-menu {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -855,16 +850,24 @@ a.issue-tab:hover .issue-subject:after {
 
 fieldset .has-dropdown.open::after, fieldset .has-dropdown.open::before { background: transparent }
 
-.menuitem { padding:0 5em 0 1.5em; margin: 0; line-height: 2.5em; cursor: pointer; position: relative; min-width: 10em}
-/*.menuitem:hover ,*/ .menuitem.is-hover{ background: rgb(250,250,250); /* #EEE */}
+a.menuitem {
+    display: block;
+    color: rgb(55,55,55);
+    text-decoration: none;
+}
+a.menuitem.disable {
+    color: #CCCCCC;
+}
+.menuitem, .action-item { padding:0 5em 0 1.5em; margin: 0; line-height: 2.5em; cursor: pointer; position: relative; min-width: 10em}
+.menuitem:hover, .menuitem.is-hover{ background: rgb(250,250,250); /* #EEE */}
 
 .menuitem.comment-label.is-hover, .menuitem.temporary-label.is-hover, .menuitem.no-results.is-hover { background: inherit; /* #EEE */}
 
-.formarea { padding:0 1.5em 0; margin: 0; cursor: normal; position: relative; min-width: 10em}
+.formarea { padding:0 1.5em 0; margin: 0; cursor: pointer; position: relative; min-width: 10em}
 
 .has-selectable-items > .menuitem , .has-multiselectable-items .menuitem { padding-left: 2.8em } /* ajoute la gouttière pour mettre la checkbox */
 
-.selected-item, .selected-item.is-hover  { background: transparent url('../img/checkmark.png') no-repeat 0.5em center; cursor: default; }
+.selected-item, .selected-item:hover  { background: transparent url('../images/checkmark.png') no-repeat 0.5em center; cursor: default; }
 
 .menuitem-icon {
 	position: absolute;
@@ -928,7 +931,7 @@ fieldset .has-dropdown.open::after, fieldset .has-dropdown.open::before { backgr
 .inlist { position: relative; }
 
 .action-select-value {
-	background-image: url('../img/checkmark.png');
+	background-image: url('../images/checkmark.png');
 	background-repeat: no-repeat;
 	background-position: 0.5em center;
 }
@@ -996,9 +999,9 @@ top: 0.5em;
 /*
   STATE
 --------------------------------------------- */
-.isHigh { color: #CC3A21; text-shadow: -1px 2px 1px #BBB;/* #F6C5BE; */ }
-.isMedium { color: #FFCC66; text-shadow: -1px 1px 1px #BBB;/* #FFBE82; */ /* #ED9743; */ /* #F6C5BE; */ }
-.isLow { color: rgb(230, 230, 230); }
+.is6 { color: #CC3A21; text-shadow: -1px 2px 1px #BBB;/* #F6C5BE; */ }
+.is4 { color: #FFCC66; text-shadow: -1px 1px 1px #BBB;/* #FFBE82; */ /* #ED9743; */ /* #F6C5BE; */ }
+.is3 { color: rgb(230, 230, 230); }
 .isInBloVisible { display: inline-block; }
 .isFocused { border-color: #4285f4!important; }
 
@@ -1219,7 +1222,7 @@ top: 0.5em;
 
 .project-div {
 	float: left;
-	width: 7em;
+	width: 10em;
 	overflow: hidden;
 	padding-right: 10px;
 }

@@ -9,10 +9,10 @@
 	<div class="project-div"> {{issue.project.name}}</div>
 	<div class="priority-div unselectable"><span class="prior {{ 'is' + issue.priority.id }}">i</span></div>
 	<div class="subject-div">
-		<a href="issue.html" class="issue-tab">
+		<div class="issue-tab">
 			<span class="issue-subject">{{issue.subject}}</span>
 			<span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
 			<span class="last-talk">{{ issue.last_note }}</span>
-		</a>
+		</div>
 	</div>
 </div>
