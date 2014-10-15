@@ -273,6 +273,10 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
         if ( /* !$scope.disabled() && */ ($scope.opened || document.activeElement === dropdownField) && [9, 27, 40, 38, 13].indexOf(e.keyCode) !== -1)
         {
 
+          if(options){ // Reload options as they may have been filtered
+            options = getOptions();
+          }
+
           DropdownService.element = iElement;
           DropdownService.menuElement = $('#' + iAttrs.dropdownMenu);
 
