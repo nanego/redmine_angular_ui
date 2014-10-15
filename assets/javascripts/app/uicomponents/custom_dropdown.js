@@ -203,12 +203,9 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
       iElement.bind('click', function(e) {
         console.log('click on dropdown menu');
 
-        var openTarget = angular.element(document.getElementById(iAttrs.dropdownMenu));
+        var openTarget = angular.element($('#' + iAttrs.dropdownMenu));
 
-        console.log("DropdownService.menuElement : " + DropdownService.menuElement);
-        console.log("openTarget : " + openTarget);
-
-        if (DropdownService.menuElement !== null && DropdownService.menuElement.attr('id') !== openTarget.attr('id')) {
+        if (DropdownService.menuElement != null && openTarget != undefined && DropdownService.menuElement.attr('id') !== openTarget.attr('id')) {
           close();
         }
 
@@ -272,18 +269,12 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
       });
 
       $document.bind('keydown', function(e) {
-        if (//!$scope.disabled() &&
-          ($scope.opened || document.activeElement === dropdownField) &&
-          [9, 27, 40, 38, 13].indexOf(e.keyCode) !== -1) {
+
+        if ( /* !$scope.disabled() && */ ($scope.opened || document.activeElement === dropdownField) && [9, 27, 40, 38, 13].indexOf(e.keyCode) !== -1)
+        {
 
           DropdownService.element = iElement;
-
-          console.log("iAttrs:" + iAttrs.dropdownMenu);
-          console.log(document.getElementById(iAttrs.dropdownMenu));
-          console.log(document.getElementById(iAttrs.dropdownMenu).getElementsByClassName('menuitem'));
-
-
-          DropdownService.menuElement = document.getElementById(iAttrs.dropdownMenu);
+          DropdownService.menuElement = $('#' + iAttrs.dropdownMenu);
 
           if (e.keyCode === 9) { // Tab
             close();
@@ -300,13 +291,13 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
           } else if (e.keyCode === 38) { // Up
             previousOption();
           } else if (e.keyCode === 13) { // Enter
-            /*
-            if ($scope.currentOption && $scope.opened && document.activeElement === dropdownField) {
+
+            if ($scope.currentOption && $scope.opened && document.activeElement != dropdownField) {
               $scope.currentOption.click();
             } else if (!$scope.opened && document.activeElement === dropdownField) {
               open();
             }
-            */
+
           }
         }
       });
@@ -319,7 +310,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
 
       function getOptions() {
         console.log(DropdownService.menuElement);
-        return Array.prototype.map.call(DropdownService.menuElement.getElementsByClassName('menuitem'), function(option) {
+        return Array.prototype.map.call(DropdownService.menuElement.find('.menuitem'), function(option) {
           return option;
         });
       }
