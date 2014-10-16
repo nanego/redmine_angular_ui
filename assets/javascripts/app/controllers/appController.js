@@ -59,31 +59,13 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
 
   client.subscribe('/watched', function(message) {
 
-    console.log("watched recu");
-
     if($scope.current.issues){
 
       message = JSON.parse(message);
 
-      console.log(message.action + " = " + message.issue.id);
-
       IssueService.getLatestIssues().then(function () {
         switch (message.action) {
-          case 'create':
 
-            // $scope.current.issues.unshift(message.issue);
-
-            var issue_index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            console.log($scope.current.issues[issue_index].watched);
-            $scope.current.issues[issue_index].watched = '1';
-            console.log($scope.current.issues[issue_index].watched);
-
-
-            break;
-          case 'destroy':
-            var issue_index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            $scope.current.issues[issue_index].watched = '0';
-            break;
           case 'update':
 
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
