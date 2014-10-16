@@ -4,6 +4,7 @@ ActionDispatch::Callbacks.to_prepare do
   require_dependency 'redmine_angular_ui/hooks'
   require_dependency 'redmine_angular_ui/issue_patch'
   require_dependency 'redmine_angular_ui/watcher_patch'
+  require_dependency 'redmine_angular_ui/acts_as_watchable_patch'
 end
 
 Redmine::Plugin.register :redmine_angular_ui do

@@ -2,7 +2,7 @@ require_dependency 'watcher'
 
 class Watcher
 
-  after_commit :notif_after_event, :only => [:create, :update, :delete, :destroy]
+  after_commit :notif_after_event, :only => [:create, :update, :destroy]
 
   def notif_after_event
     if self.watchable.is_a?(Issue) && user == User.current
