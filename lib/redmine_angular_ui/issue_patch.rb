@@ -42,7 +42,7 @@ class Issue
                      'name'=>author.name},
                  'notes_count'=> r.present? ? r['count'] : "",
                  'last_note'=> r.present? ? last_note['notes'] : "",
-                 'watched' => issue.watcher_users.include?(User.current) ? "1" : "0"
+                 'watched' => watcher_users.include?(User.current) ? "1" : "0"
                 }
             }.to_json
     message = {:channel => '/issues', :data => json}
