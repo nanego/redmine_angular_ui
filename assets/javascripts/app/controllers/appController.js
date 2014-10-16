@@ -56,6 +56,35 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
     });
   });
 
+  client.subscribe('/watched', function(message) {
+
+    alert(message);
+
+    if($scope.current.issues){
+
+      message = JSON.parse(message);
+
+      alert(message.action);
+
+      switch (message.action) {
+        case 'create':
+          var issue_index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+          $scope.current.issues[issue_index].watched = "1";
+          break;
+        case 'destroy':
+          var issue_index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+          $scope.current.issues[issue_index].watched = "0";
+          break;
+        case 'update':
+          var issue_index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+          $scope.current.issues[issue_index].watched = "1";
+          break;
+        default:
+          break;
+      }
+    }
+  });
+
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
     $scope.alertType = "loading alert-info";
