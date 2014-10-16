@@ -115,3 +115,7 @@ a .glyphicon-chevron-left:hover, a .glyphicon-chevron-right:hover {
     margin-left: 0px;
     margin-right: 0px;
 }
+
+a.icon{
+    text-decoration: none;
+}

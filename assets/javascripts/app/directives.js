@@ -121,3 +121,56 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
     }
   };
 }]);
+
+app.directive('priorityToggle', function($timeout, $http) {
+  return {
+    scope: {
+      val: '=ngModel',
+      issueId: '=?'
+    },
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    template: '<div class="priority-div unselectable"' +
+      'ng-class="{\'is3\': val==ngLowVal,' +
+                  '\'is4\': val==ngMediumVal, ' +
+                  '\'is6\': val==ngHighVal, ' +
+                  '\'is10\': val==ngVeryLowVal}"' +
+      'ng-click="toggle()">' +
+      '<span class="prior">i</span></div>',
+    link: function(scope, element, attrs) {
+      if (!angular.isDefined(scope.ngVeryLowVal)) {
+        scope.ngVeryLowVal = 10;
+      }
+      if (!angular.isDefined(scope.ngLowVal)) {
+        scope.ngLowVal = 3;
+      }
+      if (!angular.isDefined(scope.ngMediumVal)) {
+        scope.ngMediumVal = 4;
+      }
+      if (!angular.isDefined(scope.ngHighVal)) {
+        scope.ngHighVal = 6;
+      }
+      if (!angular.isDefined(scope.val)) {
+        scope.val = scope.ngLowVal;
+      }
+
+      scope.toggle = function() {
+        if (scope.val === scope.ngVeryLowVal) {
+          scope.val = scope.ngLowVal;
+        } else if (scope.val === scope.ngLowVal) {
+          scope.val = scope.ngMediumVal;
+        } else if (scope.val === scope.ngMediumVal) {
+          scope.val = scope.ngHighVal;
+        } else {
+          scope.val = scope.ngVeryLowVal;
+        }
+        if (typeof scope.ngChange != 'undefined') {
+          $timeout(function() {
+            scope.ngChange(scope.val);
+          });
+        }
+      };
+    }
+  };
+});
