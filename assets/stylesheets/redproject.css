@@ -344,7 +344,7 @@ table {
   line-height: 2.4em;
 }
 
-.table-issues, .table-issues a { color: #999; }
+.table-issues { color: #999; }
 
 .table-title {
 	font-weight: 300;
