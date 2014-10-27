@@ -2,7 +2,11 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location, SessionService, IssueService, ProjectService, NotificationService) {
+app.controller('AppController', function($scope, $location, $http, SessionService, IssueService, ProjectService, NotificationService) {
+
+  $http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+  $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
+  $http.defaults.headers.common['Content-Type'] = 'application/json';
 
   getPreloadedData(SessionService, $scope, IssueService, ProjectService);
 
@@ -18,43 +22,46 @@ app.controller('AppController', function($scope, $location, SessionService, Issu
   client.subscribe('/issues', function(message) {
 
     message = JSON.parse(message);
-    IssueService.getLatestIssues().then(function () {
-      // NotificationService.add(JSON.stringify(message), null, 500);
-      switch (message.action) {
-        case 'create':
-          NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-"+message.issue.id);
-          $scope.current.issues.unshift(message.issue);
-          break;
-        case 'destroy':
-          NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 10);
-          var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-          $scope.current.issues.splice(index, 1);
-          break;
-        case 'update':
-          NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 10, "issue-"+message.issue.id);
-          var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-          $scope.current.issues[index] = message.issue;
-          if ($scope.current.issue !== undefined){
-            if($scope.current.issue.id === message.issue.id){
-              $scope.current.issue = message.issue;
-              // Reload updated journal
-              IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
-                $scope.current.issue = fullIssue;
-                // Then, update main array of issues
-                var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
-                $scope.current.issues[index] = $scope.current.issue;
-              });
+
+    if(message.user.id != $scope.app.user.id){
+      IssueService.getLatestIssues().then(function () {
+        // NotificationService.add(JSON.stringify(message), null, 500);
+        switch (message.action) {
+          case 'create':
+            NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-"+message.issue.id);
+            $scope.current.issues.unshift(message.issue);
+            break;
+          case 'destroy':
+            NotificationService.add("La demande #"+message.issue.id+" a été supprimée.", null, 10);
+            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+            $scope.current.issues.splice(index, 1);
+            break;
+          case 'update':
+            NotificationService.add("La demande #"+message.issue.id+" a été mise à jour.", null, 10, "issue-"+message.issue.id);
+            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+            $scope.current.issues[index] = message.issue;
+            if ($scope.current.issue !== undefined){
+              if($scope.current.issue.id === message.issue.id){
+                $scope.current.issue = message.issue;
+                // Reload updated journal
+                IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
+                  $scope.current.issue = fullIssue;
+                  // Then, update main array of issues
+                  var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+                  $scope.current.issues[index] = $scope.current.issue;
+                });
+              }
             }
-          }
-          break;
-        default:
-          IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
-            $scope.current.issues = response.data.issues;
-            NotificationService.add("Les demandes ont été mises à jour.", null, 5);
-          });
-          break;
-      }
-    });
+            break;
+          default:
+            IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
+              $scope.current.issues = response.data.issues;
+              NotificationService.add("Les demandes ont été mises à jour.", null, 5);
+            });
+            break;
+        }
+      });
+    }
   });
 
   client.subscribe('/watched', function(message) {

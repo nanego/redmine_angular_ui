@@ -26,6 +26,7 @@ class Issue
     last_note = Journal.where(created_on: r['max_date'], journalized_id: id ).first if r.present?
 
     json = {'action'=>action,
+            'user'=>{'id'=>User.current.id},
             'issue'=>
                 {'id'=> id,
                  'priority' =>

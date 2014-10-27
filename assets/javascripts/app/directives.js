@@ -156,6 +156,9 @@ app.directive('priorityToggle', function($timeout, $http) {
       }
 
       scope.toggle = function() {
+
+        $timeout.cancel(scope.delayedToggle); // Cancel previous toggle
+
         if (scope.val === scope.ngVeryLowVal) {
           scope.val = scope.ngLowVal;
         } else if (scope.val === scope.ngLowVal) {
@@ -170,6 +173,21 @@ app.directive('priorityToggle', function($timeout, $http) {
             scope.ngChange(scope.val);
           });
         }
+
+        scope.delayedToggle = $timeout(function(){
+          $http.post("/issues/bulk_update", {"ids": [scope.issueId], "issue": {"priority_id": scope.val}}, { headers: scope.headers })
+            .success(function (d, s, h, c) {
+              console.log('A');
+            })
+            .error(function(d, s, h, c) {
+              console.log('B');
+            });
+        },1000);
+
+        scope.$on("$destroy", function handler() {
+          $timeout.cancel(scope.delayedToggle);
+        });
+
       };
     }
   };
