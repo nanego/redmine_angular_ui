@@ -155,9 +155,11 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService) 
     $scope.app.issues = response.data.issues;
     $scope.current.issues = response.data.issues;
   });
+  /*
   ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
   });
+  */
 }
 
 function update_array_of_issues_with_last_note(arrayOfIssues, newIssuesData){

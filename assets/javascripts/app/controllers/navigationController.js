@@ -1,6 +1,10 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('navigationController', function NavigationCtrl($scope) {
+app.controller('navigationController', function NavigationCtrl($scope, ProjectService) {
+
+  ProjectService.getAllProjects().then(function (data) {
+    $scope.app.projects = data.projects;
+  });
 
   $scope.$watch('current.project', function() {
     $scope.project = {

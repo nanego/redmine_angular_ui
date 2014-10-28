@@ -83,7 +83,7 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
         }
         $timeout(function(){
           $rootScope.mainLoading = check;
-        },500);
+        },400);
       };
 
       if ($rootScope.mainLoading != false ){
@@ -105,7 +105,7 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
             $scope.loadings[1] = false;
             checkCurrentLoad();
           } else {
-            $scope.loadings[1] = true; //true; if false, do not wait for projects #TODO In prod env., wait for it
+            $scope.loadings[1] = false; //true; if false, do not wait for projects #TODO In prod env., wait for it
           }
         });
 

@@ -16,6 +16,7 @@
         <div class="submenu-link separator-horizontal"></div>
         <div class="vFader">
           <div class="vSlider" id="projects-list">
+            <a class="menuitem disable" ng-hide="app.projects" href="#"><span class="menuitem-content"><span>Projets en cours de chargement</span></span></a>
             <a class="menuitem" ng-class="{disable: project.allowed_to_view_issues === 0}" ng-repeat="project in app.projects | filter:{name: search.name}" ng-href="{{ project.allowed_to_view_issues === 1 ? '#/projects/'+project.id+'/issues' : '#/issues' }}"><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
           </div>
         </div>
