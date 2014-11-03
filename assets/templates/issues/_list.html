@@ -6,14 +6,7 @@
 		</div>
 	</div>
 
-	<div class="fav-div">
-    <a ng-href="/watchers/watch?light=1&amp;object_id={{ issue.id }}&amp;object_type=issue&amp;replace=watched-{{ issue.id }}"
-       data-method="{{ issue.watched == '1' ? 'delete' : 'post' }}"
-       data-remote="true"
-       class="fav icon"
-       data-icon="{{ issue.watched == '1' ? 'S' : 's' }}">
-    </a>
-  </div>
+  <watched-toggle ng-model="issue.watched" issue-id="issue.id"></watched-toggle>
 	<div class="tracker-div"> {{issue.tracker.name}}</div>
 	<div class="project-div"> {{issue.project.name}}</div>
   <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle>

@@ -192,3 +192,50 @@ app.directive('priorityToggle', function($timeout, $http) {
     }
   };
 });
+
+app.directive('watchedToggle', function($timeout, $http) {
+  return {
+    scope: {
+      val: '=ngModel',
+      issueId: '=?'
+    },
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    template:	'<div class="fav-div" ng-click="toggle()"> <span class="fav icon"' +
+      'data-icon="{{ val == \'1\' ? \'S\' : \'s\' }}"> </span> </div>',
+    link: function(scope, element, attrs) {
+      if (!angular.isDefined(scope.ngWatched)) {
+        scope.ngWatched = '1';
+      }
+      if (!angular.isDefined(scope.ngUnWatched)) {
+        scope.ngUnWatched = '0';
+      }
+
+      scope.toggle = function() {
+
+        $timeout.cancel(scope.delayedToggle); // Cancel previous toggle
+
+        if (scope.val === scope.ngWatched) {
+          scope.val = scope.ngUnWatched;
+        } else {
+          scope.val = scope.ngWatched;
+        }
+
+        scope.delayedToggle = $timeout(function(){
+          var url = "/watchers/watch.js?light=1&amp;object_id="+scope.issueId+"&amp;object_type=issue&amp;replace=watched-"+scope.issueId;
+          if (scope.val === scope.ngWatched) {
+            $http.post(url, null, { headers: scope.headers })
+          }else{
+            $http.delete(url, { headers: scope.headers })
+          }
+        },1000);
+
+        scope.$on("$destroy", function handler() {
+          $timeout.cancel(scope.delayedToggle);
+        });
+
+      };
+    }
+  };
+});
