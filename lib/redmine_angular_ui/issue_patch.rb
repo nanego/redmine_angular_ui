@@ -41,6 +41,7 @@ class Issue
                  'author'=>{
                      'id'=>author.id,
                      'name'=>author.name},
+                 'updated_on'=>updated_on,
                  'notes_count'=> r.present? ? r['count'] : "",
                  'last_note'=> r.present? ? last_note['notes'] : "",
                  'watched' => watcher_users.include?(User.current) ? "1" : "0"
