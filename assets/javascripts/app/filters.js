@@ -31,3 +31,22 @@ app.filter('unsafe', function($sce) {
     return $sce.trustAsHtml(val);
   };
 });
+
+app.filter('dateFormat', function($filter)
+{
+  return function(input)
+  {
+    if(input == null){ return ""; }
+
+    var date = new Date(input);
+    var now = new Date();
+    if( date.setHours(0,0,0,0) == now.setHours(0,0,0,0) ) {
+      var _date = $filter('date')(new Date(input), 'HH:mm');
+    } else {
+      var _date = $filter('date')(date, 'd MMM') + '.';
+    }
+
+    return _date.toLowerCase();
+
+  };
+});

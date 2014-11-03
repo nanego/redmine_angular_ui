@@ -35,7 +35,7 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
         add_issues_to_main_array($scope, response.data.issues, IssueService);
       });
     }
-  }
+  };
 });
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {
