@@ -11,7 +11,11 @@ class Issue
   end
 
   def notif_after_update
-    notif_after_commit('update')
+    if status.is_closed?
+      notif_after_commit('destroy')
+    else
+      notif_after_commit('update')
+    end
   end
 
   def notif_after_destroy
@@ -41,6 +45,10 @@ class Issue
                  'priority' =>
                      {'id' => priority.id},
                  'subject' => subject,
+                 'status' => {
+                      'id' => status.id,
+                      'name' => status.name,
+                      'is_closed' => status.is_closed? ? "1" : "0" },
                  'tracker' => {
                      'id' => tracker.id,
                      'name' => tracker.name},

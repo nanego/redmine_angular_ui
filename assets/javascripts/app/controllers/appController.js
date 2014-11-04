@@ -108,7 +108,11 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
           $scope.current.issues.unshift(message.issue);
           break;
         case 'destroy':
-          NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
+          if (message.issue.status.is_closed == '1'){
+            NotificationService.add("La demande #" + message.issue.id + " a été fermée.", null, 10);
+          }else{
+            NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
+          }
           var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
           $scope.current.issues.splice(index, 1);
           break;
@@ -117,7 +121,11 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
             NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
           }
           var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-          $scope.current.issues[index] = message.issue;
+          if (index>0){
+            $scope.current.issues[index] = message.issue;
+          } else {
+            $scope.current.issues.unshift(message.issue);
+          }
           if ($scope.current.issue !== undefined) {
             if ($scope.current.issue.id === message.issue.id) {
               $scope.current.issue = message.issue;
