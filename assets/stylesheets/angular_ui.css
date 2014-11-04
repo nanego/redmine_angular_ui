@@ -61,8 +61,12 @@ ul{
 /* ------------------------------- Notifications ------------------------------------------------------------------------*/
 #notifications {
     position: absolute;
-    top: 60px;
+    top: 12px;
     margin: 0 auto; left: 0; right: 0;
+    z-index: 2;
+}
+#notifications ul {
+    margin-bottom: 0;
 }
 #notifications ul li {
     margin: 0 auto;
