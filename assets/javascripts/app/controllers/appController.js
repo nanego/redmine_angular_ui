@@ -121,7 +121,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
             NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
           }
           var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-          if (index>0){
+          if (index>=0){
             $scope.current.issues[index] = message.issue;
           } else {
             $scope.current.issues.unshift(message.issue);
