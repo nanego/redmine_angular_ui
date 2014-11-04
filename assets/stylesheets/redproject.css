@@ -1194,12 +1194,11 @@ top: 0.5em;
 	padding-left: 10px;
 	padding-right: 10px;
 	margin-bottom: -1px;
-	/*height:2.4em;
-	line-height:2.4em;*/
 	overflow: hidden;
-	border-top: 1px dotted rgb(220,220,220);
+	/* border-top: 1px dotted rgb(220,220,220); */
+	border-top: 1px dotted transparent;
 	border-bottom: 1px dotted transparent;
-	cursor: pointer;
+	cursor: default;
 }
 
 .single-element:hover {
@@ -1218,7 +1217,7 @@ top: 0.5em;
 	padding-right: 10px;
 	padding-top: 0.26em;
 	position: relative;
-	/*width: 4em; */
+	display: none;
 }
 
 .fav-div {
