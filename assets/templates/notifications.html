@@ -1,4 +1,4 @@
-<div id="notifications" ng-controller="NotificationsController">
+<div id="notifications" ng-controller="NotificationsController" ng-show="notifications && notifications.length > 0">
   <ul>
     <li ng-repeat="notif in notifications">
       <span ng-bind="notif.text"></span>
