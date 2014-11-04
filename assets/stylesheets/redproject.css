@@ -274,7 +274,7 @@ ul { list-style: none;}
 	left:0;
 	right:0;
 	margin: 0;
-	padding: 0 1.5em;
+	padding: 0 15px;
 	vertical-align: baseline;
 	z-index: 1;
 	/* border: none; */
