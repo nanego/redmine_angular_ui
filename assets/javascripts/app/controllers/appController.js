@@ -100,6 +100,12 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
 
     message = JSON.parse(message);
 
+    if (message.user.id != $scope.app.user.id) {
+      if (message.issue != undefined) {
+        delete message.issue.watched;
+      }
+    }
+
     IssueService.getLatestIssues().then(function () {
       // NotificationService.add(JSON.stringify(message), null, 500);
       switch (message.action) {
@@ -122,13 +128,13 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
           }
           var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
           if (index>=0){
-            $scope.current.issues[index] = message.issue;
+            jQuery.extend($scope.current.issues[index], message.issue);
           } else {
             $scope.current.issues.unshift(message.issue);
           }
           if ($scope.current.issue !== undefined) {
             if ($scope.current.issue.id === message.issue.id) {
-              $scope.current.issue = message.issue;
+              jQuery.extend($scope.current.issue, message.issue);
               // Reload updated journal
               IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
                 $scope.current.issue = fullIssue;
