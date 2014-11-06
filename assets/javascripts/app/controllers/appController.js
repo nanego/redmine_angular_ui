@@ -85,6 +85,12 @@ function update_array_of_issues_with_last_note(arrayOfIssues, newIssuesData){
   }
 }
 
+function arrayMove(arr, fromIndex, toIndex) {
+  var element = arr[fromIndex]
+  arr.splice(fromIndex, 1);
+  arr.splice(toIndex, 0, element);
+}
+
 function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
 
   // Dev
@@ -123,12 +129,13 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
           $scope.current.issues.splice(index, 1);
           break;
         case 'update':
-          if (message.user.id != $scope.app.user.id) {
+          // if (message.user.id != $scope.app.user.id) {
             NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
-          }
+          // }
           var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
           if (index>=0){
             jQuery.extend($scope.current.issues[index], message.issue);
+            arrayMove($scope.current.issues, index, 0);
           } else {
             $scope.current.issues.unshift(message.issue);
           }
@@ -167,7 +174,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
           case 'update':
 
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            $scope.current.issues[index] = message.issue;
+            jQuery.extend($scope.current.issues[index], message.issue);
             if ($scope.current.issue !== undefined) {
               if ($scope.current.issue.id === message.issue.id) {
                 $scope.current.issue = message.issue;
