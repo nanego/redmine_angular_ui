@@ -30,7 +30,6 @@ $(window).scroll(function() {
   else { $(".actions-menu").removeClass("sticky"); }
 });
 
-
 /* selection d'une ligne d'un tableau */        // TODO make it the angular way
 $(".issue-listing .check").click(function(){
   console.log("check");
@@ -38,4 +37,3 @@ $(".issue-listing .check").click(function(){
   $(this).toggleClass("is-checked");
   // actionMenu();
 });
-

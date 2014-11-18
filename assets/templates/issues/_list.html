@@ -1,20 +1,21 @@
 <div class="pull-right-div" ng-bind="issue.updated_on | dateFormat"></div>
-<div>
-	<div class="select-div">
+<div class="issue-item">
+	<div class="select">
 		<div class="check">
 			<div class="mark"></div>
 		</div>
 	</div>
 
   <watched-toggle ng-model="issue.watched" issue-id="issue.id"></watched-toggle>
-	<div class="tracker-div"> {{issue.tracker.name}}</div>
-	<div class="project-div"> {{issue.project.name}}</div>
+	<a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank">{{ issue.id }}</a>
+	<div class="tracker"> {{issue.tracker.name}}</div>
+	<div class="project"> {{issue.project.name}}</div>
   <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle>
-	<div class="subject-div">
-		<div class="issue-tab">
+	<div class="subject">
+		<a class="issue-tab" ng-href="/issues/{{issue.id}}" target="_blank">
 			<span class="issue-subject">{{issue.subject}}</span>
 			<span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
 			<span class="last-talk">{{ issue.last_note }}</span>
-		</div>
+		</a>
 	</div>
 </div>

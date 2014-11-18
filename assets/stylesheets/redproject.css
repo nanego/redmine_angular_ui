@@ -1212,7 +1212,17 @@ top: 0.5em;
 	padding-left: 17px;
 }
 
-.select-div {
+.issue-item a { color: #999; }
+
+
+.issue-item .issue_id {
+	float: left;
+	width: 5em;
+	overflow: hidden;
+	padding-right: 10px;
+}
+
+.issue-item .select {
 	float: left;
 	padding-right: 10px;
 	padding-top: 0.26em;
@@ -1220,30 +1230,30 @@ top: 0.5em;
 	display: none;
 }
 
-.fav-div {
+.issue-item .fav-star {
 	float: left;
 	padding-right: 10px;
 }
 
-.tracker-div {
+.issue-item .tracker {
 	float: left;
 	width: 7em;
 	overflow: hidden;
 	padding-right: 10px;
 }
 
-.project-div {
+.issue-item .project {
 	float: left;
 	width: 12em;
 	overflow: hidden;
 	padding-right: 10px;
 }
 
-.priority-div {
+.issue-item .priority {
 	float: left;
 	padding-right: 10px;
 }
 
-.subject-div {
+.issue-item .subject {
 
 }

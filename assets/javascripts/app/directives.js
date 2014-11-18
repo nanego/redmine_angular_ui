@@ -131,7 +131,7 @@ app.directive('priorityToggle', function($timeout, $http) {
     restrict: 'E',
     replace: false,
     transclude: true,
-    template: '<div class="priority-div unselectable"' +
+    template: '<div class="priority unselectable"' +
       'ng-class="{\'is3\': val==ngLowVal,' +
                   '\'is4\': val==ngMediumVal, ' +
                   '\'is6\': val==ngHighVal, ' +
@@ -202,7 +202,7 @@ app.directive('watchedToggle', function($timeout, $http) {
     restrict: 'E',
     replace: false,
     transclude: true,
-    template:	'<div class="fav-div" ng-click="toggle()"> <span class="fav icon"' +
+    template:	'<div class="fav-star" ng-click="toggle()"> <span class="fav icon"' +
       'data-icon="{{ val == \'1\' ? \'S\' : \'s\' }}"> </span> </div>',
     link: function(scope, element, attrs) {
       if (!angular.isDefined(scope.ngWatched)) {
