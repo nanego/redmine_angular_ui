@@ -11,7 +11,7 @@ api.array :projects, api_meta(:total_count => @project_count, :offset => @offset
       api.allowed_to_view_issues User.current.allowed_to?(:view_issues, project)? 1 : 0
 
       render_api_custom_values project.visible_custom_field_values, api
-      # render_api_includes(project, api) only works with Redmine 2.6.0
+      render_api_includes(project, api) #only works with Redmine 2.6.0
 
       api.created_on  project.created_on
       api.updated_on  project.updated_on
