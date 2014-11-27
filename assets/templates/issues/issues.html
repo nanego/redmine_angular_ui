@@ -7,7 +7,11 @@
     <h3 class="table-title" ng-hide="next_issues_exist || (current.issues && current.issues.length > 0)">Aucune demande ouverte</h3>
     <div ng-controller="NotificationsController">
       <ul scroller="" loading-method="load_next_issues()" class="table-issues normal-table">
-        <li style="clear: both;" ng-repeat="issue in current.issues" class="single-element" id="{{issue.id}}" ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1)}">
+        <li style="clear: both;"
+            ng-repeat="issue in current.issues"
+            class="single-element"
+            id="{{issue.id}}"
+            ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1), 'recently_updated':(recently_notified_lines.indexOf('issue-' + issue.id) > -1)}">
           <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
         </li>
       </ul>

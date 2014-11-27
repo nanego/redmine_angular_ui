@@ -404,7 +404,8 @@ table {
     color: #333;
     display: none;
 }
-.issue-subject { font-size: 1.083em; position: relative; font-weight: 600; }
+.issue-subject { font-size: 1.083em; position: relative; font-weight: 500; }
+.recently_updated .issue-subject { font-weight: 600; }
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
 .last-talk { font-weight: 300; } /*  #777 */
