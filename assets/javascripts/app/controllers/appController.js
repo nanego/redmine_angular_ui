@@ -112,54 +112,61 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
       }
     }
 
-    IssueService.getLatestIssues().then(function () {
-      // NotificationService.add(JSON.stringify(message), null, 500);
-      switch (message.action) {
-        case 'create':
-          NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-" + message.issue.id);
-          $scope.current.issues.unshift(message.issue);
-          break;
-        case 'destroy':
-          if (message.issue.status.is_closed == '1'){
-            NotificationService.add("La demande #" + message.issue.id + " a été fermée.", null, 10);
-          }else{
-            NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
-          }
-          var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-          $scope.current.issues.splice(index, 1);
-          break;
-        case 'update':
-          // if (message.user.id != $scope.app.user.id) {
-            NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
-          // }
-          var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-          if (index>=0){
-            jQuery.extend($scope.current.issues[index], message.issue);
-            arrayMove($scope.current.issues, index, 0);
-          } else {
+    var correct_context = false;
+    if ($scope.current.project == undefined || $scope.current.project.id === message.issue.project.id) {
+      correct_context = true;
+    }
+
+    if (correct_context) {
+      IssueService.getLatestIssues().then(function () {
+        // NotificationService.add(JSON.stringify(message), null, 500);
+        switch (message.action) {
+          case 'create':
+            NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-" + message.issue.id);
             $scope.current.issues.unshift(message.issue);
-          }
-          if ($scope.current.issue !== undefined) {
-            if ($scope.current.issue.id === message.issue.id) {
-              jQuery.extend($scope.current.issue, message.issue);
-              // Reload updated journal
-              IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
-                $scope.current.issue = fullIssue;
-                // Then, update main array of issues
-                var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
-                $scope.current.issues[index] = $scope.current.issue;
-              });
+            break;
+          case 'destroy':
+            if (message.issue.status.is_closed == '1') {
+              NotificationService.add("La demande #" + message.issue.id + " a été fermée.", null, 10);
+            } else {
+              NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
             }
-          }
-          break;
-        default:
-          IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
-            $scope.current.issues = response.data.issues;
-            NotificationService.add("Les demandes ont été mises à jour.", null, 5);
-          });
-          break;
-      }
-    });
+            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+            $scope.current.issues.splice(index, 1);
+            break;
+          case 'update':
+            // if (message.user.id != $scope.app.user.id) {
+            NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
+            // }
+            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
+            if (index >= 0) {
+              jQuery.extend($scope.current.issues[index], message.issue);
+              arrayMove($scope.current.issues, index, 0);
+            } else {
+              $scope.current.issues.unshift(message.issue);
+            }
+            if ($scope.current.issue !== undefined) {
+              if ($scope.current.issue.id === message.issue.id) {
+                jQuery.extend($scope.current.issue, message.issue);
+                // Reload updated journal
+                IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
+                  $scope.current.issue = fullIssue;
+                  // Then, update main array of issues
+                  var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+                  $scope.current.issues[index] = $scope.current.issue;
+                });
+              }
+            }
+            break;
+          default:
+            IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
+              $scope.current.issues = response.data.issues;
+              NotificationService.add("Les demandes ont été mises à jour.", null, 5);
+            });
+            break;
+        }
+      });
+    }
   });
 
   client.subscribe('/watched/' + $scope.app.user.id, function (message) {
