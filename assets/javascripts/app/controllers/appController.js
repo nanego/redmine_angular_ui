@@ -135,9 +135,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
             $scope.current.issues.splice(index, 1);
             break;
           case 'update':
-            // if (message.user.id != $scope.app.user.id) {
             NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
-            // }
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             if (index >= 0) {
               jQuery.extend($scope.current.issues[index], message.issue);
