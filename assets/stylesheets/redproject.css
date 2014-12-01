@@ -1238,9 +1238,23 @@ top: 0.5em;
 
 .issue-item .tracker {
 	float: left;
-	width: 7em;
+	width: 3em;
 	overflow: hidden;
 	padding-right: 10px;
+	margin-top: 3px;
+}
+
+.issue-item .tracker .textCircle {
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	/*padding: 2px;*/
+	background: #fff;
+	border: 1px solid #cccccc;
+	/* color: #666; */
+	text-align: center;
+	overflow: hidden;
+	line-height: 19px;
 }
 
 .issue-item .project {
