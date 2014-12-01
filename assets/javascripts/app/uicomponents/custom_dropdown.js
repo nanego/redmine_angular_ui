@@ -296,8 +296,13 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
             previousOption();
           } else if (e.keyCode === 13) { // Enter
 
-            if ($scope.currentOption && $scope.opened && document.activeElement != dropdownField) {
-              $scope.currentOption.click();
+            if ($scope.opened && document.activeElement != dropdownField) {
+              if (DropdownService.menuElement.find('.is-hover:first')[0] !== undefined) {
+                $scope.currentOption = DropdownService.menuElement.find('.is-hover:first')[0];
+              }
+              if ($scope.currentOption !== undefined){
+                $scope.currentOption.click();
+              }
             } else if (!$scope.opened && document.activeElement === dropdownField) {
               open();
             }
@@ -313,7 +318,6 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
       });
 
       function getOptions() {
-        console.log(DropdownService.menuElement);
         return Array.prototype.map.call(DropdownService.menuElement.find('.menuitem'), function(option) {
           return option;
         });
@@ -323,8 +327,15 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
         open();
         if (!options) {
           options = getOptions();
-          $scope.currentOption = options[0];
+          if (DropdownService.menuElement.find('.is-hover:first')[0] !== undefined) {
+            $scope.currentOption = DropdownService.menuElement.find('.is-hover:first')[0];
+          }else{
+            $scope.currentOption = options[0];
+          }
         } else {
+          if (DropdownService.menuElement.find('.is-hover:first')[0] !== undefined) {
+            $scope.currentOption = DropdownService.menuElement.find('.is-hover:first')[0];
+          }
           var index = options.indexOf($scope.currentOption) + 1;
           clearCurrentOption();
           $scope.currentOption = options.length > index ? options[index] : options[0];
@@ -338,8 +349,15 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
         open();
         if (!options) {
           options = getOptions();
-          $scope.currentOption = options[0];
+          if (DropdownService.menuElement.find('.is-hover:first')[0] !== undefined) {
+            $scope.currentOption = DropdownService.menuElement.find('.is-hover:first')[0];
+          }else{
+            $scope.currentOption = options[0];
+          }
         } else {
+          if (DropdownService.menuElement.find('.is-hover:first')[0] !== undefined) {
+            $scope.currentOption = DropdownService.menuElement.find('.is-hover:first')[0];
+          }
           var index = options.indexOf($scope.currentOption) - 1;
           clearCurrentOption();
           $scope.currentOption = index >= 0 ? options[index] : options[options.length - 1];

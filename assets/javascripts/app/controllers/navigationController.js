@@ -1,6 +1,6 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('navigationController', function NavigationCtrl($scope, ProjectService) {
+app.controller('navigationController', function NavigationCtrl($scope, ProjectService, hotkeys) {
 
   ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
@@ -21,6 +21,7 @@ app.controller('navigationController', function NavigationCtrl($scope, ProjectSe
   };
 
   $scope.toggled = function(open) {
+    console.log(angular.element($(".has-dropdown:first")));
     console.log('Dropdown is now: ', open);
   };
 
@@ -29,4 +30,13 @@ app.controller('navigationController', function NavigationCtrl($scope, ProjectSe
     $event.stopPropagation();
     $scope.status.isopen = !$scope.status.isopen;
   };
+
+  hotkeys.bindTo($scope)
+    .add({
+      combo: 'shift',
+      description: 'Choix du projet',
+      callback: function() {
+        $scope.toggled(true);
+      }
+    });
 });
