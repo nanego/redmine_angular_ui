@@ -126,7 +126,8 @@ app.directive('priorityToggle', function($timeout, $http) {
   return {
     scope: {
       val: '=ngModel',
-      issueId: '=?'
+      issueId: '=?',
+      persistedVal: '=?'
     },
     restrict: 'E',
     replace: false,
@@ -154,6 +155,9 @@ app.directive('priorityToggle', function($timeout, $http) {
       if (!angular.isDefined(scope.val)) {
         scope.val = scope.ngLowVal;
       }
+      if (!angular.isDefined(scope.persistedVal)) {
+        scope.persistedVal = scope.val;
+      }
 
       scope.toggle = function() {
 
@@ -174,15 +178,17 @@ app.directive('priorityToggle', function($timeout, $http) {
           });
         }
 
-        scope.delayedToggle = $timeout(function(){
-          $http.post("/issues/bulk_update", {"ids": [scope.issueId], "issue": {"priority_id": scope.val}}, { headers: scope.headers })
-            .success(function (d, s, h, c) {
-              console.log('A');
-            })
-            .error(function(d, s, h, c) {
-              console.log('B');
-            });
-        },1000);
+        if (scope.val !== scope.persistedVal){
+          scope.delayedToggle = $timeout(function(){
+            $http.post("/issues/bulk_update", {"ids": [scope.issueId], "issue": {"priority_id": scope.val}}, { headers: scope.headers })
+              .success(function (d, s, h, c) {
+                scope.persistedVal = scope.val;
+              })
+              .error(function(d, s, h, c) {
+                console.log('Error while persisting new priority');
+              });
+          },1000);
+        }
 
         scope.$on("$destroy", function handler() {
           $timeout.cancel(scope.delayedToggle);
@@ -197,7 +203,8 @@ app.directive('watchedToggle', function($timeout, $http) {
   return {
     scope: {
       val: '=ngModel',
-      issueId: '=?'
+      issueId: '=?',
+      persistedVal: '=?'
     },
     restrict: 'E',
     replace: false,
@@ -211,6 +218,9 @@ app.directive('watchedToggle', function($timeout, $http) {
       if (!angular.isDefined(scope.ngUnWatched)) {
         scope.ngUnWatched = '0';
       }
+      if (!angular.isDefined(scope.persistedVal)) {
+        scope.persistedVal = scope.val;
+      }
 
       scope.toggle = function() {
 
@@ -222,14 +232,22 @@ app.directive('watchedToggle', function($timeout, $http) {
           scope.val = scope.ngWatched;
         }
 
-        scope.delayedToggle = $timeout(function(){
-          var url = "/watchers/watch.js?light=1&amp;object_id="+scope.issueId+"&amp;object_type=issue&amp;replace=watched-"+scope.issueId;
-          if (scope.val === scope.ngWatched) {
-            $http.post(url, null, { headers: scope.headers })
-          }else{
-            $http.delete(url, { headers: scope.headers })
-          }
-        },1000);
+        if (scope.val !== scope.persistedVal) {
+          scope.delayedToggle = $timeout(function () {
+            var url = "/watchers/watch.js?light=1&amp;object_id=" + scope.issueId + "&amp;object_type=issue&amp;replace=watched-" + scope.issueId;
+            if (scope.val === scope.ngWatched) {
+              $http.post(url, null, {headers: scope.headers})
+                .success(function (d, s, h, c) {
+                  scope.persistedVal = scope.val;
+                })
+            } else {
+              $http.delete(url, {headers: scope.headers})
+                .success(function (d, s, h, c) {
+                  scope.persistedVal = scope.val;
+                })
+            }
+          }, 1000);
+        }
 
         scope.$on("$destroy", function handler() {
           $timeout.cancel(scope.delayedToggle);
