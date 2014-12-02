@@ -1255,6 +1255,7 @@ top: 0.5em;
 	text-align: center;
 	overflow: hidden;
 	line-height: 19px;
+	font-size: 10px;
 }
 
 .issue-item .project {
