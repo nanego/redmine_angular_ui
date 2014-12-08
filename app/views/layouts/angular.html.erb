@@ -3,18 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title><%= content_for?(:title) ? yield(:title) : "Redmine" %></title>
     <%= csrf_meta_tags %>
 
     <!-- In production, use minified version:
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
     -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.js"></script>
+    <script src="/plugin_assets/redmine_angular_ui/bower_components/angular/angular.js"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.js"></script> -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-resource.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-sanitize.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.6/angular-material.min.js"></script>
+    <script src="/plugin_assets/redmine_angular_ui/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/plugin_assets/redmine_angular_ui/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/plugin_assets/redmine_angular_ui/bower_components/hammerjs/hammer.js"></script>
+    <script src="/plugin_assets/redmine_angular_ui/bower_components/angular-material/angular-material.js"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.6/angular-material.min.js"></script> -->
 
     <%= javascript_heads %>
 
@@ -22,6 +27,10 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <!-- link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="/plugin_assets/redmine_angular_ui/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="/plugin_assets/redmine_angular_ui/bower_components/angular-material/themes/green-theme.css">
 
     <!-- Custom CSS -->
     <%= stylesheet_link_tag("angular_ui", :plugin => "redmine_angular_ui") %>
@@ -34,17 +43,17 @@
   </head>
 <body>
 
-<div class="container-fluid">
+  <div layout="row">
 
-  <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak ng-bind="alertMessage"></div>
+    <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak ng-bind="alertMessage"></div>
 
-  <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
+    <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
 
-  <div data-ng-view></div>
+    <div data-ng-view></div>
 
-</div> <!-- /container -->
+  </div> <!-- /container -->
 
-<%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "application" %>
 
   <script>
     var headers = { 'X-Redmine-API-Key': '<%= @api_key %>', 'Content-Type': 'application/json' };
