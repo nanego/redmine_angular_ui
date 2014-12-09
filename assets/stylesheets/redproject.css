@@ -1257,7 +1257,7 @@ top: 0.5em;
 	line-height: 19px;
 	font-size: 10px;
 }
-.issue-item .tracker .textCircle.tr-3 {	background-color: #dddddd;color: #ffffff;} /* Information */
+.issue-item .tracker .textCircle.tr-3 {	border: none;} /* Information */
 .issue-item .tracker .textCircle.tr-5 {	background-color: #777777;color: #ffffff;border: none;} /* Incident */
 .issue-item .tracker .textCircle.tr-7 {	background-color: #999999;color: #ffffff;border: none;} /* Probleme */
 .issue-item .tracker .textCircle.tr-8 {	background-color: #bbbbbb;color: #ffffff;border: none;} /* Qualification */
