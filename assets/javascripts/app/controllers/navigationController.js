@@ -1,6 +1,6 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('navigationController', function NavigationCtrl($scope, ProjectService, hotkeys) {
+app.controller('navigationController', function NavigationCtrl($scope, ProjectService, hotkeys, $mdSidenav) {
 
   ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
@@ -39,4 +39,11 @@ app.controller('navigationController', function NavigationCtrl($scope, ProjectSe
         $scope.toggled(true);
       }
     });
+
+  $scope.openLeftMenu = function() {
+    $mdSidenav('left').toggle();
+  };
+  $scope.close = function() {
+    $mdSidenav('left').close();
+  };
 });

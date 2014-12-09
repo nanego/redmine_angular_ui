@@ -41,9 +41,9 @@
     <%= stylesheet_link_tag("redproject", :plugin => "redmine_angular_ui") %>
 
   </head>
-<body>
+<body md-theme="green">
 
-  <div layout="row">
+  <div layout="column" style="height: 100%;">
 
     <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak ng-bind="alertMessage"></div>
 

@@ -1,27 +1,66 @@
 <div main_loader></div>
 
-<ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
+<!-- src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>-->
 
-<div ng-hide="mainLoading===undefined || mainLoading" style="margin-top: 60px;">
-  <div class="smallFontSize">
-    <h3 class="table-title" ng-hide="next_issues_exist || (current.issues && current.issues.length > 0)">Aucune demande ouverte</h3>
-    <div ng-controller="NotificationsController">
-      <ul scroller="" loading-method="load_next_issues()" class="table-issues normal-table">
-        <li style="clear: both;display: list-item;"
-            layout="row"
-            ng-repeat="issue in current.issues"
-            class="single-element"
-            id="{{issue.id}}"
-            ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1), 'recently_updated':(recently_notified_lines.indexOf('issue-' + issue.id) > -1)}"
-            ng-click="click_on_issue('issue-' + issue.id)" >
-          <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
-        </li>
-      </ul>
+<!-- <ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/sidenav-projects.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include> -->
+<div layout="column" layout-fill ng-controller="navigationController"  ng-hide="mainLoading===undefined || mainLoading">
+  <md-sidenav layout="column"
+              md-component-id="left"
+              class="md-sidenav-left md-whiteframe-z2"
+              md-is-locked-open="" flex> <!--="$media('gt-sm')"-->
+    <md-toolbar>
+      <md-button ng-click="close()">
+        <h1 class="md-toolbar-tools">Portail</h1>
+      </md-button>
+    </md-toolbar>
+    <md-content flex>
+      <a class="menuitem" href="#/issues"><span class="menuitem-content"><span>Tous les projets</span></span></a>
+      <div class="submenu-link" ng-class="{'separator-horizontal': frequent_projects.length > 0}"></div>
+      <a ng-repeat="project in frequent_projects" class="menuitem" href=""><span class="menuitem-content"><span>{{ project.name }}</span></span></a>
+      <div class="submenu-link separator-horizontal"></div>
+      <div class="action-item keep-open"><input ng-model="search.name" type="text" class="invisible-input" placeholder="Filtrer" id="filter-projects" autocomplete="off"/></div>
+      <div class="submenu-link separator-horizontal"></div>
+      <div>
+        <div id="projects-list">
+          <a class="menuitem disable" ng-hide="app.projects" href="#"><span class="menuitem-content"><span>Projets en cours de chargement</span></span></a>
+          <a class="menuitem" ng-class="{'is-hover': $first, disable: project.allowed_to_view_issues === 0}" ng-repeat="project in app.projects | filter:{name: search.name}" ng-href="{{ project.allowed_to_view_issues === 1 ? '#/projects/'+project.id+'/issues' : '#/issues' }}">
+              <span class="menuitem-content">
+                <span>{{ project.name }}</span>
+              </span>
+          </a>
+        </div>
+      </div>
+    </md-content>
+  </md-sidenav>
 
-      <div spinner="next_issue_loaded" class="centered" ng-show="next_issues_exist"></div>
-      <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</ -->
+  <div layout="column" layout-fill flex class="ng-scope">
+    <md-toolbar style="min-height: 44px;vertical-align: middle;" layout="column">
+      <md-button ng-click="openLeftMenu()" ng-bind="project.name">
+        Tous les projets
+      </md-button>
+    </md-toolbar>
+    <md-content md-scroll-y flex>
+      <div class="smallFontSize">
+        <h3 class="table-title" ng-hide="next_issues_exist || (current.issues && current.issues.length > 0)">Aucune demande ouverte</h3>
+        <div ng-controller="NotificationsController">
+          <ul scroller="" loading-method="load_next_issues()" class="table-issues normal-table">
+            <li style="clear: both;display: list-item;"
+                layout="row"
+                ng-repeat="issue in current.issues"
+                class="single-element"
+                id="{{issue.id}}"
+                ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1), 'recently_updated':(recently_notified_lines.indexOf('issue-' + issue.id) > -1)}"
+                ng-click="click_on_issue('issue-' + issue.id)" >
+              <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
+            </li>
+          </ul>
 
-    </div>
+          <div spinner="next_issue_loaded" class="centered" ng-show="next_issues_exist"></div>
+          <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</ -->
 
+        </div>
+
+      </div>
+    </md-content>
   </div>
 </div>

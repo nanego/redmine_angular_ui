@@ -6,7 +6,7 @@
 		</div>
 	</div>
 
-  <watched-toggle ng-model="issue.watched" issue-id="issue.id"></watched-toggle>
+  <watched-toggle ng-model="issue.watched" issue-id="issue.id" hide-sm></watched-toggle>
 	<a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank" hide-sm>{{ issue.id }}</a>
 	<div class="tracker" hide-sm><div class="textCircle {{ 'tr-'+issue.tracker.id }}"> {{issue.tracker.name.substring(0, 2)}} </div></div>
 	<div class="project"> {{issue.project.name}}</div>
