@@ -84,7 +84,7 @@ ul{
     text-align: center;
     font-family: arial,sans-serif;
 }
-#notifications ul li a {
+#notifications ul li a.cancel_notif {
     float: right;
     padding-left: 5px;
 }

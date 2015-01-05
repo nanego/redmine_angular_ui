@@ -127,7 +127,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
             break;
           case 'destroy':
             if (message.issue.status.is_closed == '1') {
-              NotificationService.add("La demande #" + message.issue.id + " a été fermée.", null, 10);
+              NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", null, 10);
             } else {
               NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
             }
@@ -135,7 +135,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
             $scope.current.issues.splice(index, 1);
             break;
           case 'update':
-            NotificationService.add("La demande #" + message.issue.id + " a été mise à jour.", null, 10, "issue-" + message.issue.id);
+            NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", null, 10, "issue-" + message.issue.id);
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             if (index >= 0) {
               jQuery.extend($scope.current.issues[index], message.issue);
