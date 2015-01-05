@@ -16,7 +16,7 @@ app.directive('spinner', function() {
     },
     restrict: 'A',
     replace: false,
-    template: '<img src="/plugin_assets/redmine_angular_ui/images/spinner.gif" ng-show="loading" />',
+    template: '<md-progress-circular md-mode="indeterminate"></md-progress-circular>',
     link: function($scope, element, attrs) {
       $scope.loading = true;
       $scope.$watch("scopeVar", function() {
@@ -83,7 +83,7 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
         }
         $timeout(function(){
           $rootScope.mainLoading = check;
-        },400);
+        },1000);
       };
 
       if ($rootScope.mainLoading != false ){

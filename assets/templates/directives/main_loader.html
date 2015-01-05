@@ -1,48 +1,24 @@
-<div class="modal" ng-class="mainLoading ? 'show' : 'hide'">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div spinner style="float: right;"></div>
-        <h4 class="modal-title">Pré-chargement des données</h4>
-      </div>
-      <div class="modal-body">
+<md-dialog ng-show="mainLoading">
+  <md-content>
 
-        <div class="row" style="margin-bottom: 10px;">
-          <div class="col-sm-6 col-sm-offset-3">
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="checkbox" ng-checked="app.issues!=undefined" disabled="disabled">
-              </span>
-              <input type="text" class="form-control" value="Demandes">
-            </div>
-          </div>
-        </div>
+    <md-subheader class="md-sticky-no-effect">
+      <div spinner style="float: right;"></div>
+      <h4>Pré-chargement des données</h4>
+    </md-subheader>
 
-        <!--
-        <div class="row" style="margin-bottom: 10px;">
-          <div class="col-sm-6 col-sm-offset-3">
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="checkbox" ng-checked="app.projects!=undefined" disabled="disabled">
-              </span>
-              <input type="text" class="form-control" value="Projets">
-            </div>
-          </div>
-        </div>
-        -->
+    <md-checkbox ng-model="app.issues != undefined" ng-disabled="true">
+      Demandes
+    </md-checkbox>
 
-        <div class="row" style="margin-bottom: 10px;">
-          <div class="col-sm-6 col-sm-offset-3">
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="checkbox" ng-checked="app.user !== undefined" disabled="disabled">
-              </span>
-              <input type="text" class="form-control" value="Profil utilisateur">
-            </div>
-          </div>
-        </div>
+    <md-checkbox ng-model="app.user !== undefined" ng-disabled="true">
+      Profil utilisateur
+    </md-checkbox>
 
-      </div>
-    </div>
-  </div>
-</div>
+    <!--
+    <md-checkbox ng-model="app.projects != undefined" ng-disabled="true">
+      Projets
+    </md-checkbox>
+    -->
+
+  </md-content>
+</md-dialog>
