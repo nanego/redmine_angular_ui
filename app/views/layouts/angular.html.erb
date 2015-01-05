@@ -35,17 +35,18 @@
     <%= stylesheet_link_tag("redproject", :plugin => "redmine_angular_ui") %>
 
   </head>
-<body md-theme="green">
+<body md-theme="green" layout="row">
 
-  <div layout="column" style="height: 100%;">
+  <main-loader></main-loader>
 
+    <!--
     <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak ng-bind="alertMessage"></div>
 
     <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
+    -->
 
-    <div data-ng-view></div>
+    <div data-ng-view style="display: flex;"></div>
 
-  </div> <!-- /container -->
 
   <%= javascript_include_tag "application" %>
 

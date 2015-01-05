@@ -1,17 +1,12 @@
-<div main_loader></div>
-
 <!-- src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>-->
 
 <!-- <ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/sidenav-projects.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include> -->
-<div layout="column" layout-fill ng-controller="navigationController"  ng-hide="mainLoading===undefined || mainLoading">
-  <md-sidenav layout="column"
-              md-component-id="left"
-              class="md-sidenav-left md-whiteframe-z2"
-              md-is-locked-open="" flex> <!--="$media('gt-sm')"-->
+
+<div style="display: flex;" ng-controller="navigationController" ng-hide="mainLoading===undefined || mainLoading">
+
+  <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" component-id="main-sidenav-left" md-is-locked-open="$media('min-width: 900px')" style="display: flex;min-width: 304px;" >
     <md-toolbar>
-      <md-button ng-click="close()">
-        <h1 class="md-toolbar-tools">Portail</h1>
-      </md-button>
+      <h1 class="md-toolbar-tools"><a href ng-click="close()">Portail</a></h1>
     </md-toolbar>
     <md-content flex>
       <a class="menuitem" href="#/issues"><span class="menuitem-content"><span>Tous les projets</span></span></a>
@@ -24,20 +19,23 @@
         <div id="projects-list">
           <a class="menuitem disable" ng-hide="app.projects" href="#"><span class="menuitem-content"><span>Projets en cours de chargement</span></span></a>
           <a class="menuitem" ng-class="{'is-hover': $first, disable: project.allowed_to_view_issues === 0}" ng-repeat="project in app.projects | filter:{name: search.name}" ng-href="{{ project.allowed_to_view_issues === 1 ? '#/projects/'+project.id+'/issues' : '#/issues' }}">
-              <span class="menuitem-content">
-                <span>{{ project.name }}</span>
-              </span>
+            <span class="menuitem-content">
+              <span>{{ project.name }}</span>
+            </span>
           </a>
         </div>
       </div>
     </md-content>
   </md-sidenav>
 
-  <div layout="column" layout-fill flex class="ng-scope">
-    <md-toolbar style="min-height: 44px;vertical-align: middle;" layout="column">
-      <md-button ng-click="openLeftMenu()" ng-bind="project.name">
-        Tous les projets
-      </md-button>
+  <div layout="column" layout-fill>
+
+    <md-toolbar layout="column">
+      <div class="md-toolbar-tools" ng-click="openMenu()" flex layout="column">
+        <div layout="row" flex>
+          <div style="line-height: 28px;" ng-bind="(menu.currentPage | humanizeDoc) || 'Tous les projets'" class="ng-binding">Tous les projets</div>
+        </div>
+      </div>
     </md-toolbar>
     <md-content md-scroll-y flex>
       <div class="smallFontSize">
@@ -56,11 +54,13 @@
           </ul>
 
           <div spinner="next_issue_loaded" class="centered" ng-show="next_issues_exist"></div>
-          <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</ -->
+          <!-- href="javascript:void(0);" ng-click="load_next_issues();">Charger les demandes suivantes</-->
 
         </div>
 
       </div>
     </md-content>
+
   </div>
+
 </div>

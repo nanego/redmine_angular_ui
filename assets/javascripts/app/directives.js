@@ -69,7 +69,7 @@ function getDocHeight() {
 
 app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootScope) {
   return {
-    restrict: 'A',
+    restrict: 'AE',
     replace: false,
     templateUrl: '/plugin_assets/redmine_angular_ui/templates/directives/main_loader.html',
     link: function($scope) {
