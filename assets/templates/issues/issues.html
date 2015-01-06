@@ -4,7 +4,7 @@
 
 <div style="display: flex;" ng-controller="navigationController" ng-hide="mainLoading===undefined || mainLoading">
 
-  <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" component-id="main-sidenav-left" md-is-locked-open="$media('min-width: 900px')" style="display: flex;min-width: 304px;" >
+  <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" style="display: flex;min-width: 304px;" >
     <md-toolbar>
       <h1 class="md-toolbar-tools"><a href ng-click="close()">Portail</a></h1>
     </md-toolbar>
@@ -31,9 +31,10 @@
   <div layout="column" layout-fill>
 
     <md-toolbar layout="column">
-      <div class="md-toolbar-tools" ng-click="openMenu()" flex layout="column">
+      <div class="md-toolbar-tools" ng-click="openMainLeftSidenav()" flex layout="column">
         <div layout="row" flex>
-          <div style="line-height: 28px;" ng-bind="(menu.currentPage | humanizeDoc) || 'Tous les projets'" class="ng-binding">Tous les projets</div>
+          <div class="icon icon-navigation-white icon-navigation-white-ic_menu_white_24dp" style="position: relative; top: 3px;margin-right: 3px;"></div>
+          <div style="line-height: 28px;" ng-bind="(menu.currentPage) || 'Tous les projets'" class="ng-binding">Tous les projets</div>
         </div>
       </div>
     </md-toolbar>

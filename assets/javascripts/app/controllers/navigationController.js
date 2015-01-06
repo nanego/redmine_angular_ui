@@ -43,6 +43,9 @@ app.controller('navigationController', function NavigationCtrl($scope, ProjectSe
   $scope.openLeftMenu = function() {
     $mdSidenav('left').toggle();
   };
+  $scope.openMainLeftSidenav = function() {
+    $mdSidenav('left').toggle();
+  };
   $scope.close = function() {
     $mdSidenav('left').close();
   };
