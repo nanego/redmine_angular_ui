@@ -257,3 +257,19 @@ app.directive('watchedToggle', function($timeout, $http) {
     }
   };
 });
+
+app.directive( 'assignation', function ( $compile ) {
+  return {
+    restrict: 'E',
+    scope: { text: '@',
+            customclass: '@'},
+    template: '<div class="pull-right-div {{ customclass }}" tooltip="{{text}}" tooltip-placement="bottom"></div>',
+
+  controller: function ( $scope, $element ) {
+      $scope.add = function () {
+        var el = $compile( "<assignation text='n'></assignation>" )( $scope );
+        $element.parent().append( el );
+      };
+    }
+  };
+});

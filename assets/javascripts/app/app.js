@@ -8,7 +8,8 @@ var app = angular.module('myApp',['ngRoute',
                         'ngSanitize',
                         'cfp.hotkeys',
                         'myApp.customdropdown',
-                        'uiSwitch'
+                        'uiSwitch',
+                        'ui.bootstrap'
 ]);
 
 angular.module('myApp.services',['ngResource']);
