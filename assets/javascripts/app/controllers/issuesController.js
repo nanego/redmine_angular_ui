@@ -1,9 +1,10 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope, IssueService, IssueServiceConfig){
+app.controller('IssuesController', function($scope, IssueService, IssueServiceConfig, not_assignedFilter){
 
   $scope.current.project = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
+  $scope.current.permanent_mode = false;
 
   var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
@@ -36,6 +37,24 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
       });
     }
   };
+
+  $scope.$watch('current.permanent_mode', function() {
+    if ($scope.current.permanent_mode == true) {
+      $scope.current.issues = not_assignedFilter($scope.app.issues);
+    }else{
+      $scope.current.issues = $scope.app.issues;
+    }
+    if ($scope.current.issues !== undefined) {
+      if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+        $scope.next_issues_exist = false;
+      }else{
+        $scope.next_issues_exist = true;
+      }
+      IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
+        update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+      });
+    }
+  });
 });
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {

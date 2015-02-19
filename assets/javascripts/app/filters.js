@@ -50,3 +50,16 @@ app.filter('dateFormat', function($filter)
 
   };
 });
+
+app.filter('not_assigned', function() {
+  return function (items) {
+    var filtered = [];
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      if (item['assigned_to'] == undefined) {
+        filtered.push(item);
+      }
+    }
+    return filtered;
+  };
+});
