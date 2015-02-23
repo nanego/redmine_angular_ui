@@ -27,13 +27,14 @@ app.factory('IssueService', function($http){
   var default_limit = 50; // TODO Should be fetched from IssueServiceConfig.default_limit;
 
   var result;
-  function refresh(offset, limit, project_id) {
+  function refresh(offset, limit, project_id, base_url) {
     offset = offset || 0;
     limit = limit || default_limit;
+    base_url = base_url || "issues";
     if (project_id === undefined) {
-      return $http.get('/issues.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset, { headers: headers });
+      return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset, { headers: headers });
     }else{
-      return $http.get('/issues.json?sort=updated_on:desc&limit='+limit +'&offset='+offset+'&project_id='+project_id, { headers: headers });
+      return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit='+limit +'&offset='+offset+'&project_id='+project_id, { headers: headers });
     }
   }
 
@@ -43,6 +44,11 @@ app.factory('IssueService', function($http){
       if (!result) {
         result = refresh(null, null);
       }
+      return result;
+    },
+    get_not_assigned_issues: function (project_id) {
+      console.log("getNotAssignedIssues");
+      result = refresh(null, null, project_id, "custom_api/issues/not_assigned_issues");
       return result;
     },
     getLatestIssuesByProject: function (project_id) {

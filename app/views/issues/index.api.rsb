@@ -20,7 +20,8 @@ api.array :issues, api_meta(:total_count => @issue_count, :offset => @offset, :l
       api.is_private  issue.is_private
       api.estimated_hours issue.estimated_hours
 
-      render_api_custom_values issue.visible_custom_field_values, api
+      # TODO Re-enable custom fields
+      # render_api_custom_values issue.visible_custom_field_values, api if render_api_custom_values
 
       api.created_on issue.created_on
       api.updated_on issue.updated_on

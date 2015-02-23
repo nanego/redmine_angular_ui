@@ -1,1 +1,1 @@
-json.issues @issues_map
+json.issues @issues

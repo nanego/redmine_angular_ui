@@ -80,8 +80,10 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService, 
 function update_array_of_issues_with_last_note(arrayOfIssues, newIssuesData){
   for (var index = 0; index < newIssuesData.length; ++index) {
     var issue_index = findWithAttr(arrayOfIssues, 'id', newIssuesData[index]['id']);
-    arrayOfIssues[issue_index].notes_count = newIssuesData[index]['count'];
-    arrayOfIssues[issue_index].last_note = newIssuesData[index]['last_note'];
+    if (issue_index >= 0 && arrayOfIssues[issue_index] !== undefined){
+      arrayOfIssues[issue_index].notes_count = newIssuesData[index]['count'];
+      arrayOfIssues[issue_index].last_note = newIssuesData[index]['last_note'];
+    }
   }
 }
 

@@ -41,6 +41,14 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
   $scope.$watch('current.permanent_mode', function() {
     if ($scope.current.permanent_mode == true) {
       $scope.current.issues = not_assignedFilter($scope.app.issues);
+      if ($scope.current.issues.length < IssueServiceConfig.default_limit) {
+        IssueService.get_not_assigned_issues($scope.current.project_id).success(function (response) {
+          if(response.issues !== undefined && $scope.current.permanent_mode == true){
+            add_issues_to_main_array($scope, response.issues, IssueService);
+            $scope.current.issues = not_assignedFilter($scope.current.issues);
+          }
+        });
+      }
     }else{
       $scope.current.issues = $scope.app.issues;
     }
@@ -159,6 +167,7 @@ function IssueFormController($scope, ProjectService) {
 };
 
 function add_issues_to_main_array($scope, new_issues, IssueService) {
+  // Current array
   for (var i = 0; i < new_issues.length; ++i) {
     var issue_in_scope_index = findWithAttr($scope.current.issues, 'id', new_issues[i].id);
     if (issue_in_scope_index >= 0) {
@@ -170,4 +179,13 @@ function add_issues_to_main_array($scope, new_issues, IssueService) {
   IssueService.get_last_note_by_ids(new_issues.map(function(x) {return x.id; })).success(function (response){
     update_array_of_issues_with_last_note($scope.current.issues, response.issues);
   });
+  // Global array
+  for (var i = 0; i < new_issues.length; ++i) {
+    var issue_in_scope_index = findWithAttr($scope.app.issues, 'id', new_issues[i].id);
+    if (issue_in_scope_index >= 0) {
+      $scope.app.issues[issue_in_scope_index] = new_issues[i];
+    } else {
+      $scope.app.issues.push(new_issues[i]);
+    }
+  }
 }

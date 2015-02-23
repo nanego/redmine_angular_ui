@@ -426,6 +426,7 @@ td .prior {
     -webkit-animation-duration: 0.3s;
 }
 
+/* Disable animation for now
 .count, .last-talk {
 	-moz-animation-name: newIssueQ;
     -moz-animation-iteration-count: once;
@@ -437,6 +438,7 @@ td .prior {
     -webkit-animation-timing-function: ease-in;
     -webkit-animation-duration: 0.4s;
 }
+*/
 
 
 @-moz-keyframes dropHeader {
