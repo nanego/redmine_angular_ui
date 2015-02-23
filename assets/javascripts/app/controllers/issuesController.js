@@ -23,7 +23,7 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
   });
 
   $scope.load_next_issues = function() {
-    if ($scope.current.issues !== undefined) {
+    if ($scope.current.issues !== undefined && $scope.current.permanent_mode !== true) {
       $scope.next_issue_loaded = false;
       $scope.next_issues_exist = true;
       IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
