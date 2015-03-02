@@ -40,7 +40,11 @@ class Issue
 
     json = {}
 
-    json.merge!({'issue' => {'assigned_to' => {'id' => assigned_to_id, 'name' => assigned_to.name} } })  unless assigned_to.nil?
+    if assigned_to.present?
+      json.merge!({'issue' => {'assigned_to' => {'id' => assigned_to_id, 'name' => assigned_to.name} } })
+    else
+      json.merge!({'issue' => {'assigned_to' => nil}})
+    end
 
     if project.module_enabled?("limited_visibility") && !assigned_to_function_id.nil?
       json.merge!({'issue' => {'assigned_to_functional_role' => {'id' => assigned_to_function_id, 'name' => assigned_function.name}}})
