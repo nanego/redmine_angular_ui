@@ -38,7 +38,15 @@ class Issue
     r = ActiveRecord::Base.connection.execute(sql).first
     last_note = Journal.where(created_on: r['max_date'], journalized_id: id).first if r.present?
 
-    json = {'action' => action,
+    json = {}
+
+    json.merge!({'issue' => {'assigned_to' => {'id' => assigned_to_id, 'name' => assigned_to.name} } })  unless assigned_to.nil?
+
+    if project.module_enabled?("limited_visibility") && !assigned_to_function_id.nil?
+      json.merge!({'issue' => {'assigned_to_functional_role' => {'id' => assigned_to_function_id, 'name' => assigned_function.name}}})
+    end
+
+    json.merge!({'action' => action,
             'user' => {'id' => User.current.id},
             'issue' =>
                 {'id' => id,
@@ -63,6 +71,11 @@ class Issue
                  'last_note' => r.present? ? last_note['notes'] : "",
                  'watched' => watcher_users.include?(User.current) ? "1" : "0"
                 }
-    }.to_json
+    }) { |key, first, second|
+      first.is_a?(Hash) && second.is_a?(Hash) ? first.merge(second) : second
+    }
+
+    json.to_json
   end
 end
+

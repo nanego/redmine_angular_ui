@@ -43,15 +43,13 @@ api.array :issues, api_meta(:total_count => @issue_count, :offset => @offset, :l
 
         if issue.project.module_enabled?("limited_visibility")
           # custom attributes for the limited_visibility plugin
-          if issue.project.module_enabled?("limited_visibility")
-            api.assigned_to_functional_role(:id => issue.assigned_to_function_id, :name => issue.assigned_function.name) unless issue.assigned_to_function_id.nil?
-            api.array :authorized_viewers do
-              issue.authorized_viewer_ids.each do |functional_role_id|
-                functional_role = Function.where("id = ? ", functional_role_id).first
-                api.authorized_viewer do
-                  api.id functional_role.id
-                  api.name functional_role.name
-                end
+          api.assigned_to_functional_role(:id => issue.assigned_to_function_id, :name => issue.assigned_function.name) unless issue.assigned_to_function_id.nil?
+          api.array :authorized_viewers do
+            issue.authorized_viewer_ids.each do |functional_role_id|
+              functional_role = Function.where("id = ? ", functional_role_id).first
+              api.authorized_viewer do
+                api.id functional_role.id
+                api.name functional_role.name
               end
             end
           end
