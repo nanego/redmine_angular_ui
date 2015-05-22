@@ -1,6 +1,7 @@
 <div class="pull-right-div" style="min-width: 43px;" ng-bind="issue.updated_on | dateFormat"></div>
 <assignation customclass="{{ issue.assigned_to_functional_role !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}"
              text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
+
 <div class="issue-item">
 	<div class="select">
 		<div class="check">
@@ -8,16 +9,19 @@
 		</div>
 	</div>
 
-  <watched-toggle ng-model="issue.watched" issue-id="issue.id"></watched-toggle>
-	<a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank">{{ issue.id }}</a>
-	<div class="tracker"><div class="textCircle {{ 'tr-'+issue.tracker.id }}"> {{issue.tracker.name.substring(0, 2)}} </div></div>
+	<div class="tracker"><div class="textCircle {{ 'tr-'+issue.tracker.id }}" title="{{ issue.tracker.name }}"> {{issue.tracker.name.substring(0, 2)}} </div></div>
+  <a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank">{{ issue.id }}</a>
 	<div class="project"> {{issue.project.name}}</div>
   <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle>
-	<div class="subject">
-		<a class="issue-tab" ng-href="/issues/{{issue.id}}" target="_blank">
-			<span class="issue-subject">{{issue.subject}}</span>
-			<span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
-			<span class="last-talk">{{ issue.last_note }}</span>
-		</a>
+	<div class="subject" ng-mouseover="issue.show-watched-toggle = true">
+    <div class="issue-tab" >
+      <a ng-href="/issues/{{issue.id}}" target="_blank">
+        <span class="issue-subject">{{issue.subject}}</span>
+      </a>
+      <watched-toggle ng-model="issue.watched" issue-id="issue.id" ng-show="issue.show_watched_toggle" ></watched-toggle>
+      <span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
+      <span class="last-talk">{{ issue.last_note }}</span>
+    </div>
+
 	</div>
 </div>

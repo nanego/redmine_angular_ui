@@ -1233,8 +1233,8 @@ top: 0.5em;
 }
 
 .issue-item .fav-star {
-	float: left;
-	padding-right: 10px;
+	/* float: right; */
+	/* padding-right: 10px; */
 }
 
 .issue-item .tracker {
@@ -1275,6 +1275,6 @@ top: 0.5em;
 	padding-right: 10px;
 }
 
-.issue-item .subject {
-
+.issue-tab a:hover {
+   text-decoration: none;
 }

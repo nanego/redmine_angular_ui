@@ -12,7 +12,8 @@
             class="single-element"
             id="{{issue.id}}"
             ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1), 'recently_updated':(recently_notified_lines.indexOf('issue-' + issue.id) > -1)}"
-            ng-click="click_on_issue('issue-' + issue.id)" >
+            ng-click="click_on_issue('issue-' + issue.id)"
+            ng-mouseenter="hover(issue, true)" ng-mouseleave="hover(issue, false)">
           <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
         </li>
       </ul>
