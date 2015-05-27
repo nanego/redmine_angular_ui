@@ -13,7 +13,7 @@
   <a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank">{{ issue.id }}</a>
 	<div class="project"> {{issue.project.name}}</div>
   <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle>
-	<div class="subject" ng-mouseover="issue.show-watched-toggle = true">
+	<div class="subject">
     <div class="issue-tab" >
       <a ng-href="/issues/{{issue.id}}" target="_blank">
         <span class="issue-subject">{{issue.subject}}</span>
