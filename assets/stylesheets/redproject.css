@@ -1219,7 +1219,7 @@ top: 0.5em;
 
 .issue-item .issue_id {
 	float: left;
-	width: 5em;
+	width: 4em;
 	overflow: hidden;
 	padding-right: 10px;
 }
@@ -1239,7 +1239,7 @@ top: 0.5em;
 
 .issue-item .tracker {
 	float: left;
-	width: 3em;
+	width: 2.5em;
 	overflow: hidden;
 	padding-right: 10px;
 	margin-top: 3px;
