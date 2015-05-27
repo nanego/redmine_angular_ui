@@ -64,11 +64,6 @@ app.controller('IssuesController', function($scope, IssueService, IssueServiceCo
     }
   });
 
-  $scope.hover = function(issue, value) {
-    // Shows/hides the fav star button on hover
-    return issue.show_watched_toggle = value;
-  };
-
 });
 
 function getIssueById($scope, issue_id, IssueService, $timeout) {

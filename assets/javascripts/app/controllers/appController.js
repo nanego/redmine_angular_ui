@@ -54,6 +54,11 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
     }
   };
 
+  $scope.hover = function(issue, value) {
+    // Shows/hides the fav star button on hover
+    return issue.show_watched_toggle = value;
+  };
+
 });
 
 function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q) {
