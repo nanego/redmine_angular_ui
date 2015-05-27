@@ -1233,8 +1233,8 @@ top: 0.5em;
 }
 
 .issue-item .fav-star {
-	/* float: right; */
-	/* padding-right: 10px; */
+	float: right;
+	padding-right: 10px;
 }
 
 .issue-item .tracker {
