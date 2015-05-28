@@ -34,19 +34,15 @@ app.factory('IssueService', function($http, $filter){
     filters = filters || {};
 
     var param_filters = "";
+    if (filters["status_id"] === undefined) {
+      param_filters += '&f[]=status_id&op[status_id]=o';
+    }
     if (filters["project_id"] !== undefined) {
       param_filters += '&project_id='+filters["project_id"];
-    }
-    if (filters["project_name"] !== undefined && filters["project_name"].length>0) {
-      // var reg = new RegExp(filters['project_name'],"gi");
-      // var selectedProjects = $filter('regex')($scope.app.projects, 'name', filters['project_name']);
-      // param_filters += '&project_name='+filters["project_name"];
-      // param_filters += '&f[]=project_id&op[project_id]=%3D&v[project_id][]=249&f[]=&c[]=project'
     }
     if(filters["projects_ids"] !== undefined && filters["projects_ids"].length>0){
       param_filters += '&f[]=project_id&op[project_id]=%3D&f[]=&c[]=project';
       for(var i=0,l=filters["projects_ids"].length; i<l; i++) param_filters += '&v[project_id][]='+filters["projects_ids"][i];
-      // param_filters += '&v[project_id][]=249';
     }
 
     return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset + param_filters, { headers: headers });
