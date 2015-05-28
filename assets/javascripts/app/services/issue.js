@@ -84,10 +84,8 @@ app.factory('IssueService', function($http, $filter){
       result = refresh(0, current_nb_of_issues);
       return result;
     },
-    getNextLatestIssues: function (offset, project) {
-      console.log("getNextLatestIssues");
-      var filters = {};
-      filters['project_id'] = (project !== undefined ? project.id : undefined);
+    getNextLatestIssues: function (offset, filters) {
+      console.log("getNextLatestIssues" + JSON.stringify(filters, null, 2));
       return refresh(offset, null, filters);
     },
     getIssueFromCache: function(id) {

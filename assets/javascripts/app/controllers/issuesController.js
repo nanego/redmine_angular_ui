@@ -1,12 +1,29 @@
 var app = angular.module('myApp.controllers');
 
+var load_next_issues = function ($scope, IssueService, IssueServiceConfig) {
+  if ($scope.current.issues !== undefined && $scope.current.permanent_mode !== true) {
+    $scope.next_issue_loaded = false;
+    $scope.next_issues_exist = true;
+    $scope.current.filters['project_id'] = ($scope.current.project !== undefined ? $scope.current.project.id : undefined);
+    IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.filters).then(function (response) {
+      if (response.data.issues.length < IssueServiceConfig.default_limit) {
+        $scope.next_issues_exist = false;
+      }
+      if (response.data.issues.length === IssueServiceConfig.default_limit) {
+        $scope.next_issue_loaded = true;
+      }
+      add_issues_to_main_array($scope, response.data.issues, IssueService);
+    });
+  }
+};
+
 app.controller('IssuesController', function($scope, $routeParams, IssueService, IssueServiceConfig, not_assignedFilter, project_nameFilter){
 
   $scope.current.project = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
   $scope.current.permanent_mode = false;
   $scope.current.filters = {};
-  $scope.current.filters['projects'] = $routeParams.filter;
+  // $scope.current.filters['projects'] = $routeParams.filter;
 
   var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
@@ -25,19 +42,7 @@ app.controller('IssuesController', function($scope, $routeParams, IssueService, 
   });
 
   $scope.load_next_issues = function() {
-    if ($scope.current.issues !== undefined && $scope.current.permanent_mode !== true) {
-      $scope.next_issue_loaded = false;
-      $scope.next_issues_exist = true;
-      IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
-        if (response.data.issues.length < IssueServiceConfig.default_limit) {
-          $scope.next_issues_exist = false;
-        }
-        if (response.data.issues.length === IssueServiceConfig.default_limit) {
-          $scope.next_issue_loaded = true;
-        }
-        add_issues_to_main_array($scope, response.data.issues, IssueService);
-      });
-    }
+    load_next_issues($scope, IssueService, IssueServiceConfig);
   };
 
   $scope.$watch('current.permanent_mode', function() {
@@ -101,7 +106,9 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
       }else{
         if(index_of_issue === $scope.current.issues.length-1){
           $scope.loading_next_issue = true;
-          IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.project).then(function (response) {
+          $scope.current.filters = $scope.current.filters || {};
+          $scope.current.filters['project_id'] = ($scope.current.project !== undefined ? $scope.current.project.id : undefined);
+          IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.filters).then(function (response) {
             add_issues_to_main_array($scope, response.data.issues, IssueService);
             if (index_of_issue < $scope.current.issues.length-1){
               $scope.next_issue = $scope.current.issues[index_of_issue+1]
@@ -151,7 +158,7 @@ app.controller('IssuesFiltersController', function($scope, $filter, $routeParams
   $scope.current.issues = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
 
-  $scope.current.filters = {};
+  $scope.current.filters = $scope.current.filters || {};
   $scope.current.filters['project_name'] = $routeParams.project_name;
 
   $scope.$watch('current.filters', function() {
@@ -181,6 +188,11 @@ app.controller('IssuesFiltersController', function($scope, $filter, $routeParams
     });
 
   });
+
+  $scope.load_next_issues = function() {
+    load_next_issues($scope, IssueService, IssueServiceConfig);
+  };
+
 });
 
 app.controller('IssueEditController', function($scope, $routeParams, IssueService, TrackerService, $location, $timeout){

@@ -1,4 +1,4 @@
-<div class="pull-right-div" style="min-width: 43px;" ng-bind="issue.updated_on | dateFormat"></div>
+<div class="pull-right-div" style="min-width: 43px;" ng-bind="issue.updated_on | dateFormat" title="{{ issue.updated_on }}"></div>
 <assignation customclass="{{ issue.assigned_to_functional_role !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}"
              text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
 
