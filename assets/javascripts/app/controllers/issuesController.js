@@ -1,15 +1,17 @@
 var app = angular.module('myApp.controllers');
 
-app.controller('IssuesController', function($scope, IssueService, IssueServiceConfig, not_assignedFilter){
+app.controller('IssuesController', function($scope, $routeParams, IssueService, IssueServiceConfig, not_assignedFilter, project_nameFilter){
 
   $scope.current.project = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
   $scope.current.permanent_mode = false;
+  $scope.current.filters = {};
+  $scope.current.filters['projects'] = $routeParams.filter;
 
   var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
       unbindWatcher(); // When you call the $watch() method, AngularJS returns an unbind function that will kill the $watch() listener when its called.
-      $scope.current.issues = $scope.app.issues;
+      $scope.current.issues = project_nameFilter($scope.app.issues, $scope.current.filters);
 
       if ($scope.current.issues.length < IssueServiceConfig.default_limit){
         $scope.next_issues_exist = false;
@@ -142,6 +144,43 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
     @scope.issue = issue.details;
   });
   */
+});
+
+app.controller('IssuesFiltersController', function($scope, $filter, $routeParams, IssueService, IssueServiceConfig, ProjectService){
+
+  $scope.current.issues = undefined;
+  $scope.current.stage = "Demandes"; // TODO Refactor this
+
+  $scope.current.filters = {};
+  $scope.current.filters['project_name'] = $routeParams.project_name;
+
+  $scope.$watch('current.filters', function() {
+    $scope.next_issues_exist = true; // Show loader
+
+    ProjectService.getAllProjects().then(function (data) {
+
+      if ($scope.current.filters['project_name'].length > 0){
+        var selectedProjects = $filter('regex')(data.projects, 'name', $scope.current.filters['project_name']);
+        var projects_ids = selectedProjects.map(function(x) {return x.id;});
+        $scope.current.filters['projects_ids'] = projects_ids;
+        // console.log('projets correspondants :' + JSON.stringify($scope.current.filters['projects_ids'], null, 2));
+      }
+
+      IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
+        $scope.current.issues = response.data.issues;
+        IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
+          update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+        });
+        if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+          $scope.next_issues_exist = false;
+        }else{
+          $scope.next_issues_exist = true;
+        }
+      });
+
+    });
+
+  });
 });
 
 app.controller('IssueEditController', function($scope, $routeParams, IssueService, TrackerService, $location, $timeout){

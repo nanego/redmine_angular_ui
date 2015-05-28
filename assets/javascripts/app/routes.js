@@ -4,6 +4,10 @@ angular.module('myApp').config(function($routeProvider){
       templateUrl: '/plugin_assets/redmine_angular_ui/templates/issues/issues.html',
       controller: 'IssuesController'
     }).
+    when('/issues/filters', {
+      templateUrl: '/plugin_assets/redmine_angular_ui/templates/issues/issues.html',
+      controller: 'IssuesFiltersController'
+    }).
     when('/issues/:issue_id', {
       templateUrl: '/plugin_assets/redmine_angular_ui/templates/issues/show.html',
       controller: 'IssueShowController'

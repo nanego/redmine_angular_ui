@@ -63,3 +63,35 @@ app.filter('not_assigned', function() {
     return filtered;
   };
 });
+
+app.filter('project_name', function() {
+  return function (issues, filters) {
+    var filtered = [];
+    var reg = new RegExp(filters['projects'],"gi");
+    // console.log("filter = " + filters['projects']);
+    for (var i = 0; i < issues.length; i++) {
+      var issue = issues[i];
+      if ( reg.test(issue.project.name) ) {
+        filtered.push(issue);
+      }
+    }
+    return filtered;
+  };
+});
+
+app.filter('regex', function() {
+  return function(input, field, regex) {
+
+    // console.log("input : " + JSON.stringify(input, null, 2) );
+    // console.log("field : " + JSON.stringify(field, null, 2) );
+    // console.log("regex : " + JSON.stringify(regex, null, 2) );
+
+    var patt = new RegExp(regex, 'i');
+    var out = [];
+    for (var i = 0; i < input.length; i++){
+      if(patt.test(input[i][field]))
+        out.push(input[i]);
+    }
+    return out;
+  };
+});

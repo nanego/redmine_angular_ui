@@ -137,3 +137,7 @@ assignation .assigned_to_user{
     height: 24px;
     background: url('../images/assigned_user.png') no-repeat;
 }
+
+.search_filter.btn{
+    padding: 2px 6px;
+}
