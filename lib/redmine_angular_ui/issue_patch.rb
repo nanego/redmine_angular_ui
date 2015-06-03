@@ -25,12 +25,13 @@ class Issue
   def notif_after_commit(action)
     # TODO Remove that and make it asynchone with a call from the client only if the issue is visible
     message = {:channel => '/issues', :data => updated_data(action)}
-    if Rails.env == 'development'
+
+    if Rails.env == 'development' || Rails.env == 'test'
       uri = URI.parse("https://faye-redis.herokuapp.com/faye")
     else
       uri = URI.parse("http://localhost:3011/faye")
     end
-    Net::HTTP.post_form(uri, :message => message.to_json)
+    Net::HTTP.post_form(uri, :message => message.to_json) unless Rails.env == 'test'
   end
 
   def updated_data(action)
