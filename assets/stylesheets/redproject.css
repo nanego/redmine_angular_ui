@@ -1233,8 +1233,10 @@ top: 0.5em;
 }
 
 .issue-item .fav-star {
-	float: right;
+	float: left;
 	padding-right: 10px;
+	width: 24px;
+	height: 30px;
 }
 
 .issue-item .tracker {

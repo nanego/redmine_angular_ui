@@ -1,4 +1,5 @@
 <div class="pull-right-div" style="min-width: 43px;" ng-bind="issue.updated_on | dateFormat" title="{{ issue.updated_on }}"></div>
+
 <assignation customclass="{{ issue.assigned_to_functional_role !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}"
              text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
 
@@ -9,6 +10,9 @@
 		</div>
 	</div>
 
+  <div class="fav-star" ng-hide="issue.show_watched_toggle || issue.watched > 0"></div>
+  <watched-toggle ng-model="issue.watched" issue-id="issue.id"  ng-show="issue.show_watched_toggle || issue.watched > 0" ></watched-toggle>
+
 	<div class="tracker"><div class="textCircle {{ 'tr-'+issue.tracker.id }}" title="{{ issue.tracker.name }}"> {{issue.tracker.name.substring(0, 2)}} </div></div>
   <a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank">{{ issue.id }}</a>
 	<div class="project"> {{issue.project.name}}</div>
@@ -18,7 +22,6 @@
       <a ng-href="/issues/{{issue.id}}" target="_blank">
         <span class="issue-subject">{{issue.subject}}</span>
       </a>
-      <watched-toggle ng-model="issue.watched" issue-id="issue.id" ng-show="issue.show_watched_toggle" ></watched-toggle>
       <span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
       <span class="last-talk">{{ issue.last_note }}</span>
     </div>
