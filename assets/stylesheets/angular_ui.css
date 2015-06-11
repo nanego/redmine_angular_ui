@@ -139,5 +139,8 @@ assignation .assigned_to_user{
 }
 
 .search_filter.btn{
-    padding: 2px 6px;
+    padding: 5px 6px 2px 6px;
+    right: 1em;
+    position: absolute;
+    border: none;
 }
