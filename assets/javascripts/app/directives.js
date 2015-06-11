@@ -234,7 +234,7 @@ app.directive('watchedToggle', function($timeout, $http) {
 
         if (scope.val !== scope.persistedVal) {
           scope.delayedToggle = $timeout(function () {
-            var url = "/watchers/watch.js?light=1&amp;object_id=" + scope.issueId + "&amp;object_type=issue&amp;replace=watched-" + scope.issueId;
+            var url = "/watchers/watch.js?light=1&object_id=" + scope.issueId + "&object_type=issue&replace=watched-" + scope.issueId;
             if (scope.val === scope.ngWatched) {
               $http.post(url, null, {headers: scope.headers})
                 .success(function (d, s, h, c) {
@@ -263,7 +263,7 @@ app.directive( 'assignation', function ( $compile ) {
     restrict: 'E',
     scope: { text: '@',
             customclass: '@'},
-    template: '<div class="pull-right-div {{ customclass }}" tooltip="{{text}}" tooltip-placement="bottom"></div>',
+    template: '<div class="pull-right-div {{ customclass }}" tooltip="{{text}}" tooltip-placement="left"></div>',
 
   controller: function ( $scope, $element ) {
       $scope.add = function () {
