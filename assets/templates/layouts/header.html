@@ -24,7 +24,7 @@
           </span>
 
           <span ng-show="search.name">
-            <a ng-href="#/issues/filters?project_name={{ search.name }}" class="search_filter btn btn-default">
+            <a ng-href="#/issues/filters?project_name={{ search.name }}&assigned_to_id={{ current.filters['assigned_to_id'] }}" class="search_filter btn btn-default">
               <img src="/plugin_assets/redmine_angular_ui/images/filter_list.svg" width="24" height="24" style="fill:#555555;color:#555555;">
             </a>
           </span>

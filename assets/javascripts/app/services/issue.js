@@ -44,6 +44,9 @@ app.factory('IssueService', function($http, $filter){
       param_filters += '&f[]=project_id&op[project_id]=%3D&f[]=&c[]=project';
       for(var i=0,l=filters["projects_ids"].length; i<l; i++) param_filters += '&v[project_id][]='+filters["projects_ids"][i];
     }
+    if(filters["assigned_to_id"] !== undefined && filters["assigned_to_id"] !== ""){
+      param_filters += '&f[]=assigned_to_id&op[assigned_to_id]='+filters["assigned_to_id"];
+    }
 
     return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset + param_filters, { headers: headers });
   }
@@ -56,6 +59,7 @@ app.factory('IssueService', function($http, $filter){
       }
       return result;
     },
+    /*
     get_not_assigned_issues: function (project_id) {
       console.log("getNotAssignedIssues");
       var filters = {};
@@ -63,6 +67,7 @@ app.factory('IssueService', function($http, $filter){
       result = refresh(null, null, filters, "custom_api/issues/not_assigned_issues");
       return result;
     },
+    */
     getLatestIssuesWithFilters: function (filters) {
       console.log("getLatestIssuesWithFilters : " + JSON.stringify(filters, null, 2) );
       result = refresh(null, null, filters);
