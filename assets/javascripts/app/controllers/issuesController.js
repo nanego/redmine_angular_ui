@@ -102,6 +102,7 @@ app.controller('IssuesFiltersController', function($scope, $location, $filter, $
   $scope.current.filters = $scope.current.filters || {};
   $scope.current.filters['project_name'] = $routeParams.project_name || "";
   $scope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
+  $scope.current.filters['project_id'] = $routeParams.project_id;
 
   $scope.$watch('current.filters', function() {
     $scope.next_issues_exist = true; // Show loader
