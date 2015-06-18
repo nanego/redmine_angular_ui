@@ -9,7 +9,9 @@ var app = angular.module('myApp',['ngRoute',
                         'cfp.hotkeys',
                         'myApp.customdropdown',
                         'uiSwitch',
-                        'ui.bootstrap'
+                        'ui.bootstrap',
+                        'ngAnimate',
+                        'toastr'
 ]);
 
 angular.module('myApp.services',['ngResource']);
@@ -38,4 +40,19 @@ $(".issue-listing .check").click(function(){
   $(this).closest("li").toggleClass("selected");
   $(this).toggleClass("is-checked");
   // actionMenu();
+});
+
+
+app.config(function(toastrConfig) {
+  angular.extend(toastrConfig, {
+    positionClass: 'toast-bottom-right',
+    closeButton: true,
+    timeOut: 100000,
+    iconClasses: {
+      error: 'toast-error',
+      info: 'toast-notif-info',
+      success: 'toast-success',
+      warning: 'toast-warning'
+    },
+  });
 });

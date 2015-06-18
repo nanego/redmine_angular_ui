@@ -2,13 +2,13 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService) {
+app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService, toastr) {
 
   $http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q);
+  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr);
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -61,7 +61,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q) {
+function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
   $scope.current.issue = undefined;
@@ -78,7 +78,7 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService, 
   });
   */
   $q.all([sessionPromise, issuesPromise]).then(function(){
-    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope);
+    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr);
   });
 }
 
@@ -98,7 +98,7 @@ function arrayMove(arr, fromIndex, toIndex) {
   arr.splice(toIndex, 0, element);
 }
 
-function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
+function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr) {
 
   // Dev
   // var faye_server_url = 'http://faye-redis.herokuapp.com/faye'; // or 'http://localhost:3001/faye'
@@ -130,19 +130,23 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
         switch (message.action) {
           case 'create':
             NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-" + message.issue.id);
+            toastr.info('Une nouvelle demande a été ajoutée.');
             $scope.current.issues.unshift(message.issue);
             break;
           case 'destroy':
             if (message.issue.status.is_closed == '1') {
               NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", null, 10);
+              toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", {allowHtml: true});
             } else {
               NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
+              toastr.warning("La demande #" + message.issue.id + " a été supprimée.");
             }
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             $scope.current.issues.splice(index, 1);
             break;
           case 'update':
             NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", null, 10, "issue-" + message.issue.id);
+            toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             if (index >= 0) {
               jQuery.extend($scope.current.issues[index], message.issue);
@@ -167,6 +171,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope) {
             IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
               $scope.current.issues = response.data.issues;
               NotificationService.add("Les demandes ont été mises à jour.", null, 5);
+              toastr.info("Les demandes ont été mises à jour.");
             });
             break;
         }

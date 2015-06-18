@@ -10,10 +10,11 @@
     <!-- In production, use minified version:
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
     -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-resource.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-sanitize.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-resource.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-sanitize.js"></script>
+    <script src="https://code.angularjs.org/1.3.16/angular-animate.min.js"></script>
 
     <%= javascript_heads %>
 
@@ -26,6 +27,7 @@
     <%= stylesheet_link_tag("angular_ui", :plugin => "redmine_angular_ui") %>
     <%= stylesheet_link_tag("hotkeys", :plugin => "redmine_angular_ui") %>
     <%= stylesheet_link_tag("angular-ui-switch", :plugin => "redmine_angular_ui") %>
+    <%= stylesheet_link_tag("angular-toastr.min", :plugin => "redmine_angular_ui") %>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300' rel='stylesheet' type='text/css'>
@@ -38,7 +40,7 @@
 
   <div class="alert" ng-class="alertType" ng-show="alertType" ng-cloak ng-bind="alertMessage"></div>
 
-  <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
+  <!-- disabled ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include -->
 
   <div data-ng-view></div>
 
@@ -58,6 +60,7 @@
   </script>
 
   <%= javascript_include_tag("hotkeys", :plugin => "redmine_angular_ui") %>
+  <%= javascript_include_tag("angular-toastr.tpls.min.js", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("angular-ui-switch", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("ui-utils-0.1.1/ui-utils.js", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("ui-bootstrap-tpls-0.13.0.min.js", plugin: "redmine_angular_ui") %>

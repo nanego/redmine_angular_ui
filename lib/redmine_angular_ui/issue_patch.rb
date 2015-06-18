@@ -1,6 +1,6 @@
 require_dependency 'issue'
 
-class Issue
+class Issue < ActiveRecord::Base
 
   after_commit :notif_after_create, :on => :create
   after_commit :notif_after_update, :on => :update
