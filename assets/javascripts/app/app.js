@@ -47,7 +47,7 @@ app.config(function(toastrConfig) {
   angular.extend(toastrConfig, {
     positionClass: 'toast-bottom-right',
     closeButton: true,
-    timeOut: 10000,
+    timeOut: 9500,
     iconClasses: {
       error: 'toast-error',
       info: 'toast-notif-info',

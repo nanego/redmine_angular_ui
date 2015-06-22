@@ -136,17 +136,17 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
           case 'destroy':
             if (message.issue.status.is_closed == '1') {
               NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", null, 10);
-              toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", {allowHtml: true});
+              toastr.success("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", {allowHtml: true});
             } else {
               NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
-              toastr.warning("La demande #" + message.issue.id + " a été supprimée.");
+              toastr.error("La demande #" + message.issue.id + " a été supprimée.");
             }
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             $scope.current.issues.splice(index, 1);
             break;
           case 'update':
             NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", null, 10, "issue-" + message.issue.id);
-            toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
+            toastr.warning("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             if (index >= 0) {
               jQuery.extend($scope.current.issues[index], message.issue);
@@ -171,7 +171,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
             IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
               $scope.current.issues = response.data.issues;
               NotificationService.add("Les demandes ont été mises à jour.", null, 5);
-              toastr.info("Les demandes ont été mises à jour.");
+              toastr.warning("Les demandes ont été mises à jour.");
             });
             break;
         }
