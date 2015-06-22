@@ -48,6 +48,7 @@ app.config(function(toastrConfig) {
     positionClass: 'toast-bottom-right',
     closeButton: true,
     timeOut: 9500,
+    maxOpened: 6,
     iconClasses: {
       error: 'toast-error',
       info: 'toast-notif-info',
