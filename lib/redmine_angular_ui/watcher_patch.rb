@@ -12,7 +12,11 @@ class Watcher
 
   def notif_after_commit(action)
     # TODO Remove that and make it asynchone with a call from the client only if the issue is visible
-    message = {:channel => "/watched/#{User.current.id}", :data => self.watchable.updated_data(action)}
+
+    # Check if current app is prod or preprod
+    Mailer.default_url_options[:host] !~ /portail/ ? channel_type = '-preprod' : channel_type = ''
+
+    message = {:channel => "/watched"+channel_type+"/#{User.current.id}", :data => self.watchable.updated_data(action)}
     if Rails.env == 'development' || Rails.env == 'test'
       uri = URI.parse("https://faye-redis.herokuapp.com/faye")
     else

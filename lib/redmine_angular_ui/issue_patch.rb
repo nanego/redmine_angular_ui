@@ -24,7 +24,11 @@ class Issue < ActiveRecord::Base
 
   def notif_after_commit(action)
     # TODO Remove that and make it asynchone with a call from the client only if the issue is visible
-    message = {:channel => '/issues', :data => updated_data(action)}
+
+    # Check if current app is prod or preprod
+    Mailer.default_url_options[:host] =~ /portail/ ? channel_type = '' : channel_type = '-preprod'
+
+    message = {:channel => '/issues'+channel_type, :data => updated_data(action)}
 
     if Rails.env == 'development' || Rails.env == 'test'
       uri = URI.parse("https://faye-redis.herokuapp.com/faye")

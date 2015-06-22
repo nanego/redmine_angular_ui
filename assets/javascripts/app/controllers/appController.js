@@ -8,7 +8,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr);
+  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location);
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -61,7 +61,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr) {
+function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
   $scope.current.issue = undefined;
@@ -78,7 +78,7 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService, 
   });
   */
   $q.all([sessionPromise, issuesPromise]).then(function(){
-    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr);
+    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location);
   });
 }
 
@@ -98,18 +98,19 @@ function arrayMove(arr, fromIndex, toIndex) {
   arr.splice(toIndex, 0, element);
 }
 
-function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr) {
-
-  // Dev
-  // var faye_server_url = 'http://faye-redis.herokuapp.com/faye'; // or 'http://localhost:3001/faye'
-  // Prod / Preprod
-  // var faye_server_url = 'http://faye.application.ac.centre-serveur.i2/faye';
+function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location) {
 
   var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
   client.disable('websocket');
 
-  client.subscribe('/issues', function (message) {
+  // Select which channels to listen: prod or preprod
+  var channel_type = '';
+  if (!$location.host().match(/portail/g)){
+    channel_type = '-preprod';
+  }
+
+  client.subscribe('/issues' + channel_type, function (message) {
 
     message = JSON.parse(message);
 
@@ -179,7 +180,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
     }
   });
 
-  client.subscribe('/watched/' + $scope.app.user.id, function (message) {
+  client.subscribe('/watched'+  channel_type + '/' + $scope.app.user.id, function (message) {
 
     if ($scope.current.issues) {
 
