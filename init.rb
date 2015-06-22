@@ -11,8 +11,8 @@ Redmine::Plugin.register :redmine_angular_ui do
   name 'Redmine AngularJS User Interface plugin'
   author 'Vincent ROBERT'
   description 'This plugin for Redmine provides a new user interface based on AngularJS and the Redmine API.'
-  version '0.0.1'
-  requires_redmine :version_or_higher => '2.6.0'
+  version '0.0.2'
+  requires_redmine :version_or_higher => '3.0.0'
   # doesn't work since redmine evaluates dependencies as it loads, and loads in lexical order
   # TODO: see if it works in Redmine 2.6.x or 3.x when they're released
   # requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
