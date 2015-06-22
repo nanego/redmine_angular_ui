@@ -10,8 +10,8 @@
 		</div>
 	</div>
 
-  <div class="fav-star" ng-hide="issue.show_watched_toggle || issue.watched > 0 || issue.watched === undefined"></div>
-  <watched-toggle ng-model="issue.watched" issue-id="issue.id"  ng-show="issue.show_watched_toggle || issue.watched > 0 || issue.watched === undefined" ></watched-toggle>
+  <div class="fav-star" ng-hide="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null"></div>
+  <watched-toggle ng-model="issue.watched" issue-id="issue.id"  ng-show="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null" ></watched-toggle>
 
 	<div class="tracker"><div class="textCircle {{ 'tr-'+issue.tracker.id }}" title="{{ issue.tracker.name }}"> {{issue.tracker.name.substring(0, 2)}} </div></div>
   <a class="issue_id" ng-href="/issues/{{issue.id}}" target="_blank">{{ issue.id }}</a>
