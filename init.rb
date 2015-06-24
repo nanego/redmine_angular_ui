@@ -14,7 +14,7 @@ Redmine::Plugin.register :redmine_angular_ui do
   version '0.0.2'
   requires_redmine :version_or_higher => '3.0.0'
   # doesn't work since redmine evaluates dependencies as it loads, and loads in lexical order
-  # TODO: see if it works in Redmine 2.6.x or 3.x when they're released
+  # TODO: see if it works in Redmine 3.1.x when they're released
   # requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
   url 'https://github.com/nanego/redmine_angular_ui'
   author_url 'mailto:contact@vincent-robert.com'
