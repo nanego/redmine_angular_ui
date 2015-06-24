@@ -110,7 +110,8 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
     channel_type = '-preprod';
   }
 
-  client.subscribe('/issues' + channel_type, function (message) {
+  var issues_channels = (channel_type.length>0) ? ['/issues', '/issues' + channel_type] : '/issues';
+  client.subscribe(issues_channels, function (message) {
 
     message = JSON.parse(message);
 
@@ -180,7 +181,9 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
     }
   });
 
-  client.subscribe('/watched'+  channel_type + '/' + $scope.app.user.id, function (message) {
+  var watched_prod_channel = '/watched/' + $scope.app.user.id;
+  var watched_channels = (channel_type.length>0) ? [watched_prod_channel, '/watched'+  channel_type + '/' + $scope.app.user.id] : watched_prod_channel;
+  client.subscribe(watched_channels, function (message) {
 
     if ($scope.current.issues) {
 
