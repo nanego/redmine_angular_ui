@@ -51,7 +51,7 @@ app.config(function(toastrConfig) {
     maxOpened: 6,
     iconClasses: {
       error: 'toast-error',
-      info: 'toast-notif-info',
+      info: 'toast-info',
       success: 'toast-success',
       warning: 'toast-warning'
     },
