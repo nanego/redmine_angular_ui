@@ -132,7 +132,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
         switch (message.action) {
           case 'create':
             NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-" + message.issue.id);
-            toastr.info('Une nouvelle demande a été ajoutée.');
+            toastr.warning('Une nouvelle demande a été ajoutée.');
             $scope.current.issues.unshift(message.issue);
             break;
           case 'destroy':
@@ -148,7 +148,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
             break;
           case 'update':
             NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", null, 10, "issue-" + message.issue.id);
-            toastr.warning("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
+            toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             if (index >= 0) {
               jQuery.extend($scope.current.issues[index], message.issue);
