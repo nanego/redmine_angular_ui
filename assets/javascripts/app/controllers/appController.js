@@ -2,13 +2,13 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService, toastr) {
+app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService, toastr, inScopeFilter) {
 
   $http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location);
+  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter);
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -61,7 +61,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location) {
+function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
   $scope.current.issue = undefined;
@@ -78,7 +78,7 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService, 
   });
   */
   $q.all([sessionPromise, issuesPromise]).then(function(){
-    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location);
+    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter);
   });
 }
 
@@ -98,7 +98,7 @@ function arrayMove(arr, fromIndex, toIndex) {
   arr.splice(toIndex, 0, element);
 }
 
-function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location) {
+function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter) {
 
   var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
@@ -133,7 +133,11 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
           case 'create':
             NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-" + message.issue.id);
             toastr.warning('Une nouvelle demande a été ajoutée.');
-            $scope.current.issues.unshift(message.issue);
+            $scope.app.issues.unshift(message.issue);
+            if (inScopeFilter(message.issue, $scope.current.filters)){
+              // Add the new issue on the top of the list, only if the issue must be displayed according to current filters
+              $scope.current.issues.unshift(message.issue);
+            }
             break;
           case 'destroy':
             if (message.issue.status.is_closed == '1') {
@@ -149,13 +153,21 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
           case 'update':
             NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", null, 10, "issue-" + message.issue.id);
             toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
+
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            if (index >= 0) {
-              jQuery.extend($scope.current.issues[index], message.issue);
-              arrayMove($scope.current.issues, index, 0);
-            } else {
-              $scope.current.issues.unshift(message.issue);
+            if (inScopeFilter(message.issue, $scope.current.filters)){
+              // Move issue to top of the list
+              if (index >= 0) {
+                jQuery.extend($scope.current.issues[index], message.issue);
+                arrayMove($scope.current.issues, index, 0);
+              } else {
+                $scope.current.issues.unshift(message.issue);
+              }
+            }else{
+              // Remove from the list
+              $scope.current.issues.splice(index, 1);
             }
+
             if ($scope.current.issue !== undefined) {
               if ($scope.current.issue.id === message.issue.id) {
                 jQuery.extend($scope.current.issue, message.issue);

@@ -21,9 +21,9 @@ app.factory('Issue',function($http,$q) {
   return Issue;
 });
 
-app.factory('IssueService', function($http, $filter){
+app.factory('IssueService', function($http){
 
-  var Issue = function() {}; // constructor
+  // var Issue = function() {}; // constructor
   var default_limit = 50; // TODO Should be fetched from IssueServiceConfig.default_limit;
 
   var result;

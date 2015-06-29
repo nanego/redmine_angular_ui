@@ -95,3 +95,47 @@ app.filter('regex', function() {
     return out;
   };
 });
+
+app.filter('inScope', function() {
+  return function (issue, filters) {
+    var currently_in_scope = true;
+
+    console.log("issue : " + JSON.stringify(issue));
+
+    if (filters["status_id"] !== undefined) {
+      //TODO
+    }
+
+    if (filters["project_id"] !== undefined) {
+      //TODO
+    }
+
+    if (filters["projects_ids"] !== undefined && filters["projects_ids"].length>0){
+      //TODO
+    }
+
+    if (filters["assigned_to_id"] !== undefined && filters["assigned_to_id"] !== ""){
+      if(issue.assigned_to == null && filters["assigned_to_id"] !== "!*"){
+        currently_in_scope = false;
+      }
+      if(issue.assigned_to != null && filters["assigned_to_id"] === "!*"){
+        currently_in_scope = false;
+      }
+    }
+
+    if (filters["project_name"] !== undefined && filters["project_name"] !== ""){
+
+      var rule = new RegExp(filters["project_name"], 'i');
+
+      if(issue.project.name.match(rule)){
+        // console.log('Issue IS in current project name filter')
+      }else{
+        currently_in_scope = false;
+        // console.log('Issue IS NOT in current project name filter')
+      }
+    }
+
+    // console.log("Is issue " + issue.id + " in current scope ? " + currently_in_scope);
+    return currently_in_scope;
+  };
+});
