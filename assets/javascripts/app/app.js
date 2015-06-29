@@ -44,7 +44,7 @@ $(".issue-listing .check").click(function(){
   // actionMenu();
 });
 
-
+/* Toastr real-time notifications */
 app.config(function(toastrConfig) {
   angular.extend(toastrConfig, {
     positionClass: 'toast-bottom-right',

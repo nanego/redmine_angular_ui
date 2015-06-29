@@ -2,13 +2,13 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService, toastr, inScopeFilter) {
+app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter) {
 
   $http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter);
+  getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -61,12 +61,24 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter) {
+function getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
   $scope.current.issue = undefined;
   var sessionPromise = SessionService.getCurrentUser().then(function (data) {
+
+    console.log("User data : " + JSON.stringify(data.user));
+
     $scope.app.user = data.user;
+
+    UserService.getUserMemberships($scope.app.user.id).then(function (data) {
+
+      console.log("User memberships data : " + JSON.stringify(data));
+
+      $scope.app.user.memberships = data;
+    });
+
+
   });
   var issuesPromise = IssueService.getLatestIssues().then(function (response) {
     $scope.app.issues = response.data.issues;
@@ -78,7 +90,7 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService, 
   });
   */
   $q.all([sessionPromise, issuesPromise]).then(function(){
-    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter);
+    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter, inUserScopeFilter);
   });
 }
 
@@ -98,7 +110,7 @@ function arrayMove(arr, fromIndex, toIndex) {
   arr.splice(toIndex, 0, element);
 }
 
-function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter) {
+function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter, inUserScopeFilter) {
 
   var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
@@ -126,7 +138,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
       correct_context = true;
     }
 
-    if (correct_context) {
+    if (correct_context && inUserScopeFilter(message.issue, $scope.app.user.memberships)) {
       IssueService.getLatestIssues().then(function () {
         // NotificationService.add(JSON.stringify(message), null, 500);
         switch (message.action) {

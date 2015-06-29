@@ -139,3 +139,19 @@ app.filter('inScope', function() {
     return currently_in_scope;
   };
 });
+
+app.filter('inUserScope', function() {
+  return function (issue, memberships) {
+    var currently_in_user_scope = false;
+
+    for(var i=0; i<memberships.length; i++){
+      if (memberships[i].project.id === issue.project.id){
+        currently_in_user_scope = true;
+      }
+    }
+
+    console.log("Currently in USER scope ? " + currently_in_user_scope);
+
+    return currently_in_user_scope;
+  }
+});
