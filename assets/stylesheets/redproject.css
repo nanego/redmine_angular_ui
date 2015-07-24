@@ -344,7 +344,7 @@ table {
   line-height: 2.4em;
 }
 
-.table-issues { color: #999; }
+.table-issues { color: #000; }
 
 .table-title {
 	font-weight: 300;
@@ -404,7 +404,7 @@ table {
     color: #333;
     display: none;
 }
-.issue-subject { font-size: 1.083em; position: relative; font-weight: 500; }
+.issue-subject { font-size: 1.083em; position: relative; font-weight: 700; }
 .recently_updated .issue-subject { font-weight: 700; }
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
