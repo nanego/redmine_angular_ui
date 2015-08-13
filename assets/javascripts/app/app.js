@@ -10,6 +10,7 @@ var app = angular.module('myApp',['ngRoute',
                         'ngSanitize',
                         'cfp.hotkeys',
                         'myApp.customdropdown',
+                        'myApp.searchBox',
                         'uiSwitch',
                         'ui.bootstrap',
                         'ngAnimate',
@@ -56,6 +57,6 @@ app.config(function(toastrConfig) {
       info: 'toast-info',
       success: 'toast-success',
       warning: 'toast-warning'
-    },
+    }
   });
 });

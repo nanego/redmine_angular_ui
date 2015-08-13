@@ -217,7 +217,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
 
         if (toggle()) {
           // console.log($('.invisible-input').outerHTML);
-          $('input').focus();  // TODO refactor it the Angular way
+          $('.custom-dropdown-menu input').focus();  // TODO refactor it the Angular way
         }else{
           $('.invisible-input').val(" ");
         };

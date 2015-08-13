@@ -97,12 +97,14 @@ app.controller('IssuesFiltersController', function($scope, $location, $filter, $
   $scope.current.issues = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
 
-  // $scope.current.permanent_mode = undefined;
-
   $scope.current.filters = $scope.current.filters || {};
   $scope.current.filters['project_name'] = $routeParams.project_name || "";
   $scope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
   $scope.current.filters['project_id'] = $routeParams.project_id;
+
+  if ($scope.current.filters['assigned_to_id'] != undefined && $scope.current.filters['assigned_to_id'].length>0){
+    $scope.current.permanent_mode = true;
+  }
 
   $scope.$watch('current.filters', function() {
     $scope.next_issues_exist = true; // Show loader
@@ -114,6 +116,10 @@ app.controller('IssuesFiltersController', function($scope, $location, $filter, $
         var projects_ids = selectedProjects.map(function(x) {return x.id;});
         $scope.current.filters['projects_ids'] = projects_ids;
         // console.log('projets correspondants :' + JSON.stringify($scope.current.filters['projects_ids'], null, 2));
+      }
+
+      if ($scope.current.filters['project_id'] != undefined && $scope.current.filters['project_id'].length>0){
+        $scope.current.project = getProjectById($scope, $scope.current.filters['project_id'])
       }
 
       IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {

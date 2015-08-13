@@ -242,3 +242,14 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
     }
   });
 }
+
+function getProjectById($scope, project_id) {
+  $scope.$watch('app.projects', function() {
+    if ($scope.app.projects !== undefined && ($scope.current.project === undefined || $scope.current.project.id !== project_id)) {
+      console.log("getAllProjects -> now grep project is app.projects");
+      $scope.current.project = $.grep($scope.app.projects, function (e) {
+        return e.id.toString() === project_id;
+      })[0];
+    };
+  });
+}
