@@ -50,7 +50,7 @@ app.directive('scroller', function () {
           winHeight = window.innerHeight;
           scrTop = $(window).scrollTop();
         }
-        if (scrTop >= (docHeight - winHeight)) {
+        if (scrTop >= (docHeight - (winHeight + 300) )) {  // load begin 300px before the end of the current window
           scope.$apply(scope.loadingMethod);
         }
       });
