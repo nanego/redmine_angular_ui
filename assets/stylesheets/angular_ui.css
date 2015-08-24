@@ -121,6 +121,17 @@ a.icon{
     text-decoration: none;
 }
 
+.faye_client_status{
+    font-weight: bold;
+    margin-left: 10px;
+}
+.faye_client_status.green{
+    color: green;
+}
+.faye_client_status.red{
+    color: red;
+}
+
 /* Assignations */
 assignation .not_assigned{
     display: none;

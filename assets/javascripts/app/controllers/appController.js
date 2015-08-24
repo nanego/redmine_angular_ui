@@ -241,6 +241,16 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
       });
     }
   });
+
+  // Check connection status and give a feedback to the user
+  client.on('transport:down', function offlineClient() {
+    console.log('the client is offline');
+    $scope.faye_client_status = "offline";
+  });
+  client.on('transport:up', function onlineClient() {
+    console.log('the client is online');
+    $scope.faye_client_status = "online";
+  });
 }
 
 function getProjectById($scope, project_id) {

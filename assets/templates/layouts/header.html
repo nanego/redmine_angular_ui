@@ -1,6 +1,8 @@
 <header ng-controller="navigationController" class="hWrapper actions-menu unselectable">
 
   <div class="rWrapper titleLevel">
+
+    <!--  Projects dropdown menu -->
     <div custom-dropdown dropdown-toggle class="f0 has-dropdown medFontSize" dropdown-menu="dropdown-projects-menu">
 
       <a class="menu-trigger action hTitle dropdown-field">
@@ -44,6 +46,7 @@
       </div>
     </div>
 
+
     <!--
     <div custom-dropdown dropdown-toggle class="f0 has-dropdown medFontSize" dropdown-menu="dropdown-stages-menu">
       <a class="menu-trigger action  dropdown-field">
@@ -58,6 +61,12 @@
     </div>
     -->
 
+
+    <!-- Faye Client Status -->
+    <div class="f0 medFontSize faye_client_status" ng-bind="faye_client_status" ng-class=" faye_client_status == 'online' ? 'green' : 'red' "></div>
+
+
+    <!-- Search & filters box-->
     <div class="f2 search-wrapper medFontSize">
 
       <div search-box search-box-toggle class="search-box">
