@@ -114,7 +114,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
 
   var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
-  client.disable('websocket');
+  // client.disable('websocket');
 
   // Select which channels to listen: prod or preprod
   var channel_type = '';
@@ -245,11 +245,11 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
   // Check connection status and give a feedback to the user
   client.on('transport:down', function offlineClient() {
     console.log('the client is offline');
-    $scope.faye_client_status = "offline";
+    $scope.current.faye_client_status = "offline";
   });
   client.on('transport:up', function onlineClient() {
     console.log('the client is online');
-    $scope.faye_client_status = "online";
+    $scope.current.faye_client_status = "online";
   });
 }
 
