@@ -114,7 +114,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
 
   var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
-  // client.disable('websocket');
+  client.disable('websocket');
 
   // Select which channels to listen: prod or preprod
   var channel_type = '';
