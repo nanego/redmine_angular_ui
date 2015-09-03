@@ -12,9 +12,9 @@ Redmine::Plugin.register :redmine_angular_ui do
   author 'Vincent ROBERT'
   description 'This plugin for Redmine provides a new user interface based on AngularJS and the Redmine API.'
   version '0.0.2'
-  requires_redmine :version_or_higher => '3.0.0'
+  requires_redmine :version_or_higher => '3.1.0'
   # doesn't work since redmine evaluates dependencies as it loads, and loads in lexical order
-  # TODO: see if it works in Redmine 3.1.x when they're released
+  # TODO: see if it works in Redmine 3.2.x when they're released
   # requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
   url 'https://github.com/nanego/redmine_angular_ui'
   author_url 'mailto:contact@vincent-robert.com'
