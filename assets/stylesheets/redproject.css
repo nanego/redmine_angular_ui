@@ -1103,7 +1103,7 @@ top: 0.5em;
 }
 
 .searchOption { line-height: 2.8em}
-.searchLabel { width: 5em; padding-left: 0.5em; color: #999;}
+.searchLabel { width: 7em; padding-left: 0.5em; color: #999;}
 
 .selected .searchLabel { color: inherit}
 

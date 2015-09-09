@@ -207,6 +207,35 @@
                       </td>
                     </tr>
 
+                    <!-- admin -->
+                    <tr class="selected">
+                      <td><span class="isInBloVisible searchLabel unselectable">Mode admin</span></td>
+                      <td>
+                        <div class="has-dropdown isInBloVisible">
+                          <div class="list-trigger isInBloVisible select-list" ng-bind="current.user_is_admin ? 'Activé' : 'Désactivé' ">Indéfini <span class="arrow-up-and-down"></span></div>
+                          <div class="listWrapper listWrapperSkin dropdown-list has-selectable-items">
+                            <div class="menuitem data-test"><div class="menuitem-content"><span>Égal</span></div></div>
+                            <div class="menuitem data-test selected-item"><div class="menuitem-content"><span>Différent</span></div></div>
+                            <div class="menuitem data-test"><div class="menuitem-content"><span>Tous</span></div></div>
+                          </div>
+                        </div>
+                      </td>
+                      <!--
+                      <td>
+                        <div class="has-dropdown isInBloVisible">
+                          <div class="list-trigger isInBloVisible select-list">Nouveau <span class="arrow-up-and-down"></span></div>
+                          <div class="listWrapper listWrapperSkin dropdown-list has-selectable-items">
+                            <div class="menuitem data-test"><div class="menuitem-content"><span>Ouvert</span></div></div>
+                            <div class="menuitem data-test selected-item"><div class="menuitem-content"><span>Nouveau</span></div></div>
+                            <div class="menuitem data-test"><div class="menuitem-content"><span>Fermé</span></div></div>
+                            <div class="menuitem data-test"><div class="menuitem-content"><span>Rejeté</span></div></div>
+                            <div class="menuitem data-test"><div class="menuitem-content"><span>Traité</span></div></div>
+                          </div>
+                        </div>
+                      </td>
+                      -->
+                    </tr>
+
                   </table>
                 </div>
 

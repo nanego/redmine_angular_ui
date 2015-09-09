@@ -8,6 +8,9 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
+  $scope.current = $scope.current || {};
+  $scope.current.user_is_admin = current_user_is_admin;
+
   getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
 
   /*
