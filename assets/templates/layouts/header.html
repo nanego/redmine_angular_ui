@@ -63,7 +63,9 @@
 
 
     <!-- Faye Client Status -->
+    <!--
     <div class="f0 medFontSize faye_client_status" ng-bind="current.faye_client_status" ng-class=" current.faye_client_status == 'online' ? 'green' : 'red' "></div>
+    -->
 
 
     <!-- Search & filters box-->
@@ -72,7 +74,7 @@
       <div search-box search-box-toggle class="search-box">
         <form class="search-form">
           <fieldset class="f11 search-fieldset" id="search-fieldset">
-            <div class="sfield-1 search-box-field"><input type="text" class="search-input" placeholder="Cliquez pour voir les filtres actifs" id="search" autocomplete="off"></div>
+            <div class="sfield-1 search-box-field"><input type="text" class="search-input" placeholder="Cliquez pour voir les filtres actifs" id="search" autocomplete="off" style="cursor: pointer;" disabled="disabled"></div>
             <div class="sfield-2 has-dropdown">
               <div class="menu-trigger arrow-wrapper"><span class="arrow-down"></span></div>
               <div class="listWrapper listWrapperSkin filter-fieldset search-box-menu">
@@ -124,7 +126,6 @@
 
                     <!-- Assigned_to_id -->
                     <tr class="selected">
-                      <td><div class="check" ng-class="{'is-checked': current.filters['assigned_to_id'] != undefined && current.filters['assigned_to_id'].length > 0 }" ><div class="mark"></div></div></td>
                       <td><span class="isInBloVisible searchLabel unselectable">Assigné à</span></td>
                       <td>
                         <div class="has-dropdown isInBloVisible">
@@ -154,7 +155,6 @@
 
                     <!-- status -->
                     <tr class="selected">
-                      <td><div class="check" ng-class="{'is-checked': current.filters['status_id'] != undefined || true }"><div class="mark"></div></div></td>
                       <td><span class="isInBloVisible searchLabel unselectable">Statut</span></td>
                       <td>
                         <div class="has-dropdown isInBloVisible">
@@ -184,9 +184,6 @@
 
                     <!-- Project -->
                     <tr class="selected">
-                      <td><div class="check" ng-class="{'is-checked': (current.filters['project_id'] != undefined && current.filters['project_id'].length > 0)
-                                                                      || (current.filters['project_ids'] != undefined && current.filters['project_ids'].length > 0)
-                                                                      || (current.filters['project_name'] != undefined && current.filters['project_name'].length > 0) }"><div class="mark"></div></div></td>
                       <td><span class="isInBloVisible searchLabel unselectable">Projet</span></td>
                       <td>
                         <div class="has-dropdown isInBloVisible">
