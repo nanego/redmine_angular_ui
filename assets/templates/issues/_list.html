@@ -1,9 +1,8 @@
 <div class="wrapper">
   <header class="header"> </header>
 
-  <aside class="fav-star aside" ng-hide="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null"></aside>
-  <aside class="aside aside-watched" ng-show="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null">
-    <watched-toggle ng-model="issue.watched" issue-id="issue.id" ></watched-toggle>
+  <aside class="aside aside-watched">
+    <watched-toggle ng-model="issue.watched" issue-id="issue.id" ng-show="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null"></watched-toggle>
   </aside>
 
   <aside class="tracker aside">

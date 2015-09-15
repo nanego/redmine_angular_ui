@@ -1280,7 +1280,7 @@ top: 0.5em;
 	padding-right: 10px;
 }
 
-.wrapper .fav-star {
+.wrapper .aside-watched {
 	padding-right: 10px;
 	width: 24px;
 	height: 30px;
@@ -1331,7 +1331,7 @@ top: 0.5em;
         order: 1;
         overflow: hidden;
     }
-    .aside.fav-star, .aside-watched{
+    .aside-watched{
         display: none;
     }
     .aside.updated_at {
@@ -1348,6 +1348,7 @@ top: 0.5em;
     .aside-priority {
         -webkit-order: 9;
         order: 9;
+        padding-left: 5px;
     }
     .aside.project {
         -webkit-order: 12;
@@ -1376,7 +1377,7 @@ top: 0.5em;
 		order: 2;
 	}
 
-    .aside.fav-star, .aside-watched, .aside.issue_id, .aside.tracker, .aside.project, .aside-priority {
+    .aside-watched, .aside.issue_id, .aside.tracker, .aside.project, .aside-priority {
         -webkit-order: 1;
 		order: 1;
 	}
