@@ -1,6 +1,4 @@
-<div class="wrapper">
-  <header class="header"> </header>
-
+<div class="wrapper" ng-class="{ 'priority-high': issue.priority.id==6}">
   <aside class="aside aside-watched">
     <watched-toggle ng-model="issue.watched" issue-id="issue.id" ng-show="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null"></watched-toggle>
   </aside>
@@ -30,5 +28,4 @@
     <assignation customclass="{{ issue.assigned_to_functional_role !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}" text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
   </aside>
   <aside class="aside updated_at" ng-bind="issue.updated_on | dateFormat" title="{{ issue.updated_on }}"></aside>
-  <footer class="footer"> </footer>
 </div>

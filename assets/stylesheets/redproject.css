@@ -1226,6 +1226,13 @@ top: 0.5em;
 
 .wrapper a { color: #999; }
 
+.wrapper.priority-high{
+    color: #CC3A21;
+}
+.wrapper.priority-high a{
+    color: #CC3A21;
+}
+
 .wrapper .issue_id {
 	width: 4em;
 	overflow: hidden;
