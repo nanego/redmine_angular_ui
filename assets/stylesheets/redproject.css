@@ -1327,20 +1327,31 @@ top: 0.5em;
     }
     .main{
         max-height: 60px;
-        -webkit-order: 4;
-        order: 4;
+        -webkit-order: 6;
+        order: 6;
         overflow: hidden;
     }
-    .aside.fav-star, .aside-watched, .aside.updated_at {
+    .aside.fav-star, .aside-watched{
         display: none;
     }
-    .aside.tracker, .aside.issue_id, .aside-priority {
+    .aside.updated_at {
+        display: none;
+    }
+    .aside.tracker{
         -webkit-order: 1;
         order: 1;
     }
-    .aside.project {
+    .aside.issue_id{
         -webkit-order: 2;
         order: 2;
+    }
+    .aside-priority {
+        -webkit-order: 3;
+        order: 3;
+    }
+    .aside.project {
+        -webkit-order: 4;
+        order: 4;
         width: 11em;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1349,8 +1360,8 @@ top: 0.5em;
         flex: 1;
     }
     .aside-assignation {
-        -webkit-order: 3;
-        order: 3;
+        -webkit-order: 5;
+        order: 5;
     }
 }
 
