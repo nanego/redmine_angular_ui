@@ -1310,6 +1310,8 @@ top: 0.5em;
 @media all and (max-width: 600px) {
     .normal-table .single-element { height: auto; }
     .single-element{
+        padding-left: 0;
+        padding-right: 0;
         border-bottom: 1px solid #F5F5F5;
     }
     .aside {
