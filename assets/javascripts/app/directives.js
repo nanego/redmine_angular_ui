@@ -263,7 +263,7 @@ app.directive( 'assignation', function ( $compile ) {
     restrict: 'E',
     scope: { text: '@',
             customclass: '@'},
-    template: '<div class="pull-right-div {{ customclass }}" tooltip="{{text}}" tooltip-placement="left"></div>',
+    template: '<div class="{{ customclass }}" tooltip="{{text}}" tooltip-placement="left"></div>',
 
   controller: function ( $scope, $element ) {
       $scope.add = function () {
