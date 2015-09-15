@@ -49,4 +49,9 @@ app.controller('navigationController', function NavigationCtrl($scope, $routePar
         $scope.toggled(true);
       }
     });
+
+  var assignation = $scope.current.filters['assigned_to_id'] == '!*' ? ' non assignées' : '';
+  var admin_view = $scope.current.user_is_admin ? ' (vue admin)' : '';
+  $scope.current_notif = "Demandes ouvertes" + assignation + admin_view;
+
 });

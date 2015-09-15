@@ -1,9 +1,7 @@
-<div id="notifications" ng-controller="NotificationsController">
+<div id="notifications" ng-hide="mainLoading===undefined || mainLoading">
   <ul>
-    <li ng-repeat="notif in notifications">
-      <span ng-bind-html="notif.text"></span>
-      <a ng-if="notif.canUndo()"
-         ng-click="notif.undo()" href="" class="cancel_notif">Annuler</a>
+    <li>
+      <span ng-bind-html="current_notif"></span>
     </li>
   </ul>
 </div>

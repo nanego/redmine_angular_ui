@@ -46,6 +46,8 @@
       </div>
     </div>
 
+    <ng-include src="'/plugin_assets/redmine_angular_ui/templates/notifications.html'"></ng-include>
+
 
     <!--
     <div custom-dropdown dropdown-toggle class="f0 has-dropdown medFontSize" dropdown-menu="dropdown-stages-menu">
@@ -66,7 +68,6 @@
     <!--
     <div class="f0 medFontSize faye_client_status" ng-bind="current.faye_client_status" ng-class=" current.faye_client_status == 'online' ? 'green' : 'red' "></div>
     -->
-
 
     <!-- Search & filters box-->
 
@@ -259,7 +260,7 @@
 
       -->
 
-      <form>
+      <form tooltip="{{current.permanent_mode ? 'Repasser en mode normal' : 'Passer en mode permanent'}}" tooltip-placement="left">
         <switch name="issues_filter" ng-model="current.permanent_mode"></switch>
       </form>
     </div>

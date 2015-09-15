@@ -57,33 +57,46 @@ ul{
 
 /* ------------------------------- Notifications ------------------------------------------------------------------------*/
 #notifications {
+    /*
     position: absolute;
     top: 12px;
     margin: 0 auto; left: 0; right: 0;
     z-index: 2;
+    */
 }
 #notifications ul {
     margin-bottom: 0;
 }
 #notifications ul li {
-    margin: 0 auto;
-    z-index: 990;
-    max-width: 350px;
-    background: #f9edbe;
-    border-color: #f0c36d;
-    background-color: #f9edbe;
-    padding: 0 10px;
-    border: 1px solid #f0c36d;
-    border-radius: 2px;
-    -webkit-border-radius: 2px;
-    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    color: #333333;
-    font-size: 85%;
+
+    background-color: transparent;
+    background-image: -webkit-linear-gradient(top,rgba(68,68,68,.75),rgba(60,60,60,.75));
+    background-image: linear-gradient(top,rgba(68,68,68,.75),rgba(60,60,60,.75));
+    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(68,68,68,.75)),to(rgba(60,60,60,.75)));
+    background-image: -webkit-linear-gradient(top,rgba(68,68,68,.75),rgba(60,60,60,.75));
+    border: 1px solid transparent;
+    color: #CCC;
+    box-shadow: none;
+
+    font-size: 11px;
     font-weight: bold;
     text-align: center;
-    font-family: arial,sans-serif;
+    white-space: nowrap;
+    height: 27px;
+    line-height: 27px;
+    min-width: 54px;
+    outline: 0px none;
+    padding: 0px 8px;
+    cursor: default;
+    margin: 0 20px;
+
+    z-index: 990;
+    max-width: 350px;
+
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
+
 #notifications ul li a.cancel_notif {
     float: right;
     padding-left: 5px;
