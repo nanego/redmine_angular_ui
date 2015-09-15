@@ -1345,6 +1345,8 @@ top: 0.5em;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        -webkit-flex: 1;
+        flex: 1;
     }
     .aside-assignation {
         -webkit-order: 3;
