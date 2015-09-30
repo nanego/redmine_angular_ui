@@ -7,7 +7,7 @@
   </aside>
 
   <aside class="tracker aside">
-    <div class="textCircle {{ 'tr-'+issue.tracker.id }}" title="{{ issue.tracker.name }}"> {{issue.tracker.name.substring(0, 2)}} </div>
+    <div class="textCircle {{ 'tr-'+issue.tracker.id }}" title="{{ issue.tracker.name }}"> {{issue.tracker.name == 'Information' ? issue.tracker.name.substring(0, 3) : issue.tracker.name.substring(0, 2)}} </div>
   </aside>
 
   <aside class="issue_id aside">
