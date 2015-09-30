@@ -404,11 +404,12 @@ table {
     color: #333;
     display: none;
 }
-.issue-subject { font-size: 1.083em; position: relative; font-weight: 600; }
+.issue-subject { font-size: 1.162em; position: relative; font-weight: 500; }
 .recently_updated .issue-subject { font-weight: 700; }
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
-.last-talk { font-weight: normal; } /*  #777 */
+.last-talk { font-weight: 500;  color: #999; }
+.recently_updated .last-talk { color: #000; }
 
 .hide-it { display: none }
 
@@ -1224,13 +1225,15 @@ top: 0.5em;
 	text-align: right;
 }
 
-.wrapper a { color: #999; }
+.wrapper, .wrapper a { color: #999; }
 
-.wrapper.priority-high{
+.wrapper.priority-is6, .wrapper.priority-is6 a{
     color: #CC3A21;
+    font-weight: 600;
 }
-.wrapper.priority-high a{
-    color: #CC3A21;
+.wrapper.priority-is4, .wrapper.priority-is4 a{
+    color: #FFAA00;
+    font-weight: 600;
 }
 
 .wrapper .issue_id {
@@ -1249,6 +1252,8 @@ top: 0.5em;
 .wrapper .updated_at{
     min-width: 43px;
 	text-align: right;
+	color: #999999;
+	font-weight: 300;
 }
 
 .wrapper .tracker {
@@ -1270,17 +1275,24 @@ top: 0.5em;
 	overflow: hidden;
 	line-height: 19px;
 	font-size: 10px;
+    font-weight: normal;
 }
-.wrapper .tracker .textCircle.tr-3 {	border: none;} /* Information */
-.wrapper .tracker .textCircle.tr-5 {	background-color: #555555;color: #ffffff;border: none;} /* Incident */
-.wrapper .tracker .textCircle.tr-7 {	background-color: #bbbbbb;color: #ffffff;border: none;} /* Probleme */
-.wrapper .tracker .textCircle.tr-8 {	background-color: #dddddd;color: #ffffff;border: none;} /* Qualification */
+
+.wrapper.priority-is6 .tracker .textCircle { border: none;background-color: #CC3A21;color: #ffffff;} /* Priorité HAUTE */
+.wrapper.priority-is4 .tracker .textCircle { border: none;background-color: #FFAA00;color: #ffffff;} /* NORMALE */
+.wrapper.priority-is3 .tracker .textCircle { border: none;background-color: #999;color: #ffffff;} /* BASSE */
+.wrapper.priority-is10 .tracker .textCircle { border: solid 1px #999;background-color: #ffffff;color: #999;} /* NON PRIORITAIRE */
+/*
+.wrapper .tracker .textCircle.tr-3 {	border: none;} /* Information
+.wrapper .tracker .textCircle.tr-5 {	background-color: #555555;color: #ffffff;border: none;} /* Incident
+.wrapper .tracker .textCircle.tr-7 {	background-color: #bbbbbb;color: #ffffff;border: none;} /* Probleme
+.wrapper .tracker .textCircle.tr-8 {	background-color: #dddddd;color: #ffffff;border: none;} /* Qualification
+*/
 
 .wrapper .project {
 	width: 12em;
 	overflow: hidden;
 	padding-right: 10px;
-	font-weight: normal;
 }
 
 .wrapper .priority {

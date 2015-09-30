@@ -1,4 +1,7 @@
-<div class="wrapper" ng-class="{ 'priority-high': issue.priority.id==6}">
+<div class="wrapper" ng-class="{ 'priority-is6': issue.priority.id==6,
+                                 'priority-is4': issue.priority.id==4,
+                                 'priority-is3': issue.priority.id==3,
+                                 'priority-is10': issue.priority.id==10}">
   <aside class="aside aside-watched">
     <watched-toggle ng-model="issue.watched" issue-id="issue.id" ng-show="issue.show_watched_toggle || issue.watched > 0 || issue.watched === null"></watched-toggle>
   </aside>
@@ -12,7 +15,7 @@
   </aside>
 
   <aside class="project aside" title="{{ issue.project.name }}"> {{issue.project.name}}</aside>
-  <aside class="aside aside-priority"> <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle> </aside>
+  <!-- <aside class="aside aside-priority"> <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle> </aside>-->
 
   <article class="main subject">
     <div class="issue-tab" >
