@@ -1383,6 +1383,7 @@ top: 0.5em;
         -webkit-order: 13;
         order: 13;
     }
+    #notifications {display: none;}
 }
 
 @media all and (min-width: 600px) {
