@@ -69,21 +69,18 @@ ul{
 }
 #notifications ul li {
 
-    background-color: transparent;
-    background-image: -webkit-linear-gradient(top,rgba(68,68,68,.75),rgba(60,60,60,.75));
-    background-image: linear-gradient(top,rgba(68,68,68,.75),rgba(60,60,60,.75));
-    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(68,68,68,.75)),to(rgba(60,60,60,.75)));
-    background-image: -webkit-linear-gradient(top,rgba(68,68,68,.75),rgba(60,60,60,.75));
+    background-color: rgba(200,200,200,.75);
+    /* background-image: -webkit-linear-gradient(top,rgba(78,78,78,.75),rgba(60,60,60,.75));
+    background-image: linear-gradient(top,rgba(78,78,78,.75),rgba(60,60,60,.75));
+    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(78,78,78,.75)),to(rgba(60,60,60,.75))); */
     border: 1px solid transparent;
-    color: #CCC;
+    color: #555;
     box-shadow: none;
-
-    font-size: 11px;
-    font-weight: bold;
+    font-weight: 400;
+    font-size: 13px;
     text-align: center;
     white-space: nowrap;
     height: 27px;
-    line-height: 27px;
     min-width: 54px;
     outline: 0px none;
     padding: 0px 8px;
@@ -151,13 +148,13 @@ assignation .not_assigned{
 }
 assignation .assigned_to_group{
     margin-top: 1px;
-    width: 24px;
+    width: 28px;
     height: 24px;
     background: url('../images/assigned_group_3.png') no-repeat;
 }
 assignation .assigned_to_user{
     margin-top: 1px;
-    width: 24px;
+    width: 28px;
     height: 24px;
     background: url('../images/assigned_user.png') no-repeat;
 }

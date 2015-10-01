@@ -409,7 +409,7 @@ table {
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
 .last-talk { font-weight: 500;  color: #999; }
-.recently_updated .last-talk { color: #000; }
+.recently_updated .last-talk { color: #000; font-weight: 600; }
 
 .hide-it { display: none }
 
@@ -1280,7 +1280,7 @@ top: 0.5em;
 
 .wrapper.priority-is6 .tracker .textCircle { border: none;background-color: #CC3A21;color: #ffffff;} /* Priorité HAUTE */
 .wrapper.priority-is4 .tracker .textCircle { border: none;background-color: #FFAA00;color: #ffffff;} /* NORMALE */
-.wrapper.priority-is3 .tracker .textCircle { border: none;background-color: #999;color: #ffffff;} /* BASSE */
+.wrapper.priority-is3 .tracker .textCircle { border: none;background-color: #BBB;color: #ffffff;} /* BASSE */
 .wrapper.priority-is10 .tracker .textCircle { border: solid 1px #999;background-color: #ffffff;color: #999;} /* NON PRIORITAIRE */
 /*
 .wrapper .tracker .textCircle.tr-3 {	border: none;} /* Information
