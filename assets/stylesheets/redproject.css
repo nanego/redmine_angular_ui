@@ -1363,6 +1363,7 @@ top: 0.5em;
         margin-left: 2.5em;
         text-overflow: ellipsis;
         white-space: nowrap;
+        line-height: 1;
     }
     .wrapper .note-count {
         -webkit-order: 23;
