@@ -17,15 +17,13 @@
   <aside class="project aside" title="{{ issue.project.name }}"> {{issue.project.name}}</aside>
   <!-- <aside class="aside aside-priority"> <priority-toggle ng-model="issue.priority.id" issue-id="issue.id"></priority-toggle> </aside>-->
 
-  <article class="main subject">
-    <div class="issue-tab" >
-      <a ng-href="/issues/{{issue.id}}" target="_blank">
-        <span class="issue-subject">{{issue.subject}}</span>
-      </a>
-      <span class="count" ng-class="issue.notes_count == 0 ? 'zero' : ' ' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span>
-      <span class="last-talk">{{ issue.last_note }}</span>
-    </div>
-  </article>
+  <a class="main subject issue-tab" ng-href="/issues/{{issue.id}}" target="_blank">
+    <span class="issue-subject">{{issue.subject}}</span>
+  </a>
+
+  <div class="issue-tab note-count"><span class="count" ng-class="issue.notes_count == 0 ? 'zero' : 'at-least-one' ">{{ issue.notes_count == 0 ? "New" : issue.notes_count }}</span></div>
+
+  <span class="last-talk">{{ issue.last_note }}</span>
 
   <aside class="aside aside-assignation">
     <assignation customclass="{{ issue.assigned_to_functional_role !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}" text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
