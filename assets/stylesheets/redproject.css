@@ -1378,7 +1378,10 @@ top: 0.5em;
         display: inline;
     }
     .aside-watched{
-        display: none;
+        -webkit-order: 24;
+        order: 24;
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
     }
     .aside.updated_at {
         /* display: none; */
