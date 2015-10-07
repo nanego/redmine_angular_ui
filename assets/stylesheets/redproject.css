@@ -1333,7 +1333,7 @@ top: 0.5em;
     flex: 0 0 auto;
 }
 
-@media all and (max-width: 600px) {
+@media all and (max-width: 749px) {
     .normal-table .single-element { height: auto; }
     .single-element{
         padding: 5px 0;
@@ -1424,9 +1424,14 @@ top: 0.5em;
     #notifications {display: none;}
 }
 
-@media all and (min-width: 600px) {
+@media all and (min-width: 750px) {
 
 	.normal-table .single-element { height: 2.4em }
+
+	.wrapper {
+		-webkit-flex-flow: row nowrap;
+		flex-flow: row nowrap;
+	}
 
 	.wrapper .subject {
         -webkit-flex: 0 auto;
@@ -1455,5 +1460,6 @@ top: 0.5em;
 	.aside-assignation, .aside.updated_at {
         -webkit-order: 20;
 		order: 20;
+		background-color: white;
 	}
 }
