@@ -404,7 +404,7 @@ table {
     color: #333;
     display: none;
 }
-.issue-subject { font-size: 1.162em; position: relative; font-weight: 500; }
+.wrapper .subject { font-size: 1.162em; position: relative; font-weight: 500; }
 .recently_updated .issue-subject { font-weight: 700; }
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
@@ -496,7 +496,7 @@ td .prior {
 	line-height:2.1em;*/
 }
 
-.issue-subject { color: black; }
+.wrapper a.subject { color: black; }
 
 .issue-tab:hover { text-decoration:none; background-color: transparent; border: none; }
 
@@ -1235,6 +1235,7 @@ top: 0.5em;
     color: #FFAA00;
     font-weight: 600;
 }
+.wrapper.priority-is6 a.subject, .wrapper.priority-is4 a.subject {color: black;}
 
 .wrapper .issue_id {
 	width: 4em;
@@ -1348,13 +1349,14 @@ top: 0.5em;
         overflow: hidden;
     }
     .wrapper .subject {
-        -webkit-order: 2;
-        order: 2;
-        -webkit-flex: 1;
-        flex: 1;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+		 -webkit-order: 2;
+		 order: 2;
+		 -webkit-flex: 1;
+		 flex: 1;
+		 text-overflow: ellipsis;
+		 white-space: nowrap;
+		 font-size: 1.3em;
+	 }
     .wrapper .last-talk {
         -webkit-flex: 1 0 100%;
         flex: 1 0 100%;
