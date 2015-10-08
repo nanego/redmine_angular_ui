@@ -404,7 +404,7 @@ table {
     color: #333;
     display: none;
 }
-.wrapper .subject { font-size: 1.162em; position: relative; font-weight: 500; }
+.issue-subject { font-size: 1.162em; position: relative; font-weight: 500; }
 .recently_updated .issue-subject { font-weight: 700; }
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
@@ -1227,6 +1227,10 @@ top: 0.5em;
 	text-align: right;
 }
 
+.toast-info {
+    background-color: #999;
+}
+
 .wrapper, .wrapper a { color: #999; }
 
 .wrapper.priority-is6, .wrapper.priority-is6 a{
@@ -1357,7 +1361,7 @@ top: 0.5em;
 		 flex: 1;
 		 text-overflow: ellipsis;
 		 white-space: nowrap;
-		 font-size: 1.3em;
+		 font-size: 1.4em;
 	 }
     .wrapper .last-talk {
         -webkit-flex: 1 0 100%;
