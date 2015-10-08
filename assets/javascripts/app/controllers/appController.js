@@ -147,7 +147,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
         switch (message.action) {
           case 'create':
             NotificationService.add("Une nouvelle demande a été ajoutée.", null, 10, "issue-" + message.issue.id);
-            toastr.warning('Une nouvelle demande a été ajoutée.');
+            showToaster(toastr, message.issue, 'Une nouvelle demande a été ajoutée.');
             $scope.app.issues.unshift(message.issue);
             if (inScopeFilter(message.issue, $scope.current.filters)){
               // Add the new issue on the top of the list, only if the issue must be displayed according to current filters
@@ -157,17 +157,17 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
           case 'destroy':
             if (message.issue.status.is_closed == '1') {
               NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", null, 10);
-              toastr.success("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.", {allowHtml: true});
+              showToaster(toastr, message.issue, "La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.");
             } else {
               NotificationService.add("La demande #" + message.issue.id + " a été supprimée.", null, 10);
-              toastr.error("La demande #" + message.issue.id + " a été supprimée.");
+              showToaster(toastr, message.issue, "La demande #" + message.issue.id + " a été supprimée.");
             }
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             $scope.current.issues.splice(index, 1);
             break;
           case 'update':
             NotificationService.add("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", null, 10, "issue-" + message.issue.id);
-            toastr.info("La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.", {allowHtml: true});
+            showToaster(toastr, message.issue, "La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.");
 
             var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
             if (inScopeFilter(message.issue, $scope.current.filters)){
@@ -200,7 +200,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
             IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
               $scope.current.issues = response.data.issues;
               NotificationService.add("Les demandes ont été mises à jour.", null, 5);
-              toastr.warning("Les demandes ont été mises à jour.");
+              showToaster(toastr, message.issue, "Les demandes ont été mises à jour.");
             });
             break;
         }
@@ -265,4 +265,20 @@ function getProjectById($scope, project_id) {
       })[0];
     };
   });
+}
+
+function showToaster(toastr, issue, message){
+  console.log("show toaster with priority: " + issue.priority.id);
+  switch (issue.priority.id) {
+    case 4:
+      toastr.warning(message, {allowHtml: true});
+      break;
+    case 6:
+      toastr.error(message, {allowHtml: true});
+      break;
+    default:
+      toastr.info(message, {allowHtml: true});
+      break;
+  }
+
 }

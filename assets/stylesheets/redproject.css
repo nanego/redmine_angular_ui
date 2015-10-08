@@ -500,6 +500,7 @@ td .prior {
 
 .issue-tab:hover { text-decoration:none; background-color: transparent; border: none; }
 
+/*
 .issue-tab:hover .issue-subject:after {
     border-bottom: 1px dashed rgb(150,150,150);
     bottom: 0;
@@ -509,6 +510,7 @@ td .prior {
     position: absolute;
     right: 0;
 }
+*/
 
 /*
   CHECK BOX
