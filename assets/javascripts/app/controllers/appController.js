@@ -277,8 +277,9 @@ function showNotification(NotificationService, toastr, issue, message){
       toastr.info(message, {allowHtml: true});
       break;
   }
-  if (message.issue != undefined){
-    NotificationService.add(message, null, 10, "issue-" + message.issue.id);
+
+  if (issue != undefined){
+    NotificationService.add(message, null, 10, "issue-" + issue.id);
   } else {
     NotificationService.add(message, null, 10);
   }
