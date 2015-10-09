@@ -1369,8 +1369,8 @@ top: 0.5em;
 		 flex: 1;
 		 text-overflow: ellipsis;
 		 white-space: nowrap;
-		 font-size: 1.4em;
 	 }
+	.issue-subject { font-size: 1.25em; }
     .wrapper .last-talk {
         -webkit-flex: 1 0 100%;
         flex: 1 0 100%;
