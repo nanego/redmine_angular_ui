@@ -1287,7 +1287,7 @@ top: 0.5em;
 
 .wrapper.priority-is6 .tracker .textCircle { border: none;background-color: #CC3A21;color: #ffffff;} /* Priorité HAUTE */
 .wrapper.priority-is4 .tracker .textCircle { border: none;background-color: #FFAA00;color: #ffffff;} /* NORMALE */
-.wrapper.priority-is3 .tracker .textCircle { border: none;background-color: #ffffff;color: #999;} /* BASSE */
+.wrapper.priority-is3 .tracker .textCircle { border: 1px solid #999;background-color: #ffffff;color: #999;} /* BASSE */
 .wrapper.priority-is10 .tracker .textCircle { border: none;background-color: #ffffff;color: #999;} /* NON PRIORITAIRE */
 /*
 .wrapper .tracker .textCircle.tr-3 {	border: none;} /* Information
@@ -1370,7 +1370,7 @@ top: 0.5em;
 		 text-overflow: ellipsis;
 		 white-space: nowrap;
 	 }
-	.issue-subject { font-size: 1.35em; }
+	.issue-subject { font-size: 1.45em; }
     .wrapper .last-talk {
         -webkit-flex: 1 0 100%;
         flex: 1 0 100%;
