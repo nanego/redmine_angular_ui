@@ -1287,7 +1287,7 @@ top: 0.5em;
 
 .wrapper.priority-is6 .tracker .textCircle { border: none;background-color: #CC3A21;color: #ffffff;} /* Priorité HAUTE */
 .wrapper.priority-is4 .tracker .textCircle { border: none;background-color: #FFAA00;color: #ffffff;} /* NORMALE */
-.wrapper.priority-is3 .tracker .textCircle { border: 1px solid #999;background-color: #ffffff;color: #999;} /* BASSE */
+.wrapper.priority-is3 .tracker .textCircle { border: 1px solid #CCC;background-color: #ffffff;color: #999;} /* BASSE */
 .wrapper.priority-is10 .tracker .textCircle { border: none;background-color: #ffffff;color: #999;} /* NON PRIORITAIRE */
 /*
 .wrapper .tracker .textCircle.tr-3 {	border: none;} /* Information
