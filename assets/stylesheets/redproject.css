@@ -409,7 +409,6 @@ table {
 .count { color: #6ABA45; font-weight: 300; padding: 0 1em; margin: 0 .5em }
 .count.zero { background-color: rgba(106, 186, 69, 0.1);}
 .last-talk { font-weight: 500;  color: #999; }
-.recently_updated .last-talk {font-weight: 600; }
 
 .hide-it { display: none }
 
