@@ -74,12 +74,14 @@ function getPreloadedData(SessionService, $scope, IssueService, ProjectService, 
 
     $scope.app.user = data.user;
 
+    /*
     UserService.getUserMemberships($scope.app.user.id).then(function (data) {
 
       console.log("User memberships data : " + JSON.stringify(data));
 
       $scope.app.user.memberships = data;
     });
+    */
 
 
   });

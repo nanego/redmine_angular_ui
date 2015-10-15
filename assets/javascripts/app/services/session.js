@@ -8,7 +8,7 @@ angular.module('myApp.services')
         if (service.isAuthenticated()) {
           return $q.when(service.currentUser);
         }else{
-          return $http.get('/users/current.json', { headers: headers }).then(function(resp) {
+          return $http.get('/users/current.json?include=memberships', { headers: headers }).then(function(resp) {
             return service.currentUser = resp.data;
           });
         }

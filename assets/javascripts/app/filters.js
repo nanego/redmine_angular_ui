@@ -145,8 +145,21 @@ app.filter('inUserScope', function() {
     var currently_in_user_scope = false;
 
     for(var i=0; i<memberships.length; i++){
+
+      // Check project membership
       if (memberships[i].project.id === issue.project.id){
-        currently_in_user_scope = true;
+
+        // Check functional role per project
+        if (issue.authorized_viewers == undefined || issue.authorized_viewers.length == 0) {
+          currently_in_user_scope = true;
+        }else{
+          for(var j=0; j < memberships[i].functions.length; j++){
+            if (issue.authorized_viewers.indexOf(memberships[i].functions[j].id) >= 0 ){
+              currently_in_user_scope = true;
+            }
+          }
+        }
+
       }
     }
 

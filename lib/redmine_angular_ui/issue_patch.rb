@@ -51,8 +51,11 @@ class Issue < ActiveRecord::Base
       json.merge!({'issue' => {'assigned_to' => nil}})
     end
 
-    if project.module_enabled?("limited_visibility") && !assigned_to_function_id.nil?
-      json.merge!({'issue' => {'assigned_to_functional_role' => {'id' => assigned_to_function_id, 'name' => assigned_function.name}}})
+    if project.module_enabled?("limited_visibility")
+      json.merge!({'issue' => {'authorized_viewers' => authorized_viewer_ids}})
+      if assigned_to_function_id.present?
+        json.merge!({'issue' => {'assigned_to_functional_role' => {'id' => assigned_to_function_id, 'name' => assigned_function.name}}})
+      end
     end
 
     json.merge!({'action' => action,
