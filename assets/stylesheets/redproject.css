@@ -1377,7 +1377,7 @@ top: 0.5em;
         order: 10;
         margin-left: 2.5em;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        /* white-space: nowrap; */
         line-height: 1.2;
 		overflow: hidden;
     }
