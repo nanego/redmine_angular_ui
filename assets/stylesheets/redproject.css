@@ -1377,8 +1377,8 @@ top: 0.5em;
         order: 10;
         margin-left: 2.5em;
         text-overflow: ellipsis;
-        /* white-space: nowrap; */
-        line-height: 1.2;
+        white-space: nowrap;
+        line-height: 1.3;
 		overflow: hidden;
     }
     .wrapper .note-count {
@@ -1468,7 +1468,7 @@ top: 0.5em;
         order: 12;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        /* white-space: nowrap; */
         padding-right: 10px;
     }
 
