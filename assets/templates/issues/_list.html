@@ -26,7 +26,7 @@
   <span class="last-talk">{{ issue.last_note }}</span>
 
   <aside class="aside aside-assignation">
-    <assignation customclass="{{ issue.assigned_to_functional_role !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}" text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
+    <assignation customclass="{{ issue.assigned_to_functional_role !== undefined && issue.assigned_to_functional_role.name !== undefined ? 'assigned_to_group' : (issue.assigned_to != null ? 'assigned_to_user' : 'not_assigned') }}" text="{{ issue.assigned_to_functional_role.name || issue.assigned_to.name }}"></assignation>
   </aside>
   <aside class="aside updated_at" ng-bind="issue.updated_on | dateFormat" title="{{ issue.updated_on }}"></aside>
 </div>

@@ -43,19 +43,16 @@ class Issue < ActiveRecord::Base
     r = ActiveRecord::Base.connection.execute(sql).first
     last_note = Journal.where(created_on: r['max_date'], journalized_id: id).first if r.present?
 
-    json = {}
-
     if assigned_to.present?
-      json.merge!({'issue' => {'assigned_to' => {'id' => assigned_to_id, 'name' => assigned_to.name} } })
+      json = {'issue' => {'assigned_to' => {'id' => assigned_to_id, 'name' => assigned_to.name} } }
     else
-      json.merge!({'issue' => {'assigned_to' => nil}})
+      json = {'issue' => {'assigned_to' => ''} }
     end
 
     if project.module_enabled?("limited_visibility")
-      json.merge!({'issue' => {'authorized_viewers' => authorized_viewer_ids}})
-      if assigned_to_function_id.present?
-        json.merge!({'issue' => {'assigned_to_functional_role' => {'id' => assigned_to_function_id, 'name' => assigned_function.name}}})
-      end
+      json.merge!({'issue' => {'authorized_viewers' => authorized_viewer_ids,
+                               'assigned_to_functional_role' => assigned_to_function_id.present? ? {'id' => assigned_to_function_id, 'name' => assigned_function.name} : ""
+                  }}) { |k, a, b| a.is_a?(Hash) && b.is_a?(Hash) ? a.merge(b) : b }
     end
 
     json.merge!({'action' => action,
