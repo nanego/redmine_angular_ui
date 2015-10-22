@@ -663,7 +663,7 @@ td .prior {
 	box-shadow:         0px 8px 9px -9px rgba(100, 100, 100, 0.7);
 }
 
-.action-perm, .perm-link-menu  { display: inline-block; margin:0}
+.action-perm, .perm-link-menu  { display: inline-block; margin: 3px 11px 0 0;}
 .action-select { display : none; }
 
 .action {
@@ -805,6 +805,10 @@ td .prior {
 	white-space: nowrap;
 }
 
+.action-perm .custom-dropdown-menu{
+    top: initial;
+}
+
 .dropdown-list {
 	position: absolute;
 	top: 100%;
@@ -851,6 +855,10 @@ td .prior {
 	bottom: -4px;
 	right: 1px;
 	z-index:10;
+}
+
+.action-perm.has-dropdown.open::after, .action-perm.has-dropdown.open::before{
+    bottom: 4px;
 }
 
 fieldset .has-dropdown.open::after, fieldset .has-dropdown.open::before { background: transparent }

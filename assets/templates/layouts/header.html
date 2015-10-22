@@ -260,6 +260,28 @@
 
       -->
 
+      <div custom-dropdown dropdown-toggle class="action-perm has-dropdown rightContent" dropdown-menu="dropdown-display-types">
+        <span class="menu-trigger action dropdown-field">
+          <span class=dropdown-value">Affichage</span>
+          <span class="arrow-down"></span>
+        </span>
+        <div class="listWrapper listWrapperSkin custom-dropdown-menu has-selectable-items" id="dropdown-display-types">
+          <div class="menuitem unclickable selected-item" id="view-compact" data-group="view-density"><div class="menuitem-content"><span>Vue compacte</span></div></div>
+          <!-- <div class="menuitem unclickable" id="view-normal" data-group="view-density"><div class="menuitem-content"><span>Vue normale</span></div></div> -->
+          <div class="menuitem unclickable" id="view-comfortable" data-group="view-density"><div class="menuitem-content"><span>Vue confortable</span></div></div>
+          <!--
+          <div class="submenu-link separator-horizontal"></div>
+          <div class="menuitem"><div class="menuitem-content"><span>Afficher les intitulés de colonnes</span></div></div>
+          <!-- <div class="menuitem action-select" id="hide-unselected"><div class="menuitem-content"><span>Masquer les objects non sélectionnés</span></div></div>
+          <div class="menuitem" id="display-unselected"><div class="menuitem-content"><span>Afficher les éléments masqués</span></div></div>-->
+          <!--
+          <div class="submenu-link separator-horizontal"></div>
+          <div class="menuitem"><div class="menuitem-content"><span>Gérer les données affichées</span></div></div>
+          <div class="menuitem"><div class="menuitem-content"><span>Afficher la sidebare</span></div></div>
+          -->
+        </div>
+      </div>
+
       <form tooltip="{{current.permanent_mode ? 'Repasser en mode normal' : 'Passer en mode permanent'}}" tooltip-placement="left">
         <switch name="issues_filter" ng-model="current.permanent_mode"></switch>
       </form>
