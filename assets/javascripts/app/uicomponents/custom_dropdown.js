@@ -200,17 +200,45 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
 
       ctrl.init(iElement);
 
+      // Ugly exception with a bunch of JQuery in it... TODO: refactor
+      /* changement de compacité pour la vue : gestion du menu */
+      if (iAttrs.dropdownMenu == "dropdown-display-types"){
+        $("#view-normal").click(function(e) {
+          $(".table-issues").addClass("normal-table").removeClass("compact-table comfortable-table");
+          if (!$(this).hasClass("selected-item")) {
+            $("div[data-group='view-density']").removeClass("selected-item");
+            $(this).addClass("selected-item");
+          }
+          e.stopPropagation();
+        });
+        $("#view-compact").click(function(e) {
+          $(".table-issues").addClass("compact-table").removeClass("normal-table comfortable-table");
+          if (!$(this).hasClass("selected-item")) {
+            $("div[data-group='view-density']").removeClass("selected-item");
+            $(this).addClass("selected-item");
+          }
+          e.stopPropagation();
+        });
+        $("#view-comfortable").click(function(e) {
+          $(".table-issues").addClass("comfortable-table").removeClass("normal-table compact-table");
+          if (!$(this).hasClass("selected-item")) {
+            $("div[data-group='view-density']").removeClass("selected-item");
+            $(this).addClass("selected-item");
+          }
+          e.stopPropagation();
+        });
+      }
+
       iElement.bind('click', function(e) {
         console.log('click on dropdown menu');
 
         var openTarget = angular.element($('#' + iAttrs.dropdownMenu));
+        DropdownService.menuElement = openTarget;
+        DropdownService.element = iElement;
 
         if (DropdownService.menuElement != null && openTarget != undefined && DropdownService.menuElement.attr('id') !== openTarget.attr('id')) {
           close();
         }
-
-        DropdownService.menuElement = openTarget;
-        DropdownService.element = iElement;
 
         // e.preventDefault();
         e.stopPropagation();
