@@ -143,7 +143,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
       correct_context = true;
     }
 
-    if (correct_context && inUserScopeFilter(message.issue, $scope.app.user.memberships)) {
+    if (correct_context && ($scope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
       IssueService.getLatestIssues().then(function () {
         switch (message.action) {
           case 'create':
