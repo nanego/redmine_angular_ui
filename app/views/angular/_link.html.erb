@@ -1,18 +1,43 @@
 <% if User.current.admin? %>
   <div class="contextual-link">
-    <%= link_to image_tag('Redmine_Live-01.png', plugin: 'redmine_angular_ui'), angular_path, target: '_blank' %>
+    <div class="border-left"></div>
+    <div class="bg-link">
+      <%= link_to image_tag('Redmine_Live-01.png', plugin: 'redmine_angular_ui'),
+                  angular_path,
+                  class: 'button',
+                  target: '_blank' %>
+    </div>
   </div>
   <style>
     .contextual-link {
       float: right;
       white-space: nowrap;
       line-height: 1.4em;
-      margin-top: 1px;
+      margin-top: -6px;
       padding-left: 10px;
       font-size: 0.9em;
+      margin-left: 1em;
+      margin-right: -10px;
     }
     .contextual-link img{
+      margin: 5px;
       height: 20px;
+    }
+    .contextual-link .border-left{
+      border: 9px solid;
+      border-top-width: 31px;
+      border-bottom: none;
+      border-right: none;
+      border-color: rgba(213,227,253, 0.8) transparent;
+      display: inline-block;
+    }
+    .contextual-link .bg-link{
+      background-color: rgba(213,227,253, 0.8);
+      display: inline-block;
+      height: 29px;
+      margin-left: -4px;
+      padding-left: 0;
+      border: 1px solid rgba(213,227,253, 0.8);
     }
   </style>
 <% end %>
