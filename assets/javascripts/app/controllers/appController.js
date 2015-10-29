@@ -11,7 +11,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
   $scope.current = $scope.current || {};
   $scope.current.user_is_admin = current_user_is_admin;
 
-  getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
+  // getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -64,37 +64,36 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter) {
+function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
   $scope.current.issue = undefined;
+
+  // Get current user and user's memberships
   var sessionPromise = SessionService.getCurrentUser().then(function (data) {
-
-    console.log("User data : " + JSON.stringify(data.user));
-
+    // console.log("User data : " + JSON.stringify(data.user));
     $scope.app.user = data.user;
-
-    /*
-    UserService.getUserMemberships($scope.app.user.id).then(function (data) {
-
-      console.log("User memberships data : " + JSON.stringify(data));
-
-      $scope.app.user.memberships = data;
-    });
-    */
-
-
   });
-  var issuesPromise = IssueService.getLatestIssues().then(function (response) {
+
+
+  var issuesPromise = IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
     $scope.app.issues = response.data.issues;
     $scope.current.issues = response.data.issues;
+    IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
+      update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+    });
+    if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+      $scope.next_issues_exist = false;
+    }else{
+      $scope.next_issues_exist = true;
+    }
   });
-  /*
-  ProjectService.getAllProjects().then(function (data) {
+
+  var projectsPromise = ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
   });
-  */
-  $q.all([sessionPromise, issuesPromise]).then(function(){
+
+  return $q.all([sessionPromise, issuesPromise, projectsPromise]).then(function(){
     subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter, inUserScopeFilter);
   });
 }
@@ -144,7 +143,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
     }
 
     if (correct_context && ($scope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
-      IssueService.getLatestIssues().then(function () {
+      // IssueService.getLatestIssues().then(function () {
         switch (message.action) {
           case 'create':
             $scope.app.issues.unshift(message.issue);
@@ -204,7 +203,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
             });
             break;
         }
-      });
+      // });
     }
   });
 
@@ -217,7 +216,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
 
       message = JSON.parse(message);
 
-      IssueService.getLatestIssues().then(function () {
+      // IssueService.getLatestIssues().then(function () {
         switch (message.action) {
 
           case 'update':
@@ -241,7 +240,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
           default:
             break;
         }
-      });
+      // });
     }
   });
 
@@ -257,14 +256,14 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
 }
 
 function getProjectById($scope, project_id) {
-  $scope.$watch('app.projects', function() {
-    if ($scope.app.projects !== undefined && ($scope.current.project === undefined || $scope.current.project.id !== project_id)) {
-      console.log("getAllProjects -> now grep project is app.projects");
+  // $scope.$watch('app.projects', function() {
+    if ($scope.app.projects && ($scope.current.project == undefined || $scope.current.project.id != project_id)) {
+      console.log("getProjectById");
       $scope.current.project = $.grep($scope.app.projects, function (e) {
         return e.id.toString() === project_id;
       })[0];
     };
-  });
+  // });
 }
 
 function showNotification(NotificationService, toastr, issue, message){

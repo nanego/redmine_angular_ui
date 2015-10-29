@@ -8,10 +8,13 @@ app.controller('navigationController', function NavigationCtrl($scope, $routePar
 
   $scope.$watch('current.project', function() {
     var name = "";
-    if ($scope.current.project !== undefined){
+    if ($scope.current.project){
       name = $scope.current.project.name;
+      if (!name){
+        name = 'Projet ' + $scope.current.project.id;
+      }
     }else{
-     if ($routeParams.project_name !== undefined && $routeParams.project_name.length>0){
+     if ($routeParams.project_name){
        name = '*'+$routeParams.project_name+'*';
        $scope.search = $scope.search || {};
        $scope.search.name = $routeParams.project_name;

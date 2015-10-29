@@ -11,7 +11,7 @@ app.controller('ProjectIssuesController', function($scope, $routeParams, IssueSe
 
   getProjectById($scope, $routeParams.project_id);
   var watcher = $scope.$watch('current.project', function() {
-    if ($scope.current.project !== undefined){
+    if ($scope.current.project){
       watcher();
       $scope.next_issues_exist = true; // Show loader
       IssueService.getLatestIssuesByProject($routeParams.project_id).then(function (response) {

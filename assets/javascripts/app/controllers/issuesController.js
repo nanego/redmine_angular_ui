@@ -1,10 +1,12 @@
+'use strict';
+
 var app = angular.module('myApp.controllers');
 
 var load_next_issues = function ($scope, IssueService, IssueServiceConfig) {
   if ($scope.current.issues !== undefined && $scope.current.permanent_mode !== true) {
     $scope.next_issue_loaded = false;
     $scope.next_issues_exist = true;
-    $scope.current.filters['project_id'] = ($scope.current.project !== undefined ? $scope.current.project.id : undefined);
+    $scope.current.filters['project_id'] = ($scope.current.project ? $scope.current.project.id : undefined);
     IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.filters).then(function (response) {
       if (response.data.issues.length < IssueServiceConfig.default_limit) {
         $scope.next_issues_exist = false;
@@ -17,7 +19,7 @@ var load_next_issues = function ($scope, IssueService, IssueServiceConfig) {
   }
 };
 
-app.controller('IssuesController', function($scope, $location, $routeParams, IssueService, IssueServiceConfig, not_assignedFilter, project_nameFilter){
+app.controller('IssuesController', function($scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, project_nameFilter){
 
   $scope.current.project = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
@@ -25,10 +27,12 @@ app.controller('IssuesController', function($scope, $location, $routeParams, Iss
   $scope.current.filters = {};
   // $scope.current.filters['projects'] = $routeParams.filter;
 
+  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
+
   var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
       unbindWatcher(); // When you call the $watch() method, AngularJS returns an unbind function that will kill the $watch() listener when its called.
-      $scope.current.issues = project_nameFilter($scope.app.issues, $scope.current.filters);
+      $scope.current.issues = project_nameFilter($scope.app.issues, $scope.current.filters);  // TODO Remove this filter
 
       if ($scope.current.issues.length < IssueServiceConfig.default_limit){
         $scope.next_issues_exist = false;
@@ -92,7 +96,7 @@ app.controller('IssuesController', function($scope, $location, $routeParams, Iss
 
 });
 
-app.controller('IssuesFiltersController', function($scope, $location, $filter, $routeParams, IssueService, IssueServiceConfig, ProjectService){
+app.controller('IssuesFiltersController', function($scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter){
 
   $scope.current.issues = undefined;
   $scope.current.stage = "Demandes"; // TODO Refactor this
@@ -102,14 +106,22 @@ app.controller('IssuesFiltersController', function($scope, $location, $filter, $
   $scope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
   $scope.current.filters['project_id'] = $routeParams.project_id;
 
+
+  if ($scope.current.filters['project_id'] != undefined && $scope.current.filters['project_id'].length>0){
+    $scope.current.project = {id: $scope.current.filters['project_id'], name: ''}
+  }
+
   if ($scope.current.filters['assigned_to_id'] != undefined && $scope.current.filters['assigned_to_id'].length>0){
     $scope.current.permanent_mode = true;
   }
 
+  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
+  $scope.current.project = getProjectById($scope, $scope.current.filters['project_id']);
+
   $scope.$watch('current.filters', function() {
     $scope.next_issues_exist = true; // Show loader
 
-    ProjectService.getAllProjects().then(function (data) {
+    preloadedDataPromise.then(function (data) {
 
       if ($scope.current.filters['project_name'].length > 0){
         var selectedProjects = $filter('regex')(data.projects, 'name', $scope.current.filters['project_name']);
@@ -118,21 +130,10 @@ app.controller('IssuesFiltersController', function($scope, $location, $filter, $
         // console.log('projets correspondants :' + JSON.stringify($scope.current.filters['projects_ids'], null, 2));
       }
 
-      if ($scope.current.filters['project_id'] != undefined && $scope.current.filters['project_id'].length>0){
-        $scope.current.project = getProjectById($scope, $scope.current.filters['project_id'])
+      if ($scope.current.filters['project_id']){
+        console.log(getProjectById($scope, $scope.current.filters['project_id']));
+        getProjectById($scope, $scope.current.filters['project_id']);
       }
-
-      IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
-        $scope.current.issues = response.data.issues;
-        IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
-          update_array_of_issues_with_last_note($scope.current.issues, response.issues);
-        });
-        if ($scope.current.issues.length < IssueServiceConfig.default_limit){
-          $scope.next_issues_exist = false;
-        }else{
-          $scope.next_issues_exist = true;
-        }
-      });
 
     });
 
@@ -183,7 +184,7 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
 
   $scope.$watch('current.issue', function() {
     if ($scope.current.issues != undefined) {
-      index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+      var index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
       if (index_of_issue > 0){
         $scope.previous_issue = $scope.current.issues[index_of_issue-1]
       }
@@ -193,7 +194,7 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
         if(index_of_issue === $scope.current.issues.length-1){
           $scope.loading_next_issue = true;
           $scope.current.filters = $scope.current.filters || {};
-          $scope.current.filters['project_id'] = ($scope.current.project !== undefined ? $scope.current.project.id : undefined);
+          $scope.current.filters['project_id'] = ($scope.current.project ? $scope.current.project.id : undefined);
           IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.filters).then(function (response) {
             add_issues_to_main_array($scope, response.data.issues, IssueService);
             if (index_of_issue < $scope.current.issues.length-1){

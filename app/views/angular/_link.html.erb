@@ -3,7 +3,7 @@
     <div class="border-left"></div>
     <div class="bg-link">
       <%= link_to image_tag('Redmine_Live-01.png', plugin: 'redmine_angular_ui'),
-                  angular_path,
+                  angular_path(:anchor => @project.present? ? "/issues/filters?project_id=#{@project.id}" : "/issues"),
                   class: 'button',
                   target: '_blank' %>
     </div>
