@@ -27,7 +27,6 @@ app.factory('IssueService', function($http){
   var default_limit = 50; // TODO Should be fetched from IssueServiceConfig.default_limit;
 
   var result;
-  var flag_getNextLatestIssues_already_running;
 
   function refresh(offset, limit, filters, base_url) {
     offset = offset || 0;
