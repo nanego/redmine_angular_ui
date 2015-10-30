@@ -14,7 +14,9 @@ var load_next_issues = function ($scope, IssueService, IssueServiceConfig) {
       if (response.data.issues.length === IssueServiceConfig.default_limit) {
         $scope.next_issue_loaded = true;
       }
-      add_issues_to_main_array($scope, response.data.issues, IssueService);
+      if (response.data.issues){
+        add_issues_to_main_array($scope, response.data.issues, IssueService);
+      }
     });
   }
 };
@@ -106,33 +108,21 @@ app.controller('IssuesFiltersController', function($scope, $location, $http, $q,
   $scope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
   $scope.current.filters['project_id'] = $routeParams.project_id;
 
-
-  if ($scope.current.filters['project_id'] != undefined && $scope.current.filters['project_id'].length>0){
-    $scope.current.project = {id: $scope.current.filters['project_id'], name: ''}
-  }
-
   if ($scope.current.filters['assigned_to_id'] != undefined && $scope.current.filters['assigned_to_id'].length>0){
     $scope.current.permanent_mode = true;
   }
 
-  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
+  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
   $scope.current.project = getProjectById($scope, $scope.current.filters['project_id']);
 
   $scope.$watch('current.filters', function() {
     $scope.next_issues_exist = true; // Show loader
 
-    preloadedDataPromise.then(function (data) {
-
-      if ($scope.current.filters['project_name'].length > 0){
-        var selectedProjects = $filter('regex')(data.projects, 'name', $scope.current.filters['project_name']);
-        var projects_ids = selectedProjects.map(function(x) {return x.id;});
-        $scope.current.filters['projects_ids'] = projects_ids;
-        // console.log('projets correspondants :' + JSON.stringify($scope.current.filters['projects_ids'], null, 2));
-      }
+    preloadedDataPromise.then(function () {
 
       if ($scope.current.filters['project_id']){
-        console.log(getProjectById($scope, $scope.current.filters['project_id']));
-        getProjectById($scope, $scope.current.filters['project_id']);
+        // console.log('Set current project from id in params');
+        $scope.current.project = getProjectById($scope, $scope.current.filters['project_id']);
       }
 
     });

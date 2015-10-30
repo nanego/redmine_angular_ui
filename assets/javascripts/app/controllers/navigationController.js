@@ -18,7 +18,7 @@ app.controller('navigationController', function NavigationCtrl($scope, $routePar
        name = '*'+$routeParams.project_name+'*';
        $scope.search = $scope.search || {};
        $scope.search.name = $routeParams.project_name;
-     } else{
+     }else{
        name = "Tous les projets";
      }
     }

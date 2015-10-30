@@ -64,7 +64,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter) {
+function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter) {
   $scope.app = $scope.app || {};
   $scope.current = $scope.current || {};
   $scope.current.issue = undefined;
@@ -75,35 +75,43 @@ function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConf
     $scope.app.user = data.user;
   });
 
-
-  var issuesPromise = IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
-    $scope.app.issues = response.data.issues;
-    $scope.current.issues = response.data.issues;
-    IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
-      update_array_of_issues_with_last_note($scope.current.issues, response.issues);
-    });
-    if ($scope.current.issues.length < IssueServiceConfig.default_limit){
-      $scope.next_issues_exist = false;
-    }else{
-      $scope.next_issues_exist = true;
-    }
-  });
-
   var projectsPromise = ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
+
+    if ($scope.current.filters['project_name']){
+      var selectedProjects = $filter('regex')($scope.app.projects, 'name', $scope.current.filters['project_name']);
+      var projects_ids = selectedProjects.map(function(x) {return x.id;});
+      $scope.current.filters['projects_ids'] = projects_ids;
+      // console.log('projets correspondants :' + JSON.stringify($scope.current.filters['projects_ids'], null, 2));
+    }
+
+    var issuesPromise = IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
+      $scope.app.issues = response.data.issues;
+      $scope.current.issues = response.data.issues;
+      IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
+        update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+      });
+      if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+        $scope.next_issues_exist = false;
+      }else{
+        $scope.next_issues_exist = true;
+      }
+    });
   });
 
-  return $q.all([sessionPromise, issuesPromise, projectsPromise]).then(function(){
+  return $q.all([sessionPromise, projectsPromise]).then(function(){
     subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter, inUserScopeFilter);
   });
 }
 
 function update_array_of_issues_with_last_note(arrayOfIssues, newIssuesData){
   for (var index = 0; index < newIssuesData.length; ++index) {
-    var issue_index = findWithAttr(arrayOfIssues, 'id', newIssuesData[index]['id']);
-    if (issue_index >= 0 && arrayOfIssues[issue_index] !== undefined){
-      arrayOfIssues[issue_index].notes_count = newIssuesData[index]['count'];
-      arrayOfIssues[issue_index].last_note = newIssuesData[index]['last_note'];
+    if (arrayOfIssues){
+      var issue_index = findWithAttr(arrayOfIssues, 'id', newIssuesData[index]['id']);
+      if (issue_index >= 0 && arrayOfIssues[issue_index] !== undefined){
+        arrayOfIssues[issue_index].notes_count = newIssuesData[index]['count'];
+        arrayOfIssues[issue_index].last_note = newIssuesData[index]['last_note'];
+      }
     }
   }
 }
@@ -256,14 +264,16 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
 }
 
 function getProjectById($scope, project_id) {
+  var project;
   // $scope.$watch('app.projects', function() {
     if ($scope.app.projects && ($scope.current.project == undefined || $scope.current.project.id != project_id)) {
       console.log("getProjectById");
-      $scope.current.project = $.grep($scope.app.projects, function (e) {
+      project = $.grep($scope.app.projects, function (e) {
         return e.id.toString() === project_id;
       })[0];
     };
   // });
+  return project;
 }
 
 function showNotification(NotificationService, toastr, issue, message){

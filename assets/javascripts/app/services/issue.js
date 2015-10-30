@@ -27,6 +27,8 @@ app.factory('IssueService', function($http){
   var default_limit = 50; // TODO Should be fetched from IssueServiceConfig.default_limit;
 
   var result;
+  var flag_getNextLatestIssues_already_running;
+
   function refresh(offset, limit, filters, base_url) {
     offset = offset || 0;
     limit = limit || default_limit;
@@ -50,6 +52,29 @@ app.factory('IssueService', function($http){
 
     return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset + param_filters, { headers: headers });
   }
+
+  var getNextIssuesSingleton = (function () {
+    var promise;
+    var current_call_nb = 0;
+
+    function createPromise(offset, filters) {
+      var uniq_call = refresh(offset, null, filters);
+      return uniq_call;
+    }
+
+    return {
+      getPromise: function (offset, filters) {
+        if (!promise || current_call_nb==0) {
+          promise = createPromise(offset, filters);
+          current_call_nb = 1;
+        }
+        promise.then(function(){
+          current_call_nb = 0;
+        });
+        return promise;
+      }
+    };
+  })();
 
   return {
     getLatestIssues: function () {
@@ -87,7 +112,7 @@ app.factory('IssueService', function($http){
     },
     getNextLatestIssues: function (offset, filters) {
       console.log("getNextLatestIssues" + JSON.stringify(filters, null, 2));
-      return refresh(offset, null, filters);
+      return getNextIssuesSingleton.getPromise(offset, filters);
     },
     getIssueFromCache: function(id) {
       console.log("getIssueFromCache");
