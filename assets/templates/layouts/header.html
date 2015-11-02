@@ -266,9 +266,9 @@
           <span class="arrow-down"></span>
         </span>
         <div class="listWrapper listWrapperSkin custom-dropdown-menu has-selectable-items" id="dropdown-display-types">
-          <div class="menuitem unclickable" id="view-compact" data-group="view-density"><div class="menuitem-content"><span>Vue compacte</span></div></div>
-          <div class="menuitem unclickable selected-item" id="view-normal" data-group="view-density"><div class="menuitem-content"><span>Vue normale</span></div></div>
-          <div class="menuitem unclickable" id="view-comfortable" data-group="view-density"><div class="menuitem-content"><span>Vue confortable</span></div></div>
+          <div class="menuitem unclickable" ng-class="{'selected-item': current.user_favorite_view_mode == 0}" id="view-compact" data-group="view-density"><div class="menuitem-content"><span>Vue compacte</span></div></div>
+          <div class="menuitem unclickable" ng-class="{'selected-item': (current.user_favorite_view_mode == 1 || current.user_favorite_view_mode === undefined)}" id="view-normal" data-group="view-density"><div class="menuitem-content"><span>Vue normale</span></div></div>
+          <div class="menuitem unclickable" ng-class="{'selected-item': current.user_favorite_view_mode == 2}" id="view-comfortable" data-group="view-density"><div class="menuitem-content"><span>Vue confortable</span></div></div>
           <!--
           <div class="submenu-link separator-horizontal"></div>
           <div class="menuitem"><div class="menuitem-content"><span>Afficher les intitulés de colonnes</span></div></div>

@@ -10,6 +10,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
   $scope.current = $scope.current || {};
   $scope.current.user_is_admin = current_user_is_admin;
+  $scope.current.user_favorite_view_mode = current_user_favorite_view_mode;
 
   // getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
 
