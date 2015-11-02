@@ -137,9 +137,10 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
   var issues_channels = (channel_type.length>0) ? ['/issues', '/issues' + channel_type] : '/issues';
   console.log("Subscribed to " + issues_channels);
   client.subscribe(issues_channels, function (message) {
-    message = JSON.parse(message);
 
     if ($scope.current.issues){
+
+      message = JSON.parse(message);
 
       if (message.user.id != $scope.app.user.id) {
         if (message.issue != undefined) {

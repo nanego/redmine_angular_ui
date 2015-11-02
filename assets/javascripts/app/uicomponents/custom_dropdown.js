@@ -203,15 +203,15 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
       // Ugly exception with a bunch of JQuery in it... TODO: refactor
       /* changement de compacité pour la vue : gestion du menu */
       if (iAttrs.dropdownMenu == "dropdown-display-types"){
-        $("#view-normal").click(function(e) {
-          $(".table-issues").addClass("normal-table").removeClass("compact-table comfortable-table");
+        $('.has-dropdown').on('click', '#view-normal', function(e) {
+          $(".table-issues").addClass("normal-table").removeClass("comfortable-table").addClass("compact-table");
           if (!$(this).hasClass("selected-item")) {
             $("div[data-group='view-density']").removeClass("selected-item");
             $(this).addClass("selected-item");
           }
           e.stopPropagation();
         });
-        $("#view-compact").click(function(e) {
+        $('.has-dropdown').on('click', "#view-compact", function(e) {
           $(".table-issues").addClass("compact-table").removeClass("normal-table comfortable-table");
           if (!$(this).hasClass("selected-item")) {
             $("div[data-group='view-density']").removeClass("selected-item");
@@ -219,7 +219,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
           }
           e.stopPropagation();
         });
-        $("#view-comfortable").click(function(e) {
+        $('.has-dropdown').on('click', "#view-comfortable", function(e) {
           $(".table-issues").addClass("comfortable-table").removeClass("normal-table compact-table");
           if (!$(this).hasClass("selected-item")) {
             $("div[data-group='view-density']").removeClass("selected-item");

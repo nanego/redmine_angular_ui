@@ -1179,7 +1179,8 @@ top: 0.5em;
 
 /* Div à la place des tableaux ------------- */
 
-.compact-table, .normal-table, .comfortable-table  		{ line-height: 2.4em; }
+.compact-table, .comfortable-table { line-height: 2.4em; }
+.normal-table { line-height: 3.3em; }
 /*
 .compact-table 		{ line-height: 2.4em; }
 .normal-table  		{ line-height: 2.4em; }
@@ -1456,6 +1457,8 @@ top: 0.5em;
 
 @media all and (min-width: 750px) {
 
+    /* Compact style */
+
     .compact-table .single-element { height: 2.4em }
 
     .compact-table .wrapper {
@@ -1494,6 +1497,27 @@ top: 0.5em;
     .compact-table .aside-assignation, .aside.updated_at {
         -webkit-order: 20;
         order: 20;
+    }
+
+
+    /****************/
+    /* Normal style */
+    /****************/
+
+    .normal-table .single-element {
+        height: 3.3em;
+        border-bottom: 1px solid whitesmoke;
+    }
+
+    .normal-table .single-element:hover  {
+        border-bottom: 1px solid whitesmoke;
+        border-top: 1px solid whitesmoke;
+    }
+
+    .normal-table .aside.tracker, .normal-table .aside.aside-assignation {
+        display: flex;
+        align-items: center;
+        max-height: 2.8em;
     }
 
     /* Copier/Coller du style 'mobile', ne pas modifier */
