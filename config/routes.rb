@@ -6,5 +6,8 @@ RedmineApp::Application.routes.draw do
       post :get_last_note
       get :not_assigned_issues
     end
+    namespace :projects do
+      get :minimal_index
+    end
   end
 end

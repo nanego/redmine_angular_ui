@@ -9,7 +9,7 @@ app.factory('ProjectService',function($http, $q){
         return $q.when(service.projects);
       }else{
         console.log("fetch projects on server...");
-        return $http.get('/projects.json', { headers: headers }).then(function(data) {
+        return $http.get('/custom_api/projects/minimal_index.json', { headers: headers }).then(function(data) {
           return service.projects = data.data;
         });
       }
