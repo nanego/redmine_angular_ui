@@ -139,19 +139,21 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
   client.subscribe(issues_channels, function (message) {
     message = JSON.parse(message);
 
-    if (message.user.id != $scope.app.user.id) {
-      if (message.issue != undefined) {
-        delete message.issue.watched;
+    if ($scope.current.issues){
+
+      if (message.user.id != $scope.app.user.id) {
+        if (message.issue != undefined) {
+          delete message.issue.watched;
+        }
       }
-    }
 
-    var correct_context = false;
-    if ($scope.current.project == undefined || $scope.current.project.id === message.issue.project.id) {
-      correct_context = true;
-    }
+      var correct_context = false;
+      if ($scope.current.project == undefined || $scope.current.project.id === message.issue.project.id) {
+        correct_context = true;
+      }
 
-    if (correct_context && ($scope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
-      // IssueService.getLatestIssues().then(function () {
+      if (correct_context && ($scope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
+        // IssueService.getLatestIssues().then(function () {
         switch (message.action) {
           case 'create':
             $scope.app.issues.unshift(message.issue);
@@ -211,7 +213,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
             });
             break;
         }
-      // });
+      }
     }
   });
 
