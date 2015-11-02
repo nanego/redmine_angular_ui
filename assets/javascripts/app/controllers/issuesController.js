@@ -29,7 +29,7 @@ app.controller('IssuesController', function($scope, $location, $http, $q, $filte
   $scope.current.filters = {};
   // $scope.current.filters['projects'] = $routeParams.filter;
 
-  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
+  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
 
   var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
