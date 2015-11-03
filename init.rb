@@ -19,6 +19,6 @@ Redmine::Plugin.register :redmine_angular_ui do
   url 'https://github.com/nanego/redmine_angular_ui'
   author_url 'mailto:contact@vincent-robert.com'
   menu :admin_menu, :new_ui, { :controller => 'angular', :action => 'index' }, :caption => :new_ui
-  settings :default => { 'favorite_view_mode' => 'normal'},
+  settings :default => { 'favorite_view_mode' => 1},
            :partial => 'settings/plugin_settings'
 end
