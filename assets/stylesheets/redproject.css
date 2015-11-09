@@ -1375,6 +1375,9 @@ top: 0.5em;
         max-height: 60px;
         overflow: hidden;
     }
+	.wrapper{
+		line-height: 2.4em;
+	}
     .wrapper .subject {
 		 -webkit-order: 2;
 		 order: 2;
