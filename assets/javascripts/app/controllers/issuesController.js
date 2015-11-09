@@ -263,9 +263,11 @@ function add_issues_to_main_array($scope, new_issues, IssueService) {
       $scope.current.issues.push(new_issues[i]);
     }
   }
-  IssueService.get_last_note_by_ids(new_issues.map(function(x) {return x.id; })).success(function (response){
-    update_array_of_issues_with_last_note($scope.current.issues, response.issues);
-  });
+  if(new_issues){
+    IssueService.get_last_note_by_ids(new_issues.map(function(x) {return x.id; })).success(function (response){
+      update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+    });
+  }
   // Global array
   for (var i = 0; i < new_issues.length; ++i) {
     var issue_in_scope_index = findWithAttr($scope.app.issues, 'id', new_issues[i].id);

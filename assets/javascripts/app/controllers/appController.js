@@ -89,13 +89,15 @@ function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConf
     var issuesPromise = IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
       $scope.app.issues = response.data.issues;
       $scope.current.issues = response.data.issues;
-      IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
-        update_array_of_issues_with_last_note($scope.current.issues, response.issues);
-      });
-      if ($scope.current.issues.length < IssueServiceConfig.default_limit){
-        $scope.next_issues_exist = false;
-      }else{
-        $scope.next_issues_exist = true;
+      if ($scope.current.issues){
+        IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
+          update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+        });
+        if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+          $scope.next_issues_exist = false;
+        }else{
+          $scope.next_issues_exist = true;
+        }
       }
     });
   });

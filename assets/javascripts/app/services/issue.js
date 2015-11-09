@@ -75,6 +75,33 @@ app.factory('IssueService', function($http){
     };
   })();
 
+  var getLastNotesSingleton = (function () {
+    var promise;
+    var current_call_nb = 0;
+
+    function createPromise(ids) {
+      return $http({
+        method: 'POST',
+        url: '/custom_api/issues/get_last_note.json',
+        data: {"issue_ids": ids},
+        headers: headers
+      });
+    }
+
+    return {
+      getPromise: function (ids) {
+        if (!promise || current_call_nb==0) {
+          promise = createPromise(ids);
+          current_call_nb = 1;
+        }
+        promise.then(function(){
+          current_call_nb = 0;
+        });
+        return promise;
+      }
+    };
+  })();
+
   return {
     getLatestIssues: function () {
       console.log("getLatestIssues");
@@ -125,12 +152,7 @@ app.factory('IssueService', function($http){
       });
     },
     get_last_note_by_ids: function(ids) {
-      return $http({
-        method: 'POST',
-        url: '/custom_api/issues/get_last_note.json',
-        data: {"issue_ids": ids},
-        headers: headers
-      });
+      return getLastNotesSingleton.getPromise(ids);
     },
     save: function (issue) {
       var responsePromise;
