@@ -1,4 +1,4 @@
-<% if User.current.admin? %>
+<% if User.current.try(:sudoer?) || User.current.admin? %>
   <div class="contextual-link">
     <div class="border-left"></div>
     <div class="bg-link">
