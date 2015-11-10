@@ -153,13 +153,13 @@ app.controller('customDropdownController', ['$scope', '$attrs', '$parse', 'custo
 
 }]);
 
-app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig', 'DropdownService', 'customDropdownService', function($document, $animate, customDropdownConfig, DropdownService, customDropdownService) {
+app.directive('customDropdown', ['$document', '$animate', '$rootScope', 'customDropdownConfig', 'DropdownService', 'customDropdownService', function($document, $animate, $rootScope, customDropdownConfig, DropdownService, customDropdownService) {
   return {
     scope: {
       disabled: '&dropdownDisabled',
       opened: '@'
     },
-    controller: ['$timeout', '$scope', '$animate', 'customDropdownConfig', 'customDropdownService', function($timeout, $scope, $animate, customDropdownConfig, customDropdownService){
+    controller: ['$timeout', '$scope', '$animate', '$rootScope', 'customDropdownConfig', 'customDropdownService', function($timeout, $scope, $animate, $rootScope, customDropdownConfig, customDropdownService ){
 
       var openClass = customDropdownConfig.openClass;
       var setIsOpen = angular.noop;
@@ -204,6 +204,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
       /* changement de compacité pour la vue : gestion du menu */
       if (iAttrs.dropdownMenu == "dropdown-display-types"){
         $('.has-dropdown').on('click', '#view-normal', function(e) {
+          $rootScope.current_user_view_mode = 1;
           $(".table-issues").addClass("normal-table").removeClass("comfortable-table").addClass("compact-table");
           if (!$(this).hasClass("selected-item")) {
             $("div[data-group='view-density']").removeClass("selected-item");
@@ -212,6 +213,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
           e.stopPropagation();
         });
         $('.has-dropdown').on('click', "#view-compact", function(e) {
+          $rootScope.current_user_view_mode = 0;
           $(".table-issues").addClass("compact-table").removeClass("normal-table comfortable-table");
           if (!$(this).hasClass("selected-item")) {
             $("div[data-group='view-density']").removeClass("selected-item");
@@ -220,6 +222,7 @@ app.directive('customDropdown', ['$document', '$animate', 'customDropdownConfig'
           e.stopPropagation();
         });
         $('.has-dropdown').on('click', "#view-comfortable", function(e) {
+          $rootScope.current_user_view_mode = 2;
           $(".table-issues").addClass("comfortable-table").removeClass("normal-table compact-table");
           if (!$(this).hasClass("selected-item")) {
             $("div[data-group='view-density']").removeClass("selected-item");

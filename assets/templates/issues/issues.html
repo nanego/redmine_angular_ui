@@ -9,9 +9,9 @@
 
       <ul scroller="" loading-method="load_next_issues()"
           class="table-issues"
-          ng-class="{'normal-table': (current.user_favorite_view_mode != 2 && current.user_favorite_view_mode != 0),
-                    'compact-table': (current.user_favorite_view_mode != 2),
-                    'comfortable-table': (current.user_favorite_view_mode == 2)}">
+          ng-class="{'normal-table': ($root.current_user_view_mode != 2 && $root.current_user_view_mode != 0),
+                    'compact-table': ($root.current_user_view_mode != 2),
+                    'comfortable-table': ($root.current_user_view_mode == 2)}">
         <li style="clear: both;"
             ng-repeat="issue in current.issues"
             class="single-element"

@@ -2,7 +2,7 @@
 
 var app = angular.module('myApp.controllers');
 
-app.controller('AppController', function($scope, $location, $http, $q, SessionService, IssueService, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter) {
+app.controller('AppController', function($scope, $location, $http, $rootScope, $q, SessionService, IssueService, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter) {
 
   $http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
@@ -10,7 +10,7 @@ app.controller('AppController', function($scope, $location, $http, $q, SessionSe
 
   $scope.current = $scope.current || {};
   $scope.current.user_is_admin = current_user_is_admin;
-  $scope.current.user_favorite_view_mode = current_user_favorite_view_mode;
+  $rootScope.current_user_view_mode = current_user_view_mode;
 
   // getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
 

@@ -1,7 +1,7 @@
 <table>
   <tbody>
   <tr>
-    <th style="text-align: right;">Type d'affichage préféré :</th>
+    <th style="text-align: right;">Type d'affichage par défaut :</th>
     <td>
       <%= select_tag "settings[favorite_view_mode]", options_for_select([['Compact', 0],['Normal', 1],['Comfortable', 2]], Setting['plugin_redmine_angular_ui']['favorite_view_mode']), :id => "settings_favorite_view_mode" %>
     </td>

@@ -55,7 +55,7 @@
       faye_server_url = "//#{request.host_with_port}/faye/faye"
     end %>
     var current_user_is_admin = <%= User.current.admin? ? 'true' : 'false' %>;
-    var current_user_favorite_view_mode = '<%= Setting['plugin_redmine_angular_ui']['favorite_view_mode'] %>';
+    var current_user_view_mode = '<%= Setting['plugin_redmine_angular_ui']['favorite_view_mode'] %>';
     var faye_url = '<%= faye_server_url %>';
   </script>
 
