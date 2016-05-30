@@ -41,7 +41,7 @@ api.array :issues, api_meta(:total_count => @issue_count, :offset => @offset, :l
           api.watched "0"
         end
 
-        if issue.project.module_enabled?("limited_visibility")
+        if Redmine::Plugin.installed?(:redmine_limited_visibility) && issue.project.module_enabled?("limited_visibility")
           # custom attributes for the limited_visibility plugin
           api.assigned_to_functional_role(:id => issue.assigned_to_function_id, :name => issue.assigned_function.name) unless issue.assigned_to_function_id.nil?
           api.array :authorized_viewers do
