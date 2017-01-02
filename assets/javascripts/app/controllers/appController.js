@@ -8,11 +8,11 @@ app.controller('AppController', function($scope, $location, $http, $rootScope, $
   $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
-  $scope.current = $scope.current || {};
-  $scope.current.user_is_admin = current_user_is_admin;
+  $rootScope.current = $rootScope.current || {};
+  $rootScope.current.user_is_admin = current_user_is_admin;
   $rootScope.current_user_view_mode = current_user_view_mode;
 
-  // getPreloadedData(SessionService, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
+  // getPreloadedData(SessionService, $rootScope, $scope, IssueService, ProjectService, UserService, NotificationService, $q, toastr, $location, inScopeFilter, inUserScopeFilter);
 
   /*
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -65,10 +65,10 @@ app.controller('AppController', function($scope, $location, $http, $rootScope, $
 
 });
 
-function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter) {
+function getPreloadedData(SessionService, $rootScope, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter) {
   $scope.app = $scope.app || {};
-  $scope.current = $scope.current || {};
-  $scope.current.issue = undefined;
+  $rootScope.current = $rootScope.current || {};
+  $rootScope.current.issue = undefined;
 
   // Get current user and user's memberships
   var sessionPromise = SessionService.getCurrentUser().then(function (data) {
@@ -79,21 +79,21 @@ function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConf
   var projectsPromise = ProjectService.getAllProjects().then(function (data) {
     $scope.app.projects = data.projects;
 
-    if ($scope.current.filters['project_name']){
-      var selectedProjects = $filter('regex')($scope.app.projects, 'name', $scope.current.filters['project_name']);
+    if ($rootScope.current.filters['project_name']){
+      var selectedProjects = $filter('regex')($scope.app.projects, 'name', $rootScope.current.filters['project_name']);
       var projects_ids = selectedProjects.map(function(x) {return x.id;});
-      $scope.current.filters['projects_ids'] = projects_ids;
-      // console.log('projets correspondants :' + JSON.stringify($scope.current.filters['projects_ids'], null, 2));
+      $rootScope.current.filters['projects_ids'] = projects_ids;
+      // console.log('projets correspondants :' + JSON.stringify($rootScope.current.filters['projects_ids'], null, 2));
     }
 
-    var issuesPromise = IssueService.getLatestIssuesWithFilters($scope.current.filters).then(function (response) {
+    var issuesPromise = IssueService.getLatestIssuesWithFilters($rootScope.current.filters).then(function (response) {
       $scope.app.issues = response.data.issues;
-      $scope.current.issues = response.data.issues;
-      if ($scope.current.issues){
-        IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
-          update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+      $rootScope.current.issues = response.data.issues;
+      if ($rootScope.current.issues){
+        IssueService.get_last_note_by_ids($rootScope.current.issues.map(function(x) {return x.id; })).success(function (response){
+          update_array_of_issues_with_last_note($rootScope.current.issues, response.issues);
         });
-        if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+        if ($rootScope.current.issues.length < IssueServiceConfig.default_limit){
           $scope.next_issues_exist = false;
         }else{
           $scope.next_issues_exist = true;
@@ -103,7 +103,7 @@ function getPreloadedData(SessionService, $scope, IssueService, IssueServiceConf
   });
 
   return $q.all([sessionPromise, projectsPromise]).then(function(){
-    subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter, inUserScopeFilter);
+    subscribeToRealtimeUpdates(IssueService, NotificationService, $rootScope, $scope, toastr, $location, inScopeFilter, inUserScopeFilter);
   });
 }
 
@@ -125,7 +125,7 @@ function arrayMove(arr, fromIndex, toIndex) {
   arr.splice(toIndex, 0, element);
 }
 
-function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, toastr, $location, inScopeFilter, inUserScopeFilter) {
+function subscribeToRealtimeUpdates(IssueService, NotificationService, $rootScope, $scope, toastr, $location, inScopeFilter, inUserScopeFilter) {
 
   var client = new Faye.Client(faye_url);
   // client.setHeader('Access-Control-Allow-Origin', '*');
@@ -141,7 +141,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
   console.log("Subscribed to " + issues_channels);
   client.subscribe(issues_channels, function (message) {
 
-    if ($scope.current.issues){
+    if ($rootScope.current.issues){
 
       message = JSON.parse(message);
 
@@ -152,25 +152,25 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
       }
 
       var correct_context = false;
-      if ($scope.current.project == undefined || $scope.current.project.id === message.issue.project.id) {
+      if ($rootScope.current.project == undefined || $rootScope.current.project.id === message.issue.project.id) {
         correct_context = true;
       }
 
-      if (correct_context && ($scope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
+      if (correct_context && ($rootScope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
         // IssueService.getLatestIssues().then(function () {
         switch (message.action) {
           case 'create':
             $scope.app.issues.unshift(message.issue);
-            if (inScopeFilter(message.issue, $scope.current.filters)){
+            if (inScopeFilter(message.issue, $rootScope.current.filters)){
               // Add the new issue on the top of the list, only if the issue must be displayed according to current filters
-              $scope.current.issues.unshift(message.issue);
+              $rootScope.current.issues.unshift(message.issue);
               showNotification(NotificationService, toastr, message.issue, 'Une nouvelle demande a été ajoutée.');
             }
             break;
           case 'destroy':
-            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            $scope.current.issues.splice(index, 1);
-            if (inScopeFilter(message.issue, $scope.current.filters)){
+            var index = findWithAttr($rootScope.current.issues, 'id', message.issue.id);
+            $rootScope.current.issues.splice(index, 1);
+            if (inScopeFilter(message.issue, $rootScope.current.filters)){
               if (message.issue.status.is_closed == '1') {
                 showNotification(NotificationService, toastr, message.issue, "La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.");
               } else {
@@ -179,40 +179,40 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
             }
             break;
           case 'update':
-            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            if (inScopeFilter(message.issue, $scope.current.filters)){
+            var index = findWithAttr($rootScope.current.issues, 'id', message.issue.id);
+            if (inScopeFilter(message.issue, $rootScope.current.filters)){
               // Move issue to top of the list
               if (index >= 0) {
-                jQuery.extend($scope.current.issues[index], message.issue);
-                arrayMove($scope.current.issues, index, 0);
+                jQuery.extend($rootScope.current.issues[index], message.issue);
+                arrayMove($rootScope.current.issues, index, 0);
               } else {
-                $scope.current.issues.unshift(message.issue);
+                $rootScope.current.issues.unshift(message.issue);
               }
               showNotification(NotificationService, toastr, message.issue, "La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.");
             }else{
               if (index >= 0) {
                 // Remove from the list
-                $scope.current.issues.splice(index, 1);
+                $rootScope.current.issues.splice(index, 1);
                 showNotification(NotificationService, toastr, message.issue, "La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été mise à jour.");
               }
             }
 
-            if ($scope.current.issue !== undefined) {
-              if ($scope.current.issue.id === message.issue.id) {
-                jQuery.extend($scope.current.issue, message.issue);
+            if ($rootScope.current.issue !== undefined) {
+              if ($rootScope.current.issue.id === message.issue.id) {
+                jQuery.extend($rootScope.current.issue, message.issue);
                 // Reload updated journal
-                IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
-                  $scope.current.issue = fullIssue;
+                IssueService.getIssueDetails($rootScope.current.issue.id).then(function (fullIssue) {
+                  $rootScope.current.issue = fullIssue;
                   // Then, update main array of issues
-                  var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
-                  $scope.current.issues[index] = $scope.current.issue;
+                  var index = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
+                  $rootScope.current.issues[index] = $rootScope.current.issue;
                 });
               }
             }
             break;
           default:
-            IssueService.refreshLatestIssues($scope.current.issues.length).then(function (response) {
-              $scope.current.issues = response.data.issues;
+            IssueService.refreshLatestIssues($rootScope.current.issues.length).then(function (response) {
+              $rootScope.current.issues = response.data.issues;
               showNotification(NotificationService, toastr, message.issue, "Les demandes ont été mises à jour.");
             });
             break;
@@ -226,7 +226,7 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
   console.log("Subscribed to " + watched_channels);
   client.subscribe(watched_channels, function (message) {
 
-    if ($scope.current.issues) {
+    if ($rootScope.current.issues) {
 
       message = JSON.parse(message);
 
@@ -235,17 +235,17 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
 
           case 'update':
 
-            var index = findWithAttr($scope.current.issues, 'id', message.issue.id);
-            jQuery.extend($scope.current.issues[index], message.issue);
-            if ($scope.current.issue !== undefined) {
-              if ($scope.current.issue.id === message.issue.id) {
-                $scope.current.issue = message.issue;
+            var index = findWithAttr($rootScope.current.issues, 'id', message.issue.id);
+            jQuery.extend($rootScope.current.issues[index], message.issue);
+            if ($rootScope.current.issue !== undefined) {
+              if ($rootScope.current.issue.id === message.issue.id) {
+                $rootScope.current.issue = message.issue;
                 // Reload updated journal
-                IssueService.getIssueDetails($scope.current.issue.id).then(function (fullIssue) {
-                  $scope.current.issue = fullIssue;
+                IssueService.getIssueDetails($rootScope.current.issue.id).then(function (fullIssue) {
+                  $rootScope.current.issue = fullIssue;
                   // Then, update main array of issues
-                  var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
-                  $scope.current.issues[index] = $scope.current.issue;
+                  var index = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
+                  $rootScope.current.issues[index] = $rootScope.current.issue;
                 });
               }
             }
@@ -261,25 +261,37 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $scope, t
   // Check connection status and give a feedback to the user
   client.on('transport:down', function offlineClient() {
     console.log('the client is offline');
-    $scope.current.faye_client_status = "offline";
+    $rootScope.current.faye_client_status = "offline";
   });
   client.on('transport:up', function onlineClient() {
     console.log('the client is online');
-    $scope.current.faye_client_status = "online";
+    $rootScope.current.faye_client_status = "online";
   });
 }
 
-function getProjectById($scope, project_id) {
+function getProjectById($rootScope, $scope, project_id) {
   var project;
   // $scope.$watch('app.projects', function() {
-    if ($scope.app.projects && ($scope.current.project == undefined || $scope.current.project.id != project_id)) {
+    if ($scope.app.projects && ($rootScope.current.project == undefined || $rootScope.current.project.id != project_id)) {
       console.log("getProjectById");
       project = $.grep($scope.app.projects, function (e) {
         return e.id.toString() === project_id;
       })[0];
-    };
+    }
   // });
   return project;
+}
+
+function getObjectById(collection, object_id){
+  var object;
+  console.log("getObjectById");
+  object = $.grep(collection, function (e) {
+    return e.id.toString() === object_id.toString();
+  })[0];
+
+  console.log("Get Object By ID = " + object);
+
+  return object;
 }
 
 function showNotification(NotificationService, toastr, issue, message){

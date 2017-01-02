@@ -2,12 +2,12 @@
 
 var app = angular.module('myApp.controllers');
 
-var load_next_issues = function ($scope, IssueService, IssueServiceConfig) {
-  if ($scope.current.issues !== undefined && $scope.current.permanent_mode !== true) {
+var load_next_issues = function ($rootScope, $scope, IssueService, IssueServiceConfig) {
+  if ($rootScope.current.issues !== undefined && $rootScope.current.permanent_mode !== true) {
     $scope.next_issue_loaded = false;
     $scope.next_issues_exist = true;
-    $scope.current.filters['project_id'] = ($scope.current.project ? $scope.current.project.id : undefined);
-    IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.filters).then(function (response) {
+    $rootScope.current.filters['project_id'] = ($rootScope.current.project ? $rootScope.current.project.id : undefined);
+    IssueService.getNextLatestIssues($rootScope.current.issues.length, $rootScope.current.filters).then(function (response) {
       if (response.data.issues.length < IssueServiceConfig.default_limit) {
         $scope.next_issues_exist = false;
       }
@@ -15,114 +15,138 @@ var load_next_issues = function ($scope, IssueService, IssueServiceConfig) {
         $scope.next_issue_loaded = true;
       }
       if (response.data.issues){
-        add_issues_to_main_array($scope, response.data.issues, IssueService);
+        add_issues_to_main_array($rootScope, $scope, response.data.issues, IssueService);
       }
     });
   }
 };
 
-app.controller('IssuesController', function($scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, project_nameFilter){
+function init_search_params($rootScope, $scope, TrackerService){
+  var current_tracker_id = $rootScope.current.filters['tracker_id'];
+  TrackerService.getTrackers().then(function(trackers) {
+    $rootScope.trackers = trackers;
+    if (current_tracker_id !== undefined && current_tracker_id !== ''){
 
-  $scope.current.project = undefined;
-  $scope.current.stage = "Demandes"; // TODO Refactor this
-  // $scope.current.permanent_mode = undefined;
-  $scope.current.filters = {};
-  // $scope.current.filters['projects'] = $routeParams.filter;
+      console.log("init_search_params >> getTrackerByID");
 
-  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
+      $rootScope.tracker = getObjectById(trackers, current_tracker_id);
+    } else {
+
+      console.log("init_search_params >> Pas de tracker courant");
+
+      $rootScope.tracker = '';
+    }
+  });
+};
+
+app.controller('IssuesController', function($rootScope, $scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, project_nameFilter, TrackerService){
+
+  $rootScope.current.project = undefined;
+  $rootScope.current.stage = "Demandes"; // TODO Refactor this
+  // $rootScope.current.permanent_mode = undefined;
+  $rootScope.current.filters = {};
+  // $rootScope.current.filters['projects'] = $routeParams.filter;
+
+  var preloadedDataPromise = getPreloadedData(SessionService, $rootScope, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
 
   var unbindWatcher = $scope.$watch('app.issues', function() {
     if ($scope.app.issues != undefined) {
       unbindWatcher(); // When you call the $watch() method, AngularJS returns an unbind function that will kill the $watch() listener when its called.
-      $scope.current.issues = project_nameFilter($scope.app.issues, $scope.current.filters);  // TODO Remove this filter
+      $rootScope.current.issues = project_nameFilter($scope.app.issues, $rootScope.current.filters);  // TODO Remove this filter
 
-      if ($scope.current.issues.length < IssueServiceConfig.default_limit){
+      if ($rootScope.current.issues.length < IssueServiceConfig.default_limit){
         $scope.next_issues_exist = false;
       }else{
         $scope.next_issues_exist = true;
       }
-      IssueService.get_last_note_by_ids($scope.current.issues.map(function(x) {return x.id; })).success(function (response){
-        update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+      IssueService.get_last_note_by_ids($rootScope.current.issues.map(function(x) {return x.id; })).success(function (response){
+        update_array_of_issues_with_last_note($rootScope.current.issues, response.issues);
       });
     }
   });
 
   $scope.load_next_issues = function() {
-    load_next_issues($scope, IssueService, IssueServiceConfig);
+    load_next_issues($rootScope, $scope, IssueService, IssueServiceConfig);
   };
 
+  init_search_params($rootScope, $scope, TrackerService);
+
   $scope.$watch('current.permanent_mode', function () {
-    if ($scope.current.permanent_mode != undefined &&
-      (($scope.current.filters['assigned_to_id'] === '!*' && $scope.current.permanent_mode === false) ||
-      ($scope.current.filters['assigned_to_id'] !== '!*' && $scope.current.permanent_mode === true))
+    if ($rootScope.current.permanent_mode != undefined &&
+      (($rootScope.current.filters['assigned_to_id'] === '!*' && $rootScope.current.permanent_mode === false) ||
+      ($rootScope.current.filters['assigned_to_id'] !== '!*' && $rootScope.current.permanent_mode === true))
     ){
-      if ($scope.current.permanent_mode == true) {
-        $scope.current.filters['assigned_to_id'] = '!*';
+      if ($rootScope.current.permanent_mode == true) {
+        $rootScope.current.filters['assigned_to_id'] = '!*';
       }else {
-        $scope.current.filters['assigned_to_id'] = '';
+        $rootScope.current.filters['assigned_to_id'] = '';
       }
-      $location.path('issues/filters').search($scope.current.filters);
-        // ?project_name='+ $scope.current.filters['project_name'] +'&assigned_to_id='+ $scope.current.filters['assigned_to_id'] );
+      $location.path('issues/filters').search($rootScope.current.filters);
+        // ?project_name='+ $rootScope.current.filters['project_name'] +'&assigned_to_id='+ $rootScope.current.filters['assigned_to_id'] );
     }
   });
 
 
        /*
-      $scope.current.issues = not_assignedFilter($scope.app.issues);
-      if ($scope.current.issues.length < IssueServiceConfig.default_limit) {
+      $rootScope.current.issues = not_assignedFilter($scope.app.issues);
+      if ($rootScope.current.issues.length < IssueServiceConfig.default_limit) {
 
-        IssueService.getLatestIssuesWithFilters($scope.current.filters).success(function (response) {
-          if (response.issues !== undefined && $scope.current.permanent_mode == true) {
+        IssueService.getLatestIssuesWithFilters($rootScope.current.filters).success(function (response) {
+          if (response.issues !== undefined && $rootScope.current.permanent_mode == true) {
             add_issues_to_main_array($scope, response.issues, IssueService);
-            $scope.current.issues = not_assignedFilter($scope.current.issues);
+            $rootScope.current.issues = not_assignedFilter($rootScope.current.issues);
           }
         });
       }
     } else {
-      $scope.current.filters['assigned_to_id'] = undefined;
-      $scope.current.issues = $scope.app.issues;
+      $rootScope.current.filters['assigned_to_id'] = undefined;
+      $rootScope.current.issues = $scope.app.issues;
     }
-    if ($scope.current.issues !== undefined) {
-      if ($scope.current.issues.length < IssueServiceConfig.default_limit) {
+    if ($rootScope.current.issues !== undefined) {
+      if ($rootScope.current.issues.length < IssueServiceConfig.default_limit) {
         $scope.next_issues_exist = false;
       } else {
         $scope.next_issues_exist = true;
       }
-      IssueService.get_last_note_by_ids($scope.current.issues.map(function (x) {
+      IssueService.get_last_note_by_ids($rootScope.current.issues.map(function (x) {
         return x.id;
       })).success(function (response) {
-        update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+        update_array_of_issues_with_last_note($rootScope.current.issues, response.issues);
       });
     }
         */
 
 });
 
-app.controller('IssuesFiltersController', function($scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter){
+app.controller('IssuesFiltersController', ['$rootScope', '$scope', '$location', '$http', '$q', '$filter', '$routeParams', 'SessionService', 'IssueService', 'IssueServiceConfig', 'ProjectService', 'NotificationService', 'toastr', 'inScopeFilter', 'UserService', 'inUserScopeFilter', 'TrackerService',
+  function($rootScope, $scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, TrackerService){
 
-  $scope.current.issues = undefined;
-  $scope.current.stage = "Demandes"; // TODO Refactor this
+  $rootScope.current.issues = undefined;
+  $rootScope.current.stage = "Demandes"; // TODO Refactor this
 
-  $scope.current.filters = $scope.current.filters || {};
-  $scope.current.filters['project_name'] = $routeParams.project_name || "";
-  $scope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
-  $scope.current.filters['project_id'] = $routeParams.project_id;
+  $rootScope.current.filters = $rootScope.current.filters || {};
+  $rootScope.current.filters['project_name'] = $routeParams.project_name || "";
+  $rootScope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
+  $rootScope.current.filters['project_id'] = $routeParams.project_id;
+  $rootScope.current.filters['tracker_id'] = $routeParams.tracker_id;
 
-  if ($scope.current.filters['assigned_to_id'] != undefined && $scope.current.filters['assigned_to_id'].length>0){
-    $scope.current.permanent_mode = true;
+  if ($rootScope.current.filters['assigned_to_id'] != undefined && $rootScope.current.filters['assigned_to_id'].length>0){
+    $rootScope.current.permanent_mode = true;
   }
 
-  var preloadedDataPromise = getPreloadedData(SessionService, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
-  $scope.current.project = getProjectById($scope, $scope.current.filters['project_id']);
+  var preloadedDataPromise = getPreloadedData(SessionService, $rootScope, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
+  $rootScope.current.project = getProjectById($rootScope, $scope, $rootScope.current.filters['project_id']);
+
+  init_search_params($rootScope, $scope, TrackerService);
 
   $scope.$watch('current.filters', function() {
     $scope.next_issues_exist = true; // Show loader
 
     preloadedDataPromise.then(function () {
 
-      if ($scope.current.filters['project_id']){
+      if ($rootScope.current.filters['project_id']){
         // console.log('Set current project from id in params');
-        $scope.current.project = getProjectById($scope, $scope.current.filters['project_id']);
+        $rootScope.current.project = getProjectById($rootScope, $scope, $rootScope.current.filters['project_id']);
       }
 
     });
@@ -130,65 +154,65 @@ app.controller('IssuesFiltersController', function($scope, $location, $http, $q,
   });
 
   $scope.load_next_issues = function() {
-    load_next_issues($scope, IssueService, IssueServiceConfig);
+    load_next_issues($rootScope, $scope, IssueService, IssueServiceConfig);
   };
 
   $scope.$watch('current.permanent_mode', function () {
-    if ($scope.current.permanent_mode != undefined &&
-      (($scope.current.filters['assigned_to_id'] === '!*' && $scope.current.permanent_mode === false) ||
-      ($scope.current.filters['assigned_to_id'] !== '!*' && $scope.current.permanent_mode === true))
+    if ($rootScope.current.permanent_mode != undefined &&
+      (($rootScope.current.filters['assigned_to_id'] === '!*' && $rootScope.current.permanent_mode === false) ||
+      ($rootScope.current.filters['assigned_to_id'] !== '!*' && $rootScope.current.permanent_mode === true))
     ){
-      if ($scope.current.permanent_mode == true) {
-        $scope.current.filters['assigned_to_id'] = '!*';
+      if ($rootScope.current.permanent_mode == true) {
+        $rootScope.current.filters['assigned_to_id'] = '!*';
       }else {
-        $scope.current.filters['assigned_to_id'] = '';
+        $rootScope.current.filters['assigned_to_id'] = '';
       }
-      $location.path('issues/filters').search($scope.current.filters);
-      // ?project_name='+ $scope.current.filters['project_name'] +'&assigned_to_id='+ $scope.current.filters['assigned_to_id'] );
+      $location.path('issues/filters').search($rootScope.current.filters);
+      // ?project_name='+ $rootScope.current.filters['project_name'] +'&assigned_to_id='+ $rootScope.current.filters['assigned_to_id'] );
     }
   });
 
-});
+}]);
 
-function getIssueById($scope, issue_id, IssueService, $timeout) {
-  if ($scope.current !== undefined && $scope.current.issues !== undefined && ($scope.current.issue === undefined || $scope.current.issue.id!==issue_id)) {
-    $scope.current.issue = $.grep($scope.current.issues, function (e) {
+function getIssueById($rootScope, $scope, issue_id, IssueService, $timeout) {
+  if ($rootScope.current !== undefined && $rootScope.current.issues !== undefined && ($rootScope.current.issue === undefined || $rootScope.current.issue.id!==issue_id)) {
+    $rootScope.current.issue = $.grep($rootScope.current.issues, function (e) {
       return e.id.toString() === issue_id;
     })[0];
   }
 
   $scope.delayedRequest = $timeout(function(){
     IssueService.getIssueDetails(issue_id).then(function (fullIssue) {
-      $scope.current.issue = fullIssue;
+      $rootScope.current.issue = fullIssue;
       // Then, update main array of issues
-      if ($scope.current !== undefined && $scope.current.issues !== undefined) {
-        var index = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
-        $scope.current.issues[index] = $scope.current.issue;
+      if ($rootScope.current !== undefined && $rootScope.current.issues !== undefined) {
+        var index = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
+        $rootScope.current.issues[index] = $rootScope.current.issue;
       };
     });
   },500);
 }
 
-app.controller('IssueShowController', function($scope, $routeParams, IssueService, hotkeys, $location, $timeout){
+app.controller('IssueShowController', function($rootScope, $scope, $routeParams, IssueService, hotkeys, $location, $timeout){
   getIssueById($scope, $routeParams.issue_id, IssueService, $timeout);
 
   $scope.$watch('current.issue', function() {
-    if ($scope.current.issues != undefined) {
-      var index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
+    if ($rootScope.current.issues != undefined) {
+      var index_of_issue = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
       if (index_of_issue > 0){
-        $scope.previous_issue = $scope.current.issues[index_of_issue-1]
+        $scope.previous_issue = $rootScope.current.issues[index_of_issue-1]
       }
-      if (index_of_issue < $scope.current.issues.length-1){
-        $scope.next_issue = $scope.current.issues[index_of_issue+1]
+      if (index_of_issue < $rootScope.current.issues.length-1){
+        $scope.next_issue = $rootScope.current.issues[index_of_issue+1]
       }else{
-        if(index_of_issue === $scope.current.issues.length-1){
+        if(index_of_issue === $rootScope.current.issues.length-1){
           $scope.loading_next_issue = true;
-          $scope.current.filters = $scope.current.filters || {};
-          $scope.current.filters['project_id'] = ($scope.current.project ? $scope.current.project.id : undefined);
-          IssueService.getNextLatestIssues($scope.current.issues.length, $scope.current.filters).then(function (response) {
+          $rootScope.current.filters = $rootScope.current.filters || {};
+          $rootScope.current.filters['project_id'] = ($rootScope.current.project ? $rootScope.current.project.id : undefined);
+          IssueService.getNextLatestIssues($rootScope.current.issues.length, $rootScope.current.filters).then(function (response) {
             add_issues_to_main_array($scope, response.data.issues, IssueService);
-            if (index_of_issue < $scope.current.issues.length-1){
-              $scope.next_issue = $scope.current.issues[index_of_issue+1]
+            if (index_of_issue < $rootScope.current.issues.length-1){
+              $scope.next_issue = $rootScope.current.issues[index_of_issue+1]
             }
             $scope.loading_next_issue = false;
           });
@@ -221,7 +245,7 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
       }
     });
 
-  // $scope.current.issue = IssueService.getIssueFromCache($routeParams.issue_id);
+  // $rootScope.current.issue = IssueService.getIssueFromCache($routeParams.issue_id);
   /*
   var issue = new Issue($routeParams.issue_id);
   issue.getDetails().then(function() {
@@ -230,7 +254,7 @@ app.controller('IssueShowController', function($scope, $routeParams, IssueServic
   */
 });
 
-app.controller('IssueEditController', function($scope, $routeParams, IssueService, TrackerService, $location, $timeout){
+app.controller('IssueEditController', function($rootScope, $scope, $routeParams, IssueService, TrackerService, $location, $timeout){
   getIssueById($scope, $routeParams.id, IssueService, $timeout);
 
   TrackerService.getTrackers().then(function(trackers) {
@@ -238,11 +262,11 @@ app.controller('IssueEditController', function($scope, $routeParams, IssueServic
   });
 
   $scope.saveIssue = function () {
-    var responsePromise = IssueService.save($scope.current.issue);
+    var responsePromise = IssueService.save($rootScope.current.issue);
     responsePromise.success(function(response) {
-      var index_of_issue = findWithAttr($scope.current.issues, 'id', $scope.current.issue.id);
-      $scope.current.issues[index_of_issue] = $scope.current.issue;
-      $location.path('/issues/'+$scope.current.issue.id);
+      var index_of_issue = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
+      $rootScope.current.issues[index_of_issue] = $rootScope.current.issue;
+      $location.path('/issues/'+$rootScope.current.issue.id);
     });
   }
 });
@@ -253,19 +277,19 @@ function IssueFormController($scope, ProjectService) {
   });
 };
 
-function add_issues_to_main_array($scope, new_issues, IssueService) {
+function add_issues_to_main_array($rootScope, $scope, new_issues, IssueService) {
   // Current array
   for (var i = 0; i < new_issues.length; ++i) {
-    var issue_in_scope_index = findWithAttr($scope.current.issues, 'id', new_issues[i].id);
+    var issue_in_scope_index = findWithAttr($rootScope.current.issues, 'id', new_issues[i].id);
     if (issue_in_scope_index >= 0) {
-      $scope.current.issues[issue_in_scope_index] = new_issues[i];
+      $rootScope.current.issues[issue_in_scope_index] = new_issues[i];
     } else {
-      $scope.current.issues.push(new_issues[i]);
+      $rootScope.current.issues.push(new_issues[i]);
     }
   }
   if(new_issues){
     IssueService.get_last_note_by_ids(new_issues.map(function(x) {return x.id; })).success(function (response){
-      update_array_of_issues_with_last_note($scope.current.issues, response.issues);
+      update_array_of_issues_with_last_note($rootScope.current.issues, response.issues);
     });
   }
   // Global array

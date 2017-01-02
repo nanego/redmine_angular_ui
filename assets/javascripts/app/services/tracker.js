@@ -18,5 +18,6 @@ app.factory('TrackerService',function($http, $q){
       return !!service.trackers;
     }
   };
+
   return service;
 });

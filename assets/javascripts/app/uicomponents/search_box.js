@@ -7,13 +7,13 @@ app.constant('searchBoxConfig', {
   activeClass: 'is-hover'
 });
 
-app.directive('searchBox', ['$document', '$animate', 'searchBoxConfig', 'searchBoxService', function($document, $animate, searchBoxConfig, searchBoxService) {
+app.directive('searchBox', ['$document', '$animate', '$rootScope', 'searchBoxConfig', 'searchBoxService', function($document, $animate, $rootScope, searchBoxConfig, searchBoxService) {
   return {
     scope: {
       disabled: '&searchBoxDisabled',
       opened: '@'
     },
-    controller: ['$timeout', '$scope', '$animate', 'searchBoxConfig', 'searchBoxService', function($timeout, $scope, $animate, searchBoxConfig, searchBoxService){
+    controller: ['$timeout', '$scope', '$animate', '$rootScope', 'searchBoxConfig', 'searchBoxService', function($timeout, $scope, $animate, $rootScope, searchBoxConfig, searchBoxService){
 
       var openClass = searchBoxConfig.openClass;
       var setIsOpen = angular.noop;
@@ -56,6 +56,7 @@ app.directive('searchBox', ['$document', '$animate', 'searchBoxConfig', 'searchB
 
       iElement.bind('click', function(e) {
         console.log('click on search box');
+        $rootScope.$broadcast("documentClicked", angular.element(e.target));
 
         var openTarget = angular.element($('#' + iAttrs.searchBoxMenu));
 
@@ -166,6 +167,7 @@ app.directive('searchBox', ['$document', '$animate', 'searchBoxConfig', 'searchB
       });
 
       $document.bind('click', function(e) {
+        $rootScope.$broadcast("documentClicked", angular.element(e.target));
         if ($scope.opened && e.target !== searchBoxService.menuElement) {
           close();
         }
@@ -222,6 +224,7 @@ app.directive('searchBox', ['$document', '$animate', 'searchBoxConfig', 'searchB
       }
 
       $('.keep-open').click(function(event){
+        $rootScope.$broadcast("documentClicked", angular.element(event.target));
         event.stopPropagation();
       }); // TODO refactor the Angular way
 
@@ -278,7 +281,7 @@ app.service('searchBoxService', ['$document', function($document) {
 
 }]);
 
-app.directive('searchBoxToggle', function() {
+app.directive('searchBoxToggle', ['$rootScope', '$location', function($rootScope, $location) {
   return {
     require: '?^searchBox',
     link: function(scope, element, attrs, searchBoxCtrl) {
@@ -289,6 +292,7 @@ app.directive('searchBoxToggle', function() {
       searchBoxCtrl.toggleElement = element;
 
       var toggleSearchBox = function(event) {
+        $rootScope.$broadcast("documentClicked", angular.element(event.target));
         event.preventDefault();
 
         if ( !element.hasClass('disabled') && !attrs.disabled ) {
@@ -304,8 +308,11 @@ app.directive('searchBoxToggle', function() {
               $parent.addClass('open');
               console.log("ouverture du menu");
               $('.sfield-2.has-dropdown').addClass('open');
-              $(this).find('div.filter-fieldset').click(function(e) { e.stopPropagation(); });
-              $(".unclickable, .formarea, .action-item").click(function(e) { e.stopPropagation(); }); // je ne ferme pas les menus sur click sur les items qui sont unclickable ou les formarea
+              $(this).find('div.filter-fieldset').click(function(e) { stopPropagation(element, e);});
+              $(".unclickable, .formarea, .action-item").click(function(e) { stopPropagation(element, e); }); // je ne ferme pas les menus sur click sur les items qui sont unclickable ou les formarea
+              $("button.search-button").click(function (e) {
+                apply_filters($location, scope);
+              });
               $(document).one('click', {button: $(this)}, function() { closeAllSubMenus(); }); // fermeture sur n'importe quel autre click
               // $parent.find("input.invisible-input").focus();
               return false;
@@ -313,6 +320,17 @@ app.directive('searchBoxToggle', function() {
           });
         }
       };
+
+      function stopPropagation(element, event){
+        // console.log("Broadcast");
+        // $rootScope.$broadcast("documentClicked", angular.element(event.target));
+        console.log("Clic sur "+element);
+        event.stopPropagation();
+      }
+
+      function apply_filters(location, scope){
+        location.path('issues/filters').search(scope.current.filters);
+      }
 
       function closeAllSubMenus() {
         // $(".search-fieldset .has-dropdown").find("input").val("");
@@ -335,9 +353,9 @@ app.directive('searchBoxToggle', function() {
       });
     }
   };
-});
+}]);
 
-app.controller('searchBoxController', ['$scope', '$attrs', '$parse', 'searchBoxConfig', 'searchBoxService', '$animate', function($scope, $attrs, $parse, searchBoxConfig, searchBoxService, $animate) {
+app.controller('searchBoxController', ['$scope', '$rootScope', '$attrs', '$parse', 'searchBoxConfig', 'searchBoxService', '$animate', function($scope, $rootScope, $attrs, $parse, searchBoxConfig, searchBoxService, $animate) {
 
   var self = this,
     openClass = searchBoxConfig.openClass,
@@ -368,6 +386,7 @@ app.controller('searchBoxController', ['$scope', '$attrs', '$parse', 'searchBoxC
   };
 
   $('.keep-open').click(function(event){
+    $rootScope.$broadcast("documentClicked", angular.element(event.target));
     event.stopPropagation();
   }); // TODO refactor the Angular way
 

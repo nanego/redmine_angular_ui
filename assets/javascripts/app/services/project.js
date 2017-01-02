@@ -2,7 +2,7 @@
 
 var app = angular.module('myApp.services');
 
-app.factory('ProjectService',function($http, $q){
+app.factory('ProjectService', ['$http', '$q', function($http, $q){
   var service = {
     getAllProjects: function() {
       if (service.hasBeenLoaded()) {
@@ -20,4 +20,4 @@ app.factory('ProjectService',function($http, $q){
     }
   };
   return service;
-});
+}]);

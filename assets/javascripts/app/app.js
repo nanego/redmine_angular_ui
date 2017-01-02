@@ -10,6 +10,7 @@ var app = angular.module('myApp',['ngRoute',
                         'ngSanitize',
                         'cfp.hotkeys',
                         'myApp.customdropdown',
+                        'myApp.customSelect',
                         'myApp.searchBox',
                         'uiSwitch',
                         'ui.bootstrap',
@@ -54,5 +55,13 @@ app.config(function(toastrConfig) {
       success: 'toast-success',
       warning: 'toast-warning'
     }
+  });
+});
+
+/* custom_select directive wants to know when main document is clicked */
+app.run(function($rootScope) {
+  angular.element(document).on("click", function(e) {
+    console.log('Broadcast documentClicked !');
+    $rootScope.$broadcast("documentClicked", angular.element(e.target));
   });
 });

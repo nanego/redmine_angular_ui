@@ -1,0 +1,130 @@
+custom-select div.dropdown-list {
+    display: none;
+}
+custom-select div.show div.dropdown-list {
+    display: inline-block;
+}
+
+/*
+.vertical-centre {
+    height:40px;
+    line-height:40px !important;
+    display:inline-block;
+    vertical-align:middle;
+}
+
+custom_select {
+    float:left;
+    display:block;
+    width:250px;}
+
+custom_select div {
+     float:left;
+     width:100%;}
+
+custom_select div.select-display {
+     float:left;
+     width:100%;
+     background:white;
+     height:40px;
+     cursor:pointer;
+     border:solid 1px #DDD;
+     box-sizing:border-box;}
+
+>* {
+     float:left;
+     height:100%;
+ .vertical-centre(40px);
+ }
+
+>span {
+     font-size:14x;
+     width:100%;
+     position:relative;
+     box-sizing:border-box;
+     padding-right:34px;
+     padding-left:10px;
+
+&.placeholder {
+     color:#AAA;
+ }
+}
+
+>i {
+     position:relative;
+     width:14px;
+     margin-left:(10px+14px)*-1;
+     font-size:1.125em;
+     font-weight:bold;
+     padding-right:10px;
+     text-align:right;
+ }
+}
+
+>div.select-list {
+     float:left;
+     width:100%;
+     position:relative;
+     width:100%;
+     transform:scale(1, 0);
+     transition:transform ease 250ms;
+
+>div {
+     position:absolute;
+     width:100%;
+     z-index:2;
+     cursor:pointer;
+     background:white;
+
+>div {
+     float:left;
+     width:100%;
+     padding:0 10px;
+     font-size:14x;
+     box-sizing:border-box;
+     border:solid 1px #DDD; border-top:none;
+
+ 14px:20px;
+
+&:hover {
+     background:#F0F0F0;
+ }
+
+&.selected {
+     background:#2875C7;
+     color:white;
+ }
+
+>* {
+ .vertical-centre(40px);
+ }
+
+>span {
+     float:left;
+     width:100%;
+     position:relative;
+     padding-right:14px+10px;
+     box-sizing:border-box;
+     color:inherit;
+ }
+
+>i {
+     float:left;
+     width:14px;
+     margin-left:14px*-1;
+     display:none;
+ }
+
+&.selected>i {
+     display:inline-block;
+ }
+}
+}
+}
+}
+
+>div.show>div.select-list {
+     transform:scale(1, 1);
+ }
+}
+*/

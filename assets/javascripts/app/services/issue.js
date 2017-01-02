@@ -36,7 +36,7 @@ app.factory('IssueService', function($http){
 
     var param_filters = "";
     if (filters["status_id"] === undefined) {
-      param_filters += '&f[]=status_id&op[status_id]=o';
+      param_filters += 'status_id=open';
     }
     if (filters["project_id"] !== undefined) {
       param_filters += '&project_id='+filters["project_id"];
@@ -47,6 +47,11 @@ app.factory('IssueService', function($http){
     }
     if(filters["assigned_to_id"] !== undefined && filters["assigned_to_id"] !== ""){
       param_filters += '&f[]=assigned_to_id&op[assigned_to_id]='+filters["assigned_to_id"];
+    }
+    if (filters["tracker_id"] === undefined || filters["tracker_id"] == "") {
+      param_filters += '&f[]=tracker_id&op[tracker_id]=*';
+    }else{
+      param_filters += '&tracker_id='+filters["tracker_id"];
     }
 
     return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset + param_filters, { headers: headers });

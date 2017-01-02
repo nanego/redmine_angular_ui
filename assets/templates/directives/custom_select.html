@@ -1,0 +1,19 @@
+<div class="select-container has-dropdown isInBloVisible" ng-class="{ show: listVisible }">
+  <div class="select-display list-trigger isInBloVisible select-list"
+       ng-click="show();"
+       ng-class="{ clicked: listVisible }">
+    <span ng-if="!isPlaceholder">{{display}}</span>
+    <span class="placeholder" ng-if="isPlaceholder">{{placeholder}}</span>
+    <span class="arrow-up-and-down"></span>
+  </div>
+  <div class="select-list listWrapperSkin dropdown-list has-selectable-items">
+    <div>
+      <div class="menuitem data-test"
+           ng-repeat="item in list"
+           ng-click="select(item)"
+           ng-class="{ selected: isSelected(item) }">
+        <span class="menuitem-content">{{property !== undefined ? item[property] : item}}</span>
+      </div>
+    </div>
+  </div>
+</div>

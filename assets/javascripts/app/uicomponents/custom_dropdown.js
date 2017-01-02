@@ -234,6 +234,7 @@ app.directive('customDropdown', ['$document', '$animate', '$rootScope', 'customD
 
       iElement.bind('click', function(e) {
         console.log('click on dropdown menu');
+        $rootScope.$broadcast("documentClicked", angular.element(e.target));
 
         var openTarget = angular.element($('#' + iAttrs.dropdownMenu));
         DropdownService.menuElement = openTarget;
@@ -343,6 +344,7 @@ app.directive('customDropdown', ['$document', '$animate', '$rootScope', 'customD
       });
 
       $document.bind('click', function(e) {
+        $rootScope.$broadcast("documentClicked", angular.element(e.target));
         if ($scope.opened && e.target !== DropdownService.menuElement) {
           close();
         }
@@ -406,7 +408,7 @@ app.directive('customDropdown', ['$document', '$animate', '$rootScope', 'customD
   };
 }]);
 
-app.directive('dropdownToggle', function() {
+app.directive('dropdownToggle', ['$rootScope', function($rootScope){
   return {
     require: '?^dropdown',
     link: function(scope, element, attrs, dropdownCtrl) {
@@ -417,6 +419,7 @@ app.directive('dropdownToggle', function() {
       dropdownCtrl.toggleElement = element;
 
       var toggleDropdown = function(event) {
+        $rootScope.$broadcast("documentClicked", angular.element(event.target));
         event.preventDefault();
 
         if ( !element.hasClass('disabled') && !attrs.disabled ) {
@@ -439,4 +442,4 @@ app.directive('dropdownToggle', function() {
       });
     }
   };
-});
+}]);
