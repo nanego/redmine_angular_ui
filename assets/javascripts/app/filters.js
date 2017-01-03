@@ -102,13 +102,13 @@ app.filter('inScope', function() {
 
     console.log("issue : " + JSON.stringify(issue));
 
-    if (filters["tracker_id"] !== undefined && filters["tracker_id"] !== "") {
+    if (filters["tracker_id"] !== undefined && filters["tracker_id"] != "") {
       if(issue.tracker["id"] != filters["tracker_id"]){
         currently_in_scope = false;
       }
     }
 
-    if (filters["priority_id"] !== undefined && filters["priority_id"] !== "") {
+    if (filters["priority_id"] !== undefined && filters["priority_id"] != "") {
       if(issue.priority["id"] != filters["priority_id"]){
         currently_in_scope = false;
       }
