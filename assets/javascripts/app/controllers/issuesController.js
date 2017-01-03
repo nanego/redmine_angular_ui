@@ -21,25 +21,35 @@ var load_next_issues = function ($rootScope, $scope, IssueService, IssueServiceC
   }
 };
 
-function init_search_params($rootScope, $scope, TrackerService){
-  var current_tracker_id = $rootScope.current.filters['tracker_id'];
+function init_search_params($rootScope, $scope, TrackerService, PriorityService){
+
+  var selected_filters = {};
+  selected_filters['tracker_id'] = $rootScope.current.filters['tracker_id'];
+  selected_filters['priority_id'] = $rootScope.current.filters['priority_id'];
+
   TrackerService.getTrackers().then(function(trackers) {
     $rootScope.trackers = trackers;
-    if (current_tracker_id !== undefined && current_tracker_id !== ''){
-
-      console.log("init_search_params >> getTrackerByID");
-
-      $rootScope.tracker = getObjectById(trackers, current_tracker_id);
+    if (selected_filters['tracker_id'] !== undefined && selected_filters['tracker_id'] !== ''){
+      $rootScope.tracker = getObjectById(trackers, selected_filters['tracker_id']);
     } else {
-
-      console.log("init_search_params >> Pas de tracker courant");
-
       $rootScope.tracker = '';
+    }
+  });
+
+  PriorityService.getPriorities().then(function(priorities) {
+    $rootScope.priorities = priorities;
+    if (selected_filters['priority_id'] !== undefined && selected_filters['priority_id'] !== ''){
+      $rootScope.priority = getObjectById(priorities, selected_filters['priority_id']);
+    } else {
+      $rootScope.priority = '';
     }
   });
 };
 
-app.controller('IssuesController', function($rootScope, $scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, project_nameFilter, TrackerService){
+app.controller('IssuesController', function($rootScope, $scope, $location, $http, $q, $filter,
+                                            $routeParams, SessionService, IssueService, IssueServiceConfig,
+                                            ProjectService, NotificationService, toastr, inScopeFilter, UserService,
+                                            inUserScopeFilter, project_nameFilter, TrackerService, PriorityService){
 
   $rootScope.current.project = undefined;
   $rootScope.current.stage = "Demandes"; // TODO Refactor this
@@ -69,7 +79,7 @@ app.controller('IssuesController', function($rootScope, $scope, $location, $http
     load_next_issues($rootScope, $scope, IssueService, IssueServiceConfig);
   };
 
-  init_search_params($rootScope, $scope, TrackerService);
+  init_search_params($rootScope, $scope, TrackerService, PriorityService);
 
   $scope.$watch('current.permanent_mode', function () {
     if ($rootScope.current.permanent_mode != undefined &&
@@ -118,8 +128,8 @@ app.controller('IssuesController', function($rootScope, $scope, $location, $http
 
 });
 
-app.controller('IssuesFiltersController', ['$rootScope', '$scope', '$location', '$http', '$q', '$filter', '$routeParams', 'SessionService', 'IssueService', 'IssueServiceConfig', 'ProjectService', 'NotificationService', 'toastr', 'inScopeFilter', 'UserService', 'inUserScopeFilter', 'TrackerService',
-  function($rootScope, $scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, TrackerService){
+app.controller('IssuesFiltersController', ['$rootScope', '$scope', '$location', '$http', '$q', '$filter', '$routeParams', 'SessionService', 'IssueService', 'IssueServiceConfig', 'ProjectService', 'NotificationService', 'toastr', 'inScopeFilter', 'UserService', 'inUserScopeFilter', 'TrackerService', 'PriorityService',
+  function($rootScope, $scope, $location, $http, $q, $filter, $routeParams, SessionService, IssueService, IssueServiceConfig, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter, TrackerService, PriorityService){
 
   $rootScope.current.issues = undefined;
   $rootScope.current.stage = "Demandes"; // TODO Refactor this
@@ -129,6 +139,7 @@ app.controller('IssuesFiltersController', ['$rootScope', '$scope', '$location', 
   $rootScope.current.filters['assigned_to_id'] = $routeParams.assigned_to_id;
   $rootScope.current.filters['project_id'] = $routeParams.project_id;
   $rootScope.current.filters['tracker_id'] = $routeParams.tracker_id;
+  $rootScope.current.filters['priority_id'] = $routeParams.priority_id;
 
   if ($rootScope.current.filters['assigned_to_id'] != undefined && $rootScope.current.filters['assigned_to_id'].length>0){
     $rootScope.current.permanent_mode = true;
@@ -137,7 +148,7 @@ app.controller('IssuesFiltersController', ['$rootScope', '$scope', '$location', 
   var preloadedDataPromise = getPreloadedData(SessionService, $rootScope, $scope, IssueService, IssueServiceConfig, ProjectService, NotificationService, $q, toastr, $location, $filter, inScopeFilter, inUserScopeFilter);
   $rootScope.current.project = getProjectById($rootScope, $scope, $rootScope.current.filters['project_id']);
 
-  init_search_params($rootScope, $scope, TrackerService);
+  init_search_params($rootScope, $scope, TrackerService, PriorityService);
 
   $scope.$watch('current.filters', function() {
     $scope.next_issues_exist = true; // Show loader
@@ -254,7 +265,8 @@ app.controller('IssueShowController', function($rootScope, $scope, $routeParams,
   */
 });
 
-app.controller('IssueEditController', function($rootScope, $scope, $routeParams, IssueService, TrackerService, $location, $timeout){
+app.controller('IssueEditController', function($rootScope, $scope, $routeParams, IssueService, TrackerService,
+                                               PriorityService, $location, $timeout){
   getIssueById($scope, $routeParams.id, IssueService, $timeout);
 
   TrackerService.getTrackers().then(function(trackers) {

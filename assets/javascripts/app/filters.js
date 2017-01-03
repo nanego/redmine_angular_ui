@@ -108,6 +108,12 @@ app.filter('inScope', function() {
       }
     }
 
+    if (filters["priority_id"] !== undefined && filters["priority_id"] !== "") {
+      if(issue.priority["id"] != filters["priority_id"]){
+        currently_in_scope = false;
+      }
+    }
+
     if (filters["status_id"] !== undefined) {
       //TODO
     }

@@ -11,7 +11,8 @@ app.directive("customSelect", ['$rootScope', function($rootScope){
       placeholder: "@",
       list: "=",
       selected: "=",
-      property: "@"
+      property: "@",
+      identifier: "@"
     },
     link: function(scope){
       scope.listVisible = false;
@@ -23,8 +24,8 @@ app.directive("customSelect", ['$rootScope', function($rootScope){
         scope.selected = item;
 
         // Set current filters with selected value
-        $rootScope.current.filters['tracker_id'] = item['id'];
-        console.log('tracker_id = ' + item['id']);
+        $rootScope.current.filters[scope.identifier] = item['id'];
+        console.log(scope.identifier + ' = ' + item['id']);
 
         scope.hide_list();
       };

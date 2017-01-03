@@ -48,10 +48,17 @@ app.factory('IssueService', function($http){
     if(filters["assigned_to_id"] !== undefined && filters["assigned_to_id"] !== ""){
       param_filters += '&f[]=assigned_to_id&op[assigned_to_id]='+filters["assigned_to_id"];
     }
+    // Trackers
     if (filters["tracker_id"] === undefined || filters["tracker_id"] == "") {
       param_filters += '&f[]=tracker_id&op[tracker_id]=*';
     }else{
       param_filters += '&tracker_id='+filters["tracker_id"];
+    }
+    // Priorities
+    if (filters["priority_id"] === undefined || filters["priority_id"] == "") {
+      param_filters += '&f[]=priority_id&op[priority_id]=*';
+    }else{
+      param_filters += '&priority_id='+filters["priority_id"];
     }
 
     return $http.get('/'+base_url+'.json?sort=updated_on:desc&limit=' + limit + '&offset=' + offset + param_filters, { headers: headers });
