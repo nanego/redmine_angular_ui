@@ -28,6 +28,10 @@ function init_search_params($rootScope, $scope, TrackerService, PriorityService)
   selected_filters['priority_id'] = $rootScope.current.filters['priority_id'];
 
   TrackerService.getTrackers().then(function(trackers) {
+    var default_value = {id:'', name:'Tous les trackers'};
+    if (!containsObject(default_value, trackers, 'name')) {
+      trackers.unshift(default_value);
+    }
     $rootScope.trackers = trackers;
     if (selected_filters['tracker_id'] !== undefined && selected_filters['tracker_id'] !== ''){
       $rootScope.tracker = getObjectById(trackers, selected_filters['tracker_id']);
@@ -37,6 +41,11 @@ function init_search_params($rootScope, $scope, TrackerService, PriorityService)
   });
 
   PriorityService.getPriorities().then(function(priorities) {
+    var default_value = {id:'', name:'Toutes les priorités'};
+    if (!containsObject(default_value, priorities, 'name')) {
+      console.log("001 -  Add Toutes les priorités");
+      priorities.unshift(default_value);
+    }
     $rootScope.priorities = priorities;
     if (selected_filters['priority_id'] !== undefined && selected_filters['priority_id'] !== ''){
       $rootScope.priority = getObjectById(priorities, selected_filters['priority_id']);
@@ -44,7 +53,7 @@ function init_search_params($rootScope, $scope, TrackerService, PriorityService)
       $rootScope.priority = '';
     }
   });
-};
+}
 
 app.controller('IssuesController', function($rootScope, $scope, $location, $http, $q, $filter,
                                             $routeParams, SessionService, IssueService, IssueServiceConfig,

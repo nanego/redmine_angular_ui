@@ -284,14 +284,23 @@ function getProjectById($rootScope, $scope, project_id) {
 
 function getObjectById(collection, object_id){
   var object;
-  console.log("getObjectById");
   object = $.grep(collection, function (e) {
     return e.id.toString() === object_id.toString();
   })[0];
-
-  console.log("Get Object By ID = " + object);
-
   return object;
+}
+
+// Test presence of an object based on a given attribute
+function containsObject(obj, list, attribute) {
+  var i;
+  for (i = 0; i < list.length; i++) {
+    console.log("002 - " + obj[attribute]);
+    console.log("003 - " + list[i][attribute]);
+    if (list[i][attribute] === obj[attribute]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function showNotification(NotificationService, toastr, issue, message){
