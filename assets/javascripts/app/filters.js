@@ -102,6 +102,12 @@ app.filter('inScope', function() {
 
     console.log("issue : " + JSON.stringify(issue));
 
+    if (filters["tracker_id"] !== undefined && filters["tracker_id"] !== "") {
+      if(issue.tracker["id"] != filters["tracker_id"]){
+        currently_in_scope = false;
+      }
+    }
+
     if (filters["status_id"] !== undefined) {
       //TODO
     }
