@@ -18,7 +18,9 @@ Redmine::Plugin.register :redmine_angular_ui do
   # requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
   url 'https://github.com/nanego/redmine_angular_ui'
   author_url 'mailto:contact@vincent-robert.com'
-  menu :admin_menu, :new_ui, { :controller => 'angular', :action => 'index' }, :caption => :new_ui
+  menu :admin_menu, :new_ui, { :controller => 'angular', :action => 'index' },
+       :caption => :new_ui,
+       :html => {:class => 'icon'}
   settings :default => { 'favorite_view_mode' => 1},
            :partial => 'settings/plugin_settings'
 end
