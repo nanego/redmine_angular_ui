@@ -49,7 +49,7 @@ class Issue < ActiveRecord::Base
       json = {'issue' => {'assigned_to' => ''} }
     end
 
-    if Redmine::Plugin.installed?(:redmine_limited_visibility) && project.module_enabled?("limited_visibility")
+    if Redmine::Plugin.installed?(:redmine_limited_visibility) && project.present? && project.module_enabled?("limited_visibility")
       json.merge!({'issue' => {'authorized_viewers' => authorized_viewer_ids,
                                'assigned_to_functional_role' => assigned_to_function_id.present? ? {'id' => assigned_to_function_id, 'name' => assigned_function.name} : ""
                   }}) { |k, a, b| a.is_a?(Hash) && b.is_a?(Hash) ? a.merge(b) : b }
@@ -70,8 +70,8 @@ class Issue < ActiveRecord::Base
                      'id' => tracker.id,
                      'name' => tracker.name},
                  'project' => {
-                     'id' => project.id,
-                     'name' => project.name},
+                     'id' => project.try(:id),
+                     'name' => project.try(:name)},
                  'author' => {
                      'id' => author.id,
                      'name' => author.name},
