@@ -120,7 +120,7 @@ function update_array_of_issues_with_last_note(arrayOfIssues, newIssuesData){
 }
 
 function arrayMove(arr, fromIndex, toIndex) {
-  var element = arr[fromIndex]
+  var element = arr[fromIndex];
   arr.splice(fromIndex, 1);
   arr.splice(toIndex, 0, element);
 }
@@ -294,8 +294,6 @@ function getObjectById(collection, object_id){
 function containsObject(obj, list, attribute) {
   var i;
   for (i = 0; i < list.length; i++) {
-    console.log("002 - " + obj[attribute]);
-    console.log("003 - " + list[i][attribute]);
     if (list[i][attribute] === obj[attribute]) {
       return true;
     }

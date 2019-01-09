@@ -237,7 +237,7 @@
       }
 
       /**
-       * Toggles the help menu element's visiblity
+       * Toggles the help menu element's visibility
        */
       var previousEsc = false;
 

@@ -252,8 +252,7 @@ app.directive('customDropdown', ['$document', '$animate', '$rootScope', 'customD
           $('.custom-dropdown-menu input').focus();  // TODO refactor it the Angular way
         }else{
           $('.invisible-input').val(" ");
-        };
-
+        }
       });
 
       /*function toggle(param) {

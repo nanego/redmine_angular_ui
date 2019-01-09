@@ -208,7 +208,7 @@ function getIssueById($rootScope, $scope, issue_id, IssueService, $timeout) {
       if ($rootScope.current !== undefined && $rootScope.current.issues !== undefined) {
         var index = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
         $rootScope.current.issues[index] = $rootScope.current.issue;
-      };
+      }
     });
   },500);
 }
@@ -296,8 +296,7 @@ function IssueFormController($scope, ProjectService) {
   ProjectService.getTrackers().then(function(trackers) {
     $scope.trackers = trackers;
   });
-};
-
+}
 function add_issues_to_main_array($rootScope, $scope, new_issues, IssueService) {
   // Current array
   for (var i = 0; i < new_issues.length; ++i) {

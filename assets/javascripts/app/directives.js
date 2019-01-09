@@ -84,9 +84,8 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
         $timeout(function(){
           $rootScope.mainLoading = check;
         },400);
-      };
-
-      if ($rootScope.mainLoading != false ){
+      }
+        if ($rootScope.mainLoading != false ){
         $rootScope.mainLoading = true;
         $scope.vars = ['app.issues', 'app.projects', 'app.user'];
         $scope.loadings = new Array($scope.vars.length);

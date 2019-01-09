@@ -75,8 +75,7 @@ app.directive('searchBox', ['$document', '$animate', '$rootScope', 'searchBoxCon
           $('input').focus();  // TODO refactor it the Angular way
         }else{
           $('.invisible-input').val(" ");
-        };
-
+        }
       });
 
       /*function toggle(param) {
