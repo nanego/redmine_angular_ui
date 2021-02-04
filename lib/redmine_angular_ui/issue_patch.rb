@@ -35,7 +35,15 @@ class Issue < ActiveRecord::Base
     else
       uri = URI.parse("http://localhost:3011/faye")
     end
-    Net::HTTP.post_form(uri, :message => message.to_json) unless Rails.env == 'test'
+
+    begin
+      Timeout.timeout(3) do
+        Net::HTTP.post_form(uri, :message => message.to_json) unless Rails.env == 'test'
+      end
+    rescue Timeout::Error => e
+      Rails.logger.warn "WARNING (redmine_angular_ui): couldn't post Issue update because the operation timed out"
+    end
+
   end
 
   def updated_data(action)
