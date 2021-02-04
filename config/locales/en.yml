@@ -1,4 +1,4 @@
 # English strings go here for Rails i18n
 en:
   new_ui: "New user interface"
-  # my_label: "My label"
+  permission_view_angular_interface: "View Angular Interface"

@@ -23,4 +23,9 @@ Redmine::Plugin.register :redmine_angular_ui do
        :html => {:class => 'icon'}
   settings :default => { 'favorite_view_mode' => 1},
            :partial => 'settings/plugin_settings'
+
+  project_module :issue_tracking do
+    permission :view_angular_interface, {:angular => :index}, :read => true, global: true
+  end
+
 end

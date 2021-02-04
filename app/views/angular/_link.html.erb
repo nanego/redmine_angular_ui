@@ -1,4 +1,4 @@
-<% if User.current.try(:sudoer?) || User.current.admin? %>
+<% if User.current.try(:sudoer?) || User.current.admin? || User.current.allowed_to?(:view_angular_interface, nil, :global => true) %>
   <div class="contextual-link">
     <div class="border-left"></div>
     <div class="bg-link">
