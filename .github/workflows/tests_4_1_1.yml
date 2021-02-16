@@ -1,7 +1,8 @@
-name: Tests
+name: Tests 4.1.1
 
 env:
   PLUGIN_NAME: redmine_angular_ui
+  REDMINE_VERSION: 4.1.1
 
 on:
   push:
@@ -9,13 +10,12 @@ on:
 
 jobs:
   test:
-    name: ${{ matrix.redmine }} ${{ matrix.db }} ruby-${{ matrix.ruby }}
+    name: ${{ env.REDMINE_VERSION }} ${{ matrix.db }} ruby-${{ matrix.ruby }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         ruby: ['2.6']
-        redmine: ['4.1.1', '4.0.7']
         db: ['postgres']
       fail-fast: false
 
@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: redmine/redmine
-          ref: ${{ matrix.redmine }}
+          ref: ${{ env.REDMINE_VERSION }}
           path: redmine
 
       - name: Checkout dependencies - Base Deface plugin
@@ -124,20 +124,17 @@ jobs:
       - name: Run core tests
         env:
           RAILS_ENV: test
-          REDMINE_VERSION: ${{ matrix.redmine }}
         working-directory: redmine
         run: bundle exec rails test
 
       - name: Run plugin tests
         env:
           RAILS_ENV: test
-          REDMINE_VERSION: ${{ matrix.redmine }}
         working-directory: redmine
         run: bundle exec rails redmine:plugins:test NAME=${{ env.PLUGIN_NAME }} RUBYOPT="-W0"
 
       - name: Run uninstall test
         env:
           RAILS_ENV: test
-          REDMINE_VERSION: ${{ matrix.redmine }}
         working-directory: redmine
         run: bundle exec rake redmine:plugins:migrate NAME=${{ env.PLUGIN_NAME }} VERSION=0
