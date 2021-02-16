@@ -16,15 +16,12 @@ Then :
 Test status
 ----------
 
-![Tests](https://github.com/nanego/redmine_angular_ui/workflows/Tests/badge.svg?branch=master)
 
-|Plugin branch| Redmine Version   | Test Status       |
-|-------------|-------------------|-------------------|
-|master       | 4.1.1             | [![Build1][1]][5] |  
-|master       | 4.0.7             | [![Build2][2]][5] |  
-|master       | master            | [![Build3][3]][5] |
+|Plugin branch| Redmine Version   | Test Status      |
+|-------------|-------------------|------------------|
+|master       | 4.1.1             | [![Tests][1]][5] |  
+|master       | 4.0.7             | [![Tests][1]][5] |
 
-[1]: https://travis-matrix-badges.herokuapp.com/repos/nanego/redmine_angular_ui/branches/master/1?use_travis_com=true
-[2]: https://travis-matrix-badges.herokuapp.com/repos/nanego/redmine_angular_ui/branches/master/2?use_travis_com=true
-[3]: https://travis-matrix-badges.herokuapp.com/repos/nanego/redmine_angular_ui/branches/master/3?use_travis_com=true
-[5]: https://travis-ci.com/nanego/redmine_angular_ui
+[1]: https://github.com/nanego/redmine_angular_ui/workflows/Tests/badge.svg?branch=master
+[1]: https://github.com/nanego/redmine_angular_ui/workflows/Tests/badge.svg?branch=master
+[5]: https://github.com/nanego/redmine_angular_ui/actions?query=workflow%3ATests
