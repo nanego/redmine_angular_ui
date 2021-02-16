@@ -21,7 +21,9 @@ Test status
 |-------------|-------------------|------------------|
 |master       | 4.1.1             | [![Tests][1]][5] |  
 |master       | 4.0.7             | [![Tests][2]][5] |
+|master       | master            | [![Tests][3]][5] |
 
-[1]: https://github.com/nanego/redmine_angular_ui/workflows/Tests/badge.svg?branch=master
-[2]: https://github.com/nanego/redmine_angular_ui/workflows/Tests/badge.svg?branch=master
+[1]: https://github.com/nanego/redmine_angular_ui/workflows/Tests%204.1.1/badge.svg
+[2]: https://github.com/nanego/redmine_angular_ui/workflows/Tests%204.0.7/badge.svg
+[3]: https://github.com/nanego/redmine_angular_ui/workflows/Tests%20Master/badge.svg
 [5]: https://github.com/nanego/redmine_angular_ui/actions?query=workflow%3ATests
