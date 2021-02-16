@@ -16,6 +16,8 @@ Then :
 Test status
 ----------
 
+![Tests](https://github.com/nanego/redmine_angular_ui/workflows/Tests/badge.svg?branch=master)
+
 |Plugin branch| Redmine Version   | Test Status       |
 |-------------|-------------------|-------------------|
 |master       | 4.1.1             | [![Build1][1]][5] |  
