@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: ${{ env.REDMINE_VERSION }} ${{ matrix.db }} ruby-${{ matrix.ruby }}
+    name: ${{ github.workflow }} ${{ matrix.db }} ruby-${{ matrix.ruby }}
     runs-on: ubuntu-latest
 
     strategy:
