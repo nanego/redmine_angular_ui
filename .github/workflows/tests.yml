@@ -89,12 +89,12 @@ jobs:
         run: |
           sed -i '/rubocop/d' Gemfile
           rm -f .rubocop*
-          cp plugins/${{ env.PLUGIN_NAME }}/test/support/database-${{ matrix.db }}.yml config/database.yml
+          cp plugins/${{ env.PLUGIN_NAME }}/spec/support/database-${{ matrix.db }}.yml config/database.yml
 
       - name: Install Ruby dependencies
         working-directory: redmine
         run: |
-          bundle install --jobs=4 --retry=3 --no-rdoc --no-ri --without development
+          bundle install --jobs=4 --retry=3 --without development
 
       - name: Generate session store secret
         env:
