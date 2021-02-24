@@ -1,4 +1,4 @@
-name: 4.0.7
+name: Tests 4.0.7
 
 env:
   PLUGIN_NAME: redmine_angular_ui

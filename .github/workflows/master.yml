@@ -1,4 +1,4 @@
-name: Master
+name: Tests master
 
 env:
   PLUGIN_NAME: redmine_angular_ui
