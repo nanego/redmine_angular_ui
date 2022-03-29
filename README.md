@@ -19,8 +19,8 @@ Test status
 
 |Plugin branch| Redmine Version   | Test Status      |
 |-------------|-------------------|------------------|
-|master       | 4.2.4             | [![4.2.4][1]][5] |  
-|master       | 4.1.6             | [![4.1.6][2]][5] |
+|master       | 4.2.5             | [![4.2.5][1]][5] |  
+|master       | 4.1.7             | [![4.1.7][2]][5] |
 |master       | master            | [![master][4]][5]|
 
 [1]: https://github.com/nanego/redmine_angular_ui/workflows/4_2_2/badge.svg
