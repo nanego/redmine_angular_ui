@@ -23,7 +23,7 @@ Test status
 |master       | 4.2.5           | [![4.2.5][2]][5] |
 |master       | master          | [![master][4]][5]|
 
-[1]: https://github.com/nanego/redmine_angular_ui/workflows/5_0_0/badge.svg
-[2]: https://github.com/nanego/redmine_angular_ui/workflows/4_2_5/badge.svg
-[4]: https://github.com/nanego/redmine_angular_ui/workflows/Master/badge.svg
+[1]: https://github.com/nanego/redmine_angular_ui/actions/workflows/5_0_0/badge.svg
+[2]: https://github.com/nanego/redmine_angular_ui/actions/workflows/4_2_5/badge.svg
+[4]: https://github.com/nanego/redmine_angular_ui/actions/workflows/master/badge.svg
 [5]: https://github.com/nanego/redmine_angular_ui/actions
