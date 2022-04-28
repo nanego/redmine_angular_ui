@@ -17,13 +17,13 @@ Test status
 ----------
 
 
-|Plugin branch| Redmine Version   | Test Status      |
-|-------------|-------------------|------------------|
-|master       | 4.2.5             | [![4.2.5][1]][5] |  
-|master       | 4.1.7             | [![4.1.7][2]][5] |
-|master       | master            | [![master][4]][5]|
+|Plugin branch| Redmine Version | Test Status      |
+|-------------|-----------------|------------------|
+|master       | 5.0.0           | [![5.0.0][1]][5] |
+|master       | 4.2.5           | [![4.2.5][2]][5] |
+|master       | master          | [![master][4]][5]|
 
-[1]: https://github.com/nanego/redmine_angular_ui/workflows/4_2_2/badge.svg
-[2]: https://github.com/nanego/redmine_angular_ui/workflows/4_1_4/badge.svg
+[1]: https://github.com/nanego/redmine_angular_ui/workflows/5_0_0/badge.svg
+[2]: https://github.com/nanego/redmine_angular_ui/workflows/4_2_5/badge.svg
 [4]: https://github.com/nanego/redmine_angular_ui/workflows/Master/badge.svg
 [5]: https://github.com/nanego/redmine_angular_ui/actions
