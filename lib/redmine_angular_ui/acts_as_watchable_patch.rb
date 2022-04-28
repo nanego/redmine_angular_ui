@@ -1,5 +1,3 @@
-require_dependency 'acts_as_watchable'
-
 # ActsAsWatchable
 module Redmine
   module Acts
