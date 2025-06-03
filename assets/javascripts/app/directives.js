@@ -5,7 +5,7 @@ var app = angular.module('myApp.directives',[]);
 app.directive('mainTabs', function () {
   return {
     restrict: 'E',
-    templateUrl: '/plugin_assets/redmine_angular_ui/templates/directives/main_tabs.html'
+    templateUrl: '/redmine_angular_ui/templates/directives/main_tabs.html'
   };
 });
 
@@ -16,7 +16,7 @@ app.directive('spinner', function() {
     },
     restrict: 'A',
     replace: false,
-    template: '<img src="/plugin_assets/redmine_angular_ui/images/spinner.gif" ng-show="loading" />',
+    template: '<img src="/redmine_angular_ui/images/spinner.gif" ng-show="loading" />',
     link: function($scope, element, attrs) {
       $scope.loading = true;
       $scope.$watch("scopeVar", function() {
@@ -71,7 +71,7 @@ app.directive('mainLoader', ['$timeout', '$rootScope', function($timeout, $rootS
   return {
     restrict: 'A',
     replace: false,
-    templateUrl: '/plugin_assets/redmine_angular_ui/templates/directives/main_loader.html',
+    templateUrl: '/redmine_angular_ui/templates/directives/main_loader.html',
     link: function($scope) {
 
       function checkCurrentLoad() {

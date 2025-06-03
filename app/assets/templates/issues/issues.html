@@ -1,6 +1,6 @@
 <div main_loader></div>
 
-<ng-include src="'/plugin_assets/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
+<ng-include src="'/redmine_angular_ui/templates/layouts/header.html'" ng-hide="mainLoading===undefined || mainLoading"></ng-include>
 
 <div ng-hide="mainLoading===undefined || mainLoading" style="margin-top: 60px;">
   <div class="smallFontSize">
@@ -19,7 +19,7 @@
             ng-class="{'notified_line':(notified_lines.indexOf('issue-' + issue.id) > -1), 'recently_updated':(recently_notified_lines.indexOf('issue-' + issue.id) > -1)}"
             ng-click="click_on_issue('issue-' + issue.id)"
             ng-mouseenter="hover(issue, true)" ng-mouseleave="hover(issue, false)">
-          <ng-include src="'/plugin_assets/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
+          <ng-include src="'/redmine_angular_ui/templates/issues/_list.html'"></ng-include>
         </li>
       </ul>
 

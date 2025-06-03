@@ -29,6 +29,6 @@ end
 
 Watcher.prepend RedmineAngularUi::WatcherPatch
 
-class Watcher < ActiveRecord::Base
+class Watcher
   after_commit :notif_after_event, :only => [:create, :update, :destroy]
 end

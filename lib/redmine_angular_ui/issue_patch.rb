@@ -97,7 +97,7 @@ end
 
 Issue.prepend RedmineAngularUi::IssuePatch
 
-class Issue < ActiveRecord::Base
+class Issue
   after_commit :notif_after_create, :on => :create
   after_commit :notif_after_update, :on => :update
   after_commit :notif_after_destroy, :on => :destroy

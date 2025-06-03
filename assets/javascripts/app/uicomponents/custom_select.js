@@ -6,7 +6,7 @@ app.directive("customSelect", ['$rootScope', function($rootScope){
 
   return {
     restrict: "E",
-    templateUrl: "/plugin_assets/redmine_angular_ui/templates/directives/custom_select.html",
+    templateUrl: "/redmine_angular_ui/templates/directives/custom_select.html",
     scope: {
       placeholder: "@",
       list: "=",

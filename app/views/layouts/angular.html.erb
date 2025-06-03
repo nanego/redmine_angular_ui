@@ -74,9 +74,9 @@
   <%= javascript_include_tag("app/filters", :plugin => "redmine_angular_ui") %>
   <%= javascript_include_tag("app/routes", :plugin => "redmine_angular_ui") %>
 
-  <% services_files = Dir[Rails.root.join("public/plugin_assets/redmine_angular_ui/javascripts/app/services/*.js")].map { |s| s.sub(Rails.root.join("public/plugin_assets/redmine_angular_ui/javascripts/").to_s, "") } %>
-  <% controllers_files = Dir[Rails.root.join("public/plugin_assets/redmine_angular_ui/javascripts/app/controllers/*.js")].map { |s| s.sub(Rails.root.join("public/plugin_assets/redmine_angular_ui/javascripts/").to_s, "") } %>
-  <% (services_files|controllers_files).each do |f| %>
+  <% services_files = Dir[Rails.root.join("plugins/redmine_angular_ui/assets/javascripts/app/services/*.js")].map { |s| s.sub(Rails.root.join("plugins/redmine_angular_ui/assets/javascripts/").to_s, "") } %>
+  <% controllers_files = Dir[Rails.root.join("plugins/redmine_angular_ui/assets/javascripts/app/controllers/*.js")].map { |s| s.sub(Rails.root.join("plugins/redmine_angular_ui/assets/javascripts/").to_s, "") } %>
+  <% (services_files + controllers_files).each do |f| %>
     <%= javascript_include_tag(f, :plugin => "redmine_angular_ui") %>
   <% end %>
 
