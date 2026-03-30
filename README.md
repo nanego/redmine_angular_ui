@@ -20,7 +20,7 @@ Test status
 |---------------|-----------------|-------------------|
 | master        | 6.0.9           | [![6.0.9][1]][5]  |
 | master        | 6.1.2           | [![6.1.2][2]][5]  |
-| master        | master          | [![master][4]][5] |
+| master        | master          | [![master][3]][5] |
 
 [1]: https://github.com/nanego/redmine_angular_ui/actions/workflows/6_0_9.yml/badge.svg
 [2]: https://github.com/nanego/redmine_angular_ui/actions/workflows/6_1_2.yml/badge.svg
