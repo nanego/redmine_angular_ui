@@ -5,7 +5,6 @@ var app = angular.module('myApp.controllers');
 app.controller('AppController', function($scope, $location, $http, $rootScope, $q, SessionService, IssueService, ProjectService, NotificationService, toastr, inScopeFilter, UserService, inUserScopeFilter) {
 
   $http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
-  $http.defaults.headers.common['X-Redmine-API-Key'] = api_key;
   $http.defaults.headers.common['Content-Type'] = 'application/json';
 
   $rootScope.current = $rootScope.current || {};
