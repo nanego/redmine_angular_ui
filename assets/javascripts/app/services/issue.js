@@ -90,7 +90,7 @@ app.factory('IssueService', function($http){
     function createPromise(ids) {
       return $http({
         method: 'POST',
-        url: '/custom_api/issues/get_last_note.json',
+        url: '/custom_api/issues/get_last_note',
         data: {"issue_ids": ids},
         headers: headers
       });
