@@ -26,7 +26,7 @@ module RedmineAngularUi
       # Check if current app is prod or preprod
       Mailer.default_url_options[:host] =~ /portail/ ? channel_type = '' : channel_type = '-preprod'
 
-      message = { :channel => '/issues' + channel_type, :data => { 'action' => action, 'issue' => { 'id' => id } } }
+      message = { :channel => '/issues' + channel_type, :data => { 'action' => action, 'issue' => { 'id' => id } }.to_json }
 
       if Rails.env == 'development' || Rails.env == 'test'
         uri = URI.parse("https://faye-redis.herokuapp.com/faye")
