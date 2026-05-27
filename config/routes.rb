@@ -10,6 +10,7 @@ RedmineApp::Application.routes.draw do
   scope '/custom_api' do
     post 'issues/get_last_note', to: 'custom_api/issues#get_last_note'
     get 'issues/not_assigned_issues', to: 'custom_api/issues#not_assigned_issues'
+    get 'issues/:id/notification_data', to: 'custom_api/issues#notification_data'
     get 'projects/minimal_index', to: 'custom_api/projects#minimal_index'
   end
 end

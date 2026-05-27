@@ -159,6 +159,11 @@ app.factory('IssueService', function($http){
         return response.data.issue;
       });
     },
+    // Authorized source for realtime notifications: returns the issue payload
+    // only if the server allows it (403/404 otherwise).
+    getNotificationData: function(id) {
+      return $http.get('/custom_api/issues/' + id + '/notification_data', { headers: headers });
+    },
     get_last_note_by_ids: function(ids) {
       return getLastNotesSingleton.getPromise(ids);
     },

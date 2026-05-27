@@ -5,10 +5,12 @@ class CustomApi::IssuesController < ApplicationController
 
   def get_last_note
     @issues = []
-    if params['issue_ids'].present?
+    # Only expose notes for issues the current user is allowed to see
+    visible_ids = Issue.visible.where(id: params['issue_ids']).pluck(:id) if params['issue_ids'].present?
+    if visible_ids.present?
       sql = Journal.select('max(id) max_id, journalized_id, count(journalized_id), max(created_on) max_date')
                    .where("journalized_type = ? AND journalized_id IN (?) AND notes IS NOT NULL AND notes <> '' ",
-                          Issue.to_s, params['issue_ids'])
+                          Issue.to_s, visible_ids)
                    .group("journalized_id").to_sql
       records = ActiveRecord::Base.connection.execute(sql)
       records.each do |r|
@@ -17,12 +19,22 @@ class CustomApi::IssuesController < ApplicationController
       end
 
       present_ids = @issues.map { |i| i[:id] }
-      params['issue_ids'].each do |issue_id|
+      visible_ids.each do |issue_id|
         @issues << { id: issue_id, count: 0, last_note: "" } unless present_ids.include?(issue_id)
       end
     end
 
     render json: { issues: @issues }
+  end
+
+  # Authorized source of realtime notification details. The Faye channel only
+  # carries the issue id; the actual data is served here, gated by Issue#visible?
+  # so an unauthorized user gets a 403 and no data ever leaks client-side.
+  def notification_data
+    issue = Issue.find(params[:id])
+    return render_403 unless issue.visible?
+
+    render json: issue.notification_payload
   end
 
   def not_assigned_issues

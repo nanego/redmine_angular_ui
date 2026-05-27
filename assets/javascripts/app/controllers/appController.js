@@ -140,23 +140,25 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $rootScop
   console.log("Subscribed to " + issues_channels);
   client.subscribe(issues_channels, function (message) {
 
-    if ($rootScope.current.issues){
+    if (!$rootScope.current.issues) { return; }
 
-      message = JSON.parse(message);
+    message = JSON.parse(message);
+    var action = message.action;
+    var issue_id = message.issue.id;
 
-      if (message.user.id != $scope.app.user.id) {
-        if (message.issue != undefined) {
-          delete message.issue.watched;
-        }
-      }
+    // Access control is enforced server-side: the channel only carries the
+    // issue id, so re-fetch the details through the authorized endpoint. A
+    // rejection (403/404) means the user is not allowed to see this issue.
+    IssueService.getNotificationData(issue_id).then(function (response) {
+
+      message.issue = response.data;
 
       var correct_context = false;
       if ($rootScope.current.project == undefined || $rootScope.current.project.id === message.issue.project.id) {
         correct_context = true;
       }
 
-      if (correct_context && ($rootScope.current.user_is_admin || inUserScopeFilter(message.issue, $scope.app.user.memberships))) {
-        // IssueService.getLatestIssues().then(function () {
+      if (correct_context) {
         switch (message.action) {
           case 'create':
             $scope.app.issues.unshift(message.issue);
@@ -168,7 +170,9 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $rootScop
             break;
           case 'destroy':
             var index = findWithAttr($rootScope.current.issues, 'id', message.issue.id);
-            $rootScope.current.issues.splice(index, 1);
+            if (index >= 0) {
+              $rootScope.current.issues.splice(index, 1);
+            }
             if (inScopeFilter(message.issue, $rootScope.current.filters)){
               if (message.issue.status.is_closed == '1') {
                 showNotification(NotificationService, toastr, message.issue, "La demande <a href='/issues/" + message.issue.id + "' target='_blank'>#" + message.issue.id + "<\/a> a été fermée.");
@@ -217,7 +221,16 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $rootScop
             break;
         }
       }
-    }
+    }, function () {
+      // Not authorized (403) or gone (404): drop the issue from the list if it
+      // is a removal, otherwise ignore the event entirely.
+      if (action === 'destroy') {
+        var index = findWithAttr($rootScope.current.issues, 'id', issue_id);
+        if (index >= 0) {
+          $rootScope.current.issues.splice(index, 1);
+        }
+      }
+    });
   });
 
   var watched_prod_channel = '/watched/' + $scope.app.user.id;
@@ -225,36 +238,34 @@ function subscribeToRealtimeUpdates(IssueService, NotificationService, $rootScop
   console.log("Subscribed to " + watched_channels);
   client.subscribe(watched_channels, function (message) {
 
-    if ($rootScope.current.issues) {
+    if (!$rootScope.current.issues) { return; }
 
-      message = JSON.parse(message);
+    message = JSON.parse(message);
+    if (message.action !== 'update') { return; }
+    var issue_id = message.issue.id;
 
-      // IssueService.getLatestIssues().then(function () {
-        switch (message.action) {
+    // Re-fetch through the authorized endpoint
+    IssueService.getNotificationData(issue_id).then(function (response) {
 
-          case 'update':
+      message.issue = response.data;
 
-            var index = findWithAttr($rootScope.current.issues, 'id', message.issue.id);
-            jQuery.extend($rootScope.current.issues[index], message.issue);
-            if ($rootScope.current.issue !== undefined) {
-              if ($rootScope.current.issue.id === message.issue.id) {
-                $rootScope.current.issue = message.issue;
-                // Reload updated journal
-                IssueService.getIssueDetails($rootScope.current.issue.id).then(function (fullIssue) {
-                  $rootScope.current.issue = fullIssue;
-                  // Then, update main array of issues
-                  var index = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
-                  $rootScope.current.issues[index] = $rootScope.current.issue;
-                });
-              }
-            }
-
-            break;
-          default:
-            break;
+      var index = findWithAttr($rootScope.current.issues, 'id', message.issue.id);
+      if (index >= 0) {
+        jQuery.extend($rootScope.current.issues[index], message.issue);
+      }
+      if ($rootScope.current.issue !== undefined) {
+        if ($rootScope.current.issue.id === message.issue.id) {
+          $rootScope.current.issue = message.issue;
+          // Reload updated journal
+          IssueService.getIssueDetails($rootScope.current.issue.id).then(function (fullIssue) {
+            $rootScope.current.issue = fullIssue;
+            // Then, update main array of issues
+            var index = findWithAttr($rootScope.current.issues, 'id', $rootScope.current.issue.id);
+            $rootScope.current.issues[index] = $rootScope.current.issue;
+          });
         }
-      // });
-    }
+      }
+    });
   });
 
   // Check connection status and give a feedback to the user

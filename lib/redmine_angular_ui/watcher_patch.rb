@@ -10,12 +10,14 @@ module RedmineAngularUi
     end
 
     def notif_after_commit(action)
-      # TODO Remove that and make it asynchone with a call from the client only if the issue is visible
+      # Same access-control rationale as Issue#notif_after_commit: the channel
+      # name is guessable, so it must only carry the issue id. The client
+      # re-fetches the details through the authorized notification_data endpoint.
 
       # Check if current app is prod or preprod
       Mailer.default_url_options[:host] !~ /portail/ ? channel_type = '-preprod' : channel_type = ''
 
-      message = { :channel => "/watched" + channel_type + "/#{User.current.id}", :data => self.watchable.updated_data(action) }
+      message = { :channel => "/watched" + channel_type + "/#{User.current.id}", :data => { 'action' => action, 'issue' => { 'id' => self.watchable.id } } }
       if Rails.env == 'development' || Rails.env == 'test'
         uri = URI.parse("https://faye-redis.herokuapp.com/faye")
       else
