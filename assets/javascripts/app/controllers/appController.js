@@ -87,7 +87,8 @@ function getPreloadedData(SessionService, $rootScope, $scope, IssueService, Issu
 
     var issuesPromise = IssueService.getLatestIssuesWithFilters($rootScope.current.filters).then(function (response) {
       $scope.app.issues = response.data.issues;
-      $rootScope.current.issues = response.data.issues;
+      // distinct ref: master vs filtered view
+      $rootScope.current.issues = response.data.issues.slice();
       if ($rootScope.current.issues){
         IssueService.get_last_note_by_ids($rootScope.current.issues.map(function(x) {return x.id; })).success(function (response){
           update_array_of_issues_with_last_note($rootScope.current.issues, response.issues);
