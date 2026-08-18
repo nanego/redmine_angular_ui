@@ -1,6 +1,6 @@
 require 'redmine'
 
-require_relative 'lib/redmine_angular_ui/hooks'
+require_relative 'lib/redmine_angular_ui/model_hook'
 
 Redmine::Plugin.register :redmine_angular_ui do
   name 'Redmine AngularJS User Interface plugin'
@@ -15,7 +15,9 @@ Redmine::Plugin.register :redmine_angular_ui do
   author_url 'mailto:contact@vincent-robert.com'
   menu :admin_menu, :new_ui, { :controller => 'angular', :action => 'index' },
        :caption => :new_ui,
-       :html => {:class => 'icon'}
+       :icon => 'layout-dashboard',
+       :plugin => 'redmine_angular_ui',
+       :html => {:class => 'icon icon-layout-dashboard'}
   settings :default => { 'favorite_view_mode' => 1},
            :partial => 'settings/plugin_settings'
 
