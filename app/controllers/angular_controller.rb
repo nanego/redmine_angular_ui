@@ -1,5 +1,12 @@
 class AngularController < ApplicationController
 
+  TEMPLATES_DIR = File.expand_path('../assets/templates', __dir__)
+  IMAGES_DIR = File.expand_path('../assets/images', __dir__)
+
+  # Only files actually shipped with the plugin can be served
+  TEMPLATES = Dir.glob('**/*.html', base: TEMPLATES_DIR).to_set.freeze
+  IMAGES = Dir.children(IMAGES_DIR).to_set.freeze
+
   before_action :require_login
   layout "angular"
 
@@ -7,28 +14,17 @@ class AngularController < ApplicationController
   end
 
   def get_template
-    if params[:folder].present?
-      path = Rails.root.join('plugins', 'redmine_angular_ui', 'app', 'assets', 'templates', params[:folder], "#{params[:template]}.html")
-    else
-      path = Rails.root.join('plugins', 'redmine_angular_ui', 'app', 'assets', 'templates', "#{params[:template]}.html")
-    end
-    if File.exist?(path)
-      render file: path, layout: false, content_type: 'text/html'
-    else
-      head :not_found
-    end
+    template = [params[:folder], "#{params[:template]}.html"].compact_blank.join('/')
+    return head :not_found unless TEMPLATES.include?(template)
+
+    render file: File.join(TEMPLATES_DIR, template), layout: false, content_type: 'text/html'
   end
 
   def get_image
-    filename = params[:image]
-    format = params[:format]
-    path = Rails.root.join('plugins', 'redmine_angular_ui', 'app', 'assets', 'images', "#{filename}.#{format}")
-    puts path
-    if File.exist?(path)
-      render file: path, layout: false
-    else
-      head :not_found
-    end
+    image = "#{params[:image]}.#{params[:format]}"
+    return head :not_found unless IMAGES.include?(image)
+
+    send_file File.join(IMAGES_DIR, image), disposition: 'inline'
   end
 
 end

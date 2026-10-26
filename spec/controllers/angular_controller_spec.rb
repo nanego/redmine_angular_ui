@@ -19,4 +19,35 @@ describe AngularController do
     expect(response).to have_http_status(:redirect) # redirect (302)
   end
 
+  describe "assets" do
+    before { @request.session[:user_id] = 2 }
+
+    it "serves a template of the plugin" do
+      get :get_template, params: { folder: "issues", template: "show", format: "html" }
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/html")
+    end
+
+    it "serves a root template of the plugin" do
+      get :get_template, params: { template: "notifications", format: "html" }
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "refuses a template outside the plugin" do
+      get :get_template, params: { folder: "../../../../../public", template: "404", format: "html" }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "serves an image of the plugin" do
+      get :get_image, params: { image: "spinner", format: "gif" }
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("image/gif")
+    end
+
+    it "refuses a file outside the plugin" do
+      get :get_image, params: { image: "../../../../../config/database", format: "yml" }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
 end

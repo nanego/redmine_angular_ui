@@ -4,7 +4,6 @@ RedmineApp::Application.routes.draw do
   # Serve Angular assets
   get 'redmine_angular_ui/templates/:template', to: 'angular#get_template'
   get 'redmine_angular_ui/templates/:folder/:template', to: 'angular#get_template'
-  get 'redmine_angular_ui/templates/:template', to: 'angular#get_template'
   get 'redmine_angular_ui/images/:image', to: 'angular#get_image'
 
   scope '/custom_api' do
